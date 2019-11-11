@@ -8,20 +8,31 @@
                     <a 
                         :class="{ nolink: !item.url }"
                         :href="item.url"
-                        tabindex="-1" 
-                        target="blank" 
                         :download="item.url"
-                        :title="itemIndex(index)">
-                        <span>{{item.duration}}</span> mp4
+                        :title="itemIndex(index)"
+                        tabindex="-1" 
+                        target="blank"
+                    ><span>{{item.duration}}</span> mp4
                     </a>
                 </li>
             </ul>
+        </div>
+        <div>
+            <details>
+                <summary>All Together</summary>
+                <textarea class="all-together" v-model="allText" :rows="items.length + 1"></textarea>
+            </details>
+            <details>
+                <summary>Batch rename files</summary>
+                <textarea class="all-rename" v-model="allText" :rows="items.length + 1"></textarea>
+            </details>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { ref } from "@vue/composition-api";
+    import { ref, computed } from "@vue/composition-api";
+    import path from 'path';
     import { pad, Item } from '../engine';
     
     const itemInputName = (index, name) => `${pad(index + 1)} - ${name}`;
@@ -32,7 +43,7 @@
 
     export default {
         props: ['items', 'title'],
-        setup() {
+        setup({ items }: { items: Item[] }) {
 
             const itemIndex = (index) => {
                 return `video ${index + 1}`;
@@ -42,9 +53,21 @@
                 return itemInputName(index, item.name);
             };
 
+            const allText = computed(() => {
+                return items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
+            });
+
+            let textBatch = items.reduce((acc, item, index) => {
+                let orgFname = path.basename(item.url);
+                let orgExt = path.extname(orgFname);
+                let newFname = validateFname(itemInputName(index, item.name));
+                return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
+            }, 'chcp 1251\n');
+
             return {
                 itemIndex,
                 itemName,
+                allText,
             };
         }
     };

@@ -2,9 +2,8 @@
     <div id="app">
         <div class="controls">
             <input type="text" v-model="urlInput" placeholder="URL from courcehunter.net">
-            <button @click="fetchData">Fetch</button>
-            <br>
-            <button @clcik="clearStorage3">Clear</button>
+            <button @click="fetchData">{{buttonName}}</button>
+            <button @click="clearStorage">Clear</button>
         </div>
         <GeneratedList :items="items" :title="title"/>
     </div>
@@ -12,9 +11,12 @@
 
 <script lang="ts">
     import Vue from "vue";
-    import { ref, onMounted } from '@vue/composition-api';
+    import { onMounted, ref, computed, watch } from '@vue/composition-api';
     import GeneratedList from './components/GeneratedList.vue';
     import { htmlToItems } from './engine';
+
+    const SAVED_HTML = 'coursehunters-items';
+    const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
 
     export default {
         name: "app",
@@ -27,59 +29,66 @@
             let items = ref([]);
             let title = ref('');
 
-            onMounted(() => {
-                checkStorage();
-            });
-
             const checkStorage = () => {
-                let html = localStorage.getItem('coursehunters-last');
+                let source = localStorage.getItem(SAVED_SOURCE);
+                if (source) {
+                    urlInput.value = source;
+                }
+                let html = localStorage.getItem(SAVED_HTML);
                 if (html) {
                     let parced = htmlToItems(html);
                     items.value = parced.items;
                     title.value = parced.title;
-                    console.log(items.value);
+                    //console.log(items.value);
                 }
-            }
+            };
 
-            const clearStorage3 = () => {
-                console.log('1');
-                
-                debugger
-                localStorage.removeItem('coursehunters-last');
+            const clearStorage = () => {
+                localStorage.removeItem(SAVED_HTML);
                 items.value = [];
                 title.value = '';
             };
 
+            function isUrl(v: string): boolean {
+                return v.lastIndexOf('https:', 0) !== -1;
+            }
+
             const fetchData = async () => {
-                console.log('2');
-
-                const opts = {
-                    headers: {
-                        cookie: {
-                            accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.eyJpc3MiOiJodHRwczpcL1wvY291cnNlaHVudGVyLm5ldCIsImF1ZCI6Imh0dHBzOlwvXC9jb3Vyc2VodW50ZXIubmV0IiwianRpIjoiNGYxZzIzYTEyYWEiLCJpYXQiOjE1NzM0NTk3NDEsIm5iZiI6MTU3MzQ1OTgwMSwiZXhwIjoxNTc0MDY0NTQxLCJ1c2VyX2lkIjoiMzQ0MjIiLCJlX21haWwiOiJtYXh6ejIwMDBAZ21haWwuY29tIn0.t0SS3OaKkOUFjZqZLtYsb6myIve6yrlRIvQB8naM4No'
+                try {
+                    if (urlInput.value) {
+                        let html = '';
+                        if (isUrl(urlInput.value)) {
+                            let res = await fetch(urlInput.value);
+                            html = await res.text();
+                        } else {
+                            html = urlInput.value;
                         }
-                    }
-                }
 
-                if (urlInput.value) {
-                    let res = await fetch(urlInput.value, {
-                        credentials: 'include'
-                    });
-                    let html = await res.text();
-                    let parced = htmlToItems(html); 
-                    items.value = parced.items;
-                    title.value = parced.title;
-                    
-                    localStorage.setItem('coursehunters-last', html);
+                        let parced = htmlToItems(html); 
+                        items.value = parced.items;
+                        title.value = parced.title;
+                        localStorage.setItem(SAVED_HTML, html);
+                    }
+                } catch (err) {
+                    alert(`Error: ${err}`);
                 }
             };
+
+            watch(() => localStorage.setItem(SAVED_SOURCE, urlInput.value));
+
+            const buttonName = computed(() => !urlInput.value ? 'Type' : isUrl(urlInput.value) ? 'Fetch' : 'Parse');
+
+            onMounted(() => {
+                checkStorage();
+            });
 
             return {
                 urlInput,
                 items,
                 title,
+                buttonName,
                 fetchData,
-                clearStorage3,
+                clearStorage,
             }
         }
     } as any;
