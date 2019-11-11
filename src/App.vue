@@ -3,7 +3,8 @@
         <div class="controls">
             <input type="text" v-model="urlInput" placeholder="URL from courcehunter.net">
             <button @click="fetchData">Fetch</button>
-            <button @clcik="clearStorage">Clear</button>
+            <br>
+            <button @clcik="clearStorage3">Clear</button>
         </div>
         <GeneratedList :items="items" :title="title"/>
     </div>
@@ -40,11 +41,17 @@
                 }
             }
 
-            const clearStorage = () => {
+            const clearStorage3 = () => {
+                console.log('1');
+                
+                debugger
                 localStorage.removeItem('coursehunters-last');
+                items.value = [];
+                title.value = '';
             };
 
             const fetchData = async () => {
+                console.log('2');
 
                 const opts = {
                     headers: {
@@ -55,7 +62,9 @@
                 }
 
                 if (urlInput.value) {
-                    let res = await fetch(urlInput.value, opts);
+                    let res = await fetch(urlInput.value, {
+                        credentials: 'include'
+                    });
                     let html = await res.text();
                     let parced = htmlToItems(html); 
                     items.value = parced.items;
@@ -70,7 +79,7 @@
                 items,
                 title,
                 fetchData,
-                clearStorage,
+                clearStorage3,
             }
         }
     } as any;
