@@ -20,11 +20,11 @@
         <div>
             <details>
                 <summary>All Together</summary>
-                <textarea class="all-together" v-model="allText" :rows="items.length + 1"></textarea>
+                <textarea class="all-together" :rows="items.length + 1">{{allText}}</textarea>
             </details>
             <details>
                 <summary>Batch rename files</summary>
-                <textarea class="all-rename" v-model="allText" :rows="items.length + 1"></textarea>
+                <textarea class="all-rename" v-model="allBatch" :rows="items.length + 2"></textarea>
             </details>
         </div>
     </div>
@@ -45,6 +45,8 @@
         props: ['items', 'title'],
         setup({ items }: { items: Item[] }) {
 
+            console.log('List\n', items);
+
             const itemIndex = (index) => {
                 return `video ${index + 1}`;
             };
@@ -54,20 +56,25 @@
             };
 
             const allText = computed(() => {
+                //debugger
+                console.log('allText\n', items);
                 return items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
             });
 
-            let textBatch = items.reduce((acc, item, index) => {
-                let orgFname = path.basename(item.url);
-                let orgExt = path.extname(orgFname);
-                let newFname = validateFname(itemInputName(index, item.name));
-                return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
-            }, 'chcp 1251\n');
+            const allBatch = computed(() => {
+                return items.reduce((acc, item, index) => {
+                    let orgFname = path.basename(item.url);
+                    let orgExt = path.extname(orgFname);
+                    let newFname = validateFname(itemInputName(index, item.name));
+                    return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
+                }, 'chcp 1251\n');
+            });
 
             return {
                 itemIndex,
                 itemName,
                 allText,
+                allBatch,
             };
         }
     };

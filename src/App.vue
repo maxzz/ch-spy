@@ -39,7 +39,7 @@
                     let parced = htmlToItems(html);
                     items.value = parced.items;
                     title.value = parced.title;
-                    //console.log(items.value);
+                    //console.log(items);
                 }
             };
 
