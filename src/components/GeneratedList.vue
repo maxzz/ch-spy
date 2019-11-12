@@ -47,7 +47,9 @@
 
             console.log('List args\n', arguments);
 
-            let { items }: {items: Item[]} = props as any;
+            let { items: itemsProps }: {items: Item[]} = props as any;
+
+            let items = ref(itemsProps);
 
             console.log('List\n', items);
 
@@ -63,11 +65,11 @@
             const allText = computed(() => {
                 //debugger
                 console.log('allText\n', items);
-                return items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
+                return items.value.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
             });
 
             const allBatch = computed(() => {
-                return items.reduce((acc, item, index) => {
+                return items.value.reduce((acc, item, index) => {
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
                     let newFname = validateFname(itemInputName(index, item.name));
