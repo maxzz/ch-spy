@@ -45,31 +45,29 @@
         props: ['items', 'title'],
         setup(props) {
 
-            console.log('List args\n', arguments);
+            //console.log('List args\n', arguments);
 
-            let { items: itemsProps }: {items: Item[]} = props as any;
+            //let { items }: {items: Item[]} = props as any;
 
-            let items = ref(itemsProps);
-
-            console.log('List\n', items);
+            //console.log('List\n', items);
 
             const itemIndex = (index) => {
                 return `video ${index + 1}`;
             };
 
             const itemName = (index: number, item: Item, items: Item[]) => {
-                console.log('itemName\n', items);
+                //console.log('itemName\n', items, props);
                 return itemInputName(index, item.name);
             };
 
             const allText = computed(() => {
                 //debugger
-                console.log('allText\n', items);
-                return items.value.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
+                //console.log('allText\n', items);
+                return (props.items as Item[]).reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
             });
 
             const allBatch = computed(() => {
-                return items.value.reduce((acc, item, index) => {
+                return (props.items as Item[]).reduce((acc, item, index) => {
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
                     let newFname = validateFname(itemInputName(index, item.name));
