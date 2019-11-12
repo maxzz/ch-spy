@@ -44,25 +44,15 @@
     export default {
         props: ['items', 'title'],
         setup(props) {
-
-            //console.log('List args\n', arguments);
-
-            //let { items }: {items: Item[]} = props as any;
-
-            //console.log('List\n', items);
-
             const itemIndex = (index) => {
                 return `video ${index + 1}`;
             };
 
             const itemName = (index: number, item: Item, items: Item[]) => {
-                //console.log('itemName\n', items, props);
                 return itemInputName(index, item.name);
             };
 
             const allText = computed(() => {
-                //debugger
-                //console.log('allText\n', items);
                 return (props.items as Item[]).reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
             });
 

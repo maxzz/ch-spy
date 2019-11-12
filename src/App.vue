@@ -39,7 +39,6 @@
                     let parced = htmlToItems(html);
                     items.value = parced.items;
                     title.value = parced.title;
-                    //console.log(items);
                 }
             };
 
@@ -109,7 +108,9 @@
         grid-template-columns: 1fr min-content min-content;
 
         input {
-            padding: .5em;
+            padding: .6em;
+            border-top-left-radius: .7em;
+            border: 1px solid #ddd;
         }
         button {
             user-select: none;
