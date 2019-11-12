@@ -4,7 +4,7 @@
         <div class="container">
             <ul>
                 <li v-for="(item, index) of items" :key="index">
-                    <input :value="itemName(index, item)">
+                    <input :value="itemName(index, item, items)">
                     <a 
                         :class="{ nolink: !item.url }"
                         :href="item.url"
@@ -43,7 +43,11 @@
 
     export default {
         props: ['items', 'title'],
-        setup({ items }: { items: Item[] }) {
+        setup(props) {
+
+            console.log('List args\n', arguments);
+
+            let { items }: {items: Item[]} = props as any;
 
             console.log('List\n', items);
 
@@ -51,7 +55,8 @@
                 return `video ${index + 1}`;
             };
 
-            const itemName = (index: number, item: Item) => {
+            const itemName = (index: number, item: Item, items: Item[]) => {
+                console.log('itemName\n', items);
                 return itemInputName(index, item.name);
             };
 
