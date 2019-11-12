@@ -17,21 +17,21 @@
                 </li>
             </ul>
         </div>
-        <div>
-            <details>
+        <div v-if="items.length">
+            <details open>
                 <summary>All Together</summary>
-                <textarea class="all-together" :rows="items.length + 1">{{allText}}</textarea>
+                <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
             </details>
-            <details>
+            <details open>
                 <summary>Batch rename files</summary>
-                <textarea class="all-rename" v-model="allBatch" :rows="items.length + 2"></textarea>
+                <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
             </details>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { ref, computed } from "@vue/composition-api";
+    import { computed } from "@vue/composition-api";
     import path from 'path';
     import { pad, Item } from '../engine';
     

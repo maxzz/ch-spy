@@ -59,14 +59,15 @@
                         if (isUrl(urlInput.value)) {
                             let res = await fetch(urlInput.value);
                             html = await res.text();
+                            localStorage.setItem(SAVED_HTML, html);
                         } else {
                             html = urlInput.value;
+                            localStorage.removeItem(SAVED_HTML);
                         }
 
                         let parced = htmlToItems(html); 
                         items.value = parced.items;
                         title.value = parced.title;
-                        localStorage.setItem(SAVED_HTML, html);
                     }
                 } catch (err) {
                     alert(`Error: ${err}`);
@@ -109,7 +110,7 @@
 
         input {
             padding: .6em;
-            border-top-left-radius: .7em;
+            border-top-left-radius: .4em;
             border: 1px solid #ddd;
         }
         button {
