@@ -14,6 +14,7 @@
                         target="blank"
                     ><span>{{item.duration}}</span> mp4
                     </a>
+                    <button @click="downloadFile(item.url)">Get</button>
                 </li>
             </ul>
         </div>
@@ -24,6 +25,7 @@
             </details>
             <details open>
                 <summary>Batch rename files</summary>
+                <button @click="downloadRename">Download rename.cmd</button>
                 <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
             </details>
         </div>
@@ -34,6 +36,7 @@
     import { computed } from "@vue/composition-api";
     import path from 'path';
     import { pad, Item } from '../engine';
+    import download from 'downloadjs';
     
     const itemInputName = (index, name) => `${pad(index + 1)} - ${name}`;
     const validateFname = (name) => {
@@ -65,11 +68,21 @@
                 }, 'chcp 1251\n');
             });
 
+            const downloadFile = (url: string): void => {
+                download(url);
+            };
+
+            const downloadRename = () => {
+                download(allBatch.value, 'rename.cmd', 'text/plain');
+            };
+
             return {
                 itemIndex,
                 itemName,
                 allText,
                 allBatch,
+                downloadFile,
+                downloadRename,
             };
         }
     };
@@ -111,7 +124,7 @@
     li {
         list-style: none;
         display: grid;
-        grid-template-columns: 1fr min-content;
+        grid-template-columns: 1fr min-content min-content;
         align-items: center;
         column-gap: 0.4em;
     }
