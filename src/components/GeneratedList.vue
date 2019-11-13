@@ -14,7 +14,7 @@
                         target="blank"
                     ><span>{{item.duration}}</span> mp4
                     </a>
-                    <button @click="downloadFile(item.url)">Get</button>
+                    <download-button :url="item.url" />
                 </li>
             </ul>
         </div>
@@ -37,8 +37,7 @@
     import path from 'path';
     import { pad, Item } from '../engine';
     import download from 'downloadjs';
-    import Downloader from 'js-file-downloader';
-import { log } from 'util';
+    import DownloadButton from './DownloadButton.vue';
     
     const itemInputName = (index, name) => `${pad(index + 1)} - ${name}`;
     const validateFname = (name) => {
@@ -48,6 +47,7 @@ import { log } from 'util';
 
     export default {
         props: ['items', 'title'],
+        components: { DownloadButton: DownloadButton as any },
         setup(props) {
             const itemIndex = (index) => {
                 return `video ${index + 1}`;
@@ -70,31 +70,6 @@ import { log } from 'util';
                 }, 'chcp 1251\n');
             });
 
-            function process(event) {
-                if (!event.lengthComputable) {
-                    return;
-                }
-                var downloadingPercentage = Math.floor(event.loaded / event.total * 100);
-                console.log('pro', downloadingPercentage);
-            }
-
-            const downloadFile = (url: string): void => {
-                //download(url);
-
-                let filename = path.basename(url);
-                new Downloader({
-                    url: url,
-                    process: process,
-                    filename: filename,
-                })
-                .then(function done() {
-                    console.log('done', url);
-                })
-                .catch(function err(err) {
-                    console.log('err', url, err);
-                })
-            };
-
             const downloadRename = () => {
                 download(allBatch.value, 'rename.cmd', 'text/plain');
             };
@@ -104,7 +79,6 @@ import { log } from 'util';
                 itemName,
                 allText,
                 allBatch,
-                downloadFile,
                 downloadRename,
             };
         }
