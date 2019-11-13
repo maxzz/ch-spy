@@ -37,6 +37,8 @@
     import path from 'path';
     import { pad, Item } from '../engine';
     import download from 'downloadjs';
+    import Downloader from 'js-file-downloader';
+import { log } from 'util';
     
     const itemInputName = (index, name) => `${pad(index + 1)} - ${name}`;
     const validateFname = (name) => {
@@ -68,8 +70,29 @@
                 }, 'chcp 1251\n');
             });
 
+            function process(event) {
+                if (!event.lengthComputable) {
+                    return;
+                }
+                var downloadingPercentage = Math.floor(event.loaded / event.total * 100);
+                console.log('pro', downloadingPercentage);
+            }
+
             const downloadFile = (url: string): void => {
-                download(url);
+                //download(url);
+
+                let filename = path.basename(url);
+                new Downloader({
+                    url: url,
+                    process: process,
+                    filename: filename,
+                })
+                .then(function done() {
+                    console.log('done', url);
+                })
+                .catch(function err(err) {
+                    console.log('err', url, err);
+                })
             };
 
             const downloadRename = () => {
