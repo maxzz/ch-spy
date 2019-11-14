@@ -5,28 +5,27 @@
             <ul>
                 <li v-for="(item, index) of items" :key="index">
                     <input :value="itemName(index, item, items)">
+                    <download-button :url="item.url" />
                     <a 
                         :class="{ nolink: !item.url }"
                         :href="item.url"
-                        :download="item.url"
                         :title="itemIndex(index)"
                         tabindex="-1" 
                         target="blank"
                     ><span>{{item.duration}}</span> mp4
                     </a>
-                    <download-button :url="item.url" />
                 </li>
             </ul>
         </div>
         <div v-if="items.length">
             <details open>
-                <summary>All Together</summary>
-                <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
-            </details>
-            <details open>
                 <summary>Batch rename files</summary>
                 <button @click="downloadRename">Download rename.cmd</button>
                 <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
+            </details>
+            <details>
+                <summary>All Together</summary>
+                <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
             </details>
         </div>
     </div>
@@ -39,7 +38,7 @@
     import download from 'downloadjs';
     import DownloadButton from './DownloadButton.vue';
     
-    const itemInputName = (index, name) => `${pad(index + 1)} - ${name}`;
+    const itemInputName = (index, name) => `${pad(index + 1)} - ${name.trim()}`;
     const validateFname = (name) => {
         // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
         return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';');
@@ -101,7 +100,7 @@
         text-decoration: none;
     }
     a:visited {
-        color: #3a2c68;
+        color: green;
     }
 
     .nolink {

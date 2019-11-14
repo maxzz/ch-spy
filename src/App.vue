@@ -24,7 +24,7 @@
             GeneratedList
         },
         setup() {
-            let urlInput = ref('https://coursehunter.net/course/sozdavayte-igry-v-realnom-vremeni-s-node-js');
+            let urlInput = ref(''); //https://coursehunter.net/course/sozdavayte-igry-v-realnom-vremeni-s-node-js
 
             let items = ref([]);
             let title = ref('');

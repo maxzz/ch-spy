@@ -1,9 +1,12 @@
 <template>
     <div class="download-button">
-        <button :disabled="disabled" @click="downloadFile(url)">Get</button>
+        <button :disabled="disabledBtn" @click="downloadFile(url)">Get</button>
         <div v-if="progressPersent !== 0" class="progress">{{progressPersent}}</div>
         <div v-if="tryed" class="meter">
-            <span :style="{width: progressPersent + '%', backgroundColor: 'red'}"></span>
+            <span 
+                :style="{width: succeeded ? '100%' : progressPersent + '%'}"
+                :class="{failed: failed}">
+            </span>
         </div>
     </div>
 </template>
@@ -16,25 +19,33 @@
     export default {
         props: ['url'],
         setup() {
-            const progressPersent = ref(40);
-            const disabled = ref(false);
+            const progressPersent = ref(0);
+            const disabledBtn = ref(false);
+            const succeeded = ref(false);
             const failed = ref(false);
             const tryed = ref(false);
 
             function stateStart() {
-                progressPersent.value = 0;
-                disabled.value = true;
                 tryed.value = true;
+                succeeded.value = false;
+                failed.value = false;
+                disabledBtn.value = true;
+                progressPersent.value = 0;
             }
 
             function stateFailed(url, err) {
-                disabled.value = false;
+                disabledBtn.value = false;
+                succeeded.value = false;
+                failed.value = true;
                 console.log('err', url, err);
             }
 
             function stateDone(url) {
-                disabled.value = false;
-                console.log('done', url);                
+                disabledBtn.value = false;
+                progressPersent.value = 0;
+                succeeded.value = true;
+                failed.value = false;
+                console.log('done', url);               
             }
 
             function process(event) {
@@ -56,6 +67,7 @@
                     url: url,
                     process: process,
                     filename: filename,
+                    timeout: 2 * 60 * 1000,
                 })
                 .then(function done() {
                     stateDone(url);
@@ -67,7 +79,8 @@
 
             return {
                 progressPersent,
-                disabled,
+                disabledBtn,
+                succeeded,
                 failed,
                 tryed,
                 downloadFile,
@@ -118,7 +131,7 @@
         overflow: hidden;
     }    
 
-    .meter > span.red {
-        color: red;
+    .meter > span.failed {
+        background-color: red;
     }
 </style>
