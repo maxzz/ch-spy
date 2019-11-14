@@ -93,6 +93,9 @@
     .download-button {
         position: relative;
     }
+
+    // https://css-tricks.com/css3-progress-bars/
+    
     .progress {
         position: absolute;
         padding: .3em .5em;

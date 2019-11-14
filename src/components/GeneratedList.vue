@@ -21,6 +21,7 @@
             <details open>
                 <summary>Batch rename files</summary>
                 <button @click="downloadRename">Download rename.cmd</button>
+                <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
                 <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
             </details>
             <details>
@@ -28,6 +29,7 @@
                 <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
             </details>
         </div>
+        <!-- <cookie-setter/> -->
     </div>
 </template>
 
@@ -37,7 +39,8 @@
     import { pad, Item } from '../engine';
     import download from 'downloadjs';
     import DownloadButton from './DownloadButton.vue';
-    
+    import CookieSetter from './CookieSetter.vue';
+
     const itemInputName = (index, name) => `${pad(index + 1)} - ${name.trim()}`;
     const validateFname = (name) => {
         // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
@@ -46,7 +49,7 @@
 
     export default {
         props: ['items', 'title'],
-        components: { DownloadButton: DownloadButton as any },
+        components: { DownloadButton: DownloadButton as any, CookieSetter },
         setup(props) {
             const itemIndex = (index) => {
                 return `video ${index + 1}`;
@@ -153,5 +156,9 @@
     }
     details textarea {
         width: 100%;
+    }
+
+    .rename-node {
+        font-size: .6em;
     }
 </style>
