@@ -1,25 +1,25 @@
 <template>
     <div>
-        <div class="main-title">{{title}}</div>
-
-        <div class="container">
-            <ul>
-                <li v-for="(item, index) of items" :key="index">
-                    <input :value="itemName(index, item, items)">
-                    <download-button :url="item.url" />
-                    <a 
-                        :class="{ nolink: !item.url }"
-                        :href="item.url"
-                        :title="itemIndex(index)"
-                        tabindex="-1" 
-                        target="blank"
-                    >
-                    <span>{{item.duration}}</span> mp4</a>
-                </li>
-            </ul>
-        </div>
+        <div v-if="title" class="main-title">{{title}}</div>
 
         <div v-if="items.length">
+            <div class="container">
+                <ul>
+                    <li v-for="(item, index) of items" :key="index">
+                        <input :value="itemName(index, item, items)">
+                        <download-button :url="item.url" />
+                        <a 
+                            :class="{ nolink: !item.url }"
+                            :href="item.url"
+                            :title="itemIndex(index)"
+                            tabindex="-1" 
+                            target="blank"
+                        >
+                        <span>{{item.duration}}</span> mp4</a>
+                    </li>
+                </ul>
+            </div>
+
             <details open>
                 <summary>Batch rename files</summary>
                 <button @click="downloadRename">Download rename.cmd</button>
@@ -32,8 +32,6 @@
                 <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
             </details>
         </div>
-
-        <!-- <cookie-setter /> -->
     </div>
 </template>
 
@@ -100,53 +98,54 @@
             linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%);
     }
 
-    a {
-        color: #1985ff;
-        font-size: 0.7em;
-        font-weight: normal;
-        text-decoration: none;
-    }
-    a:visited {
-        color: green;
-    }
-
-    .nolink {
-        color: red;
-    }
-
-    ul {
-        margin: 0;
-        padding: 0;
-    }
-
     .container {
         border: 1px dotted #cecece;
         padding: 0 1em;
         background-color: #f1f1f1;
-    }
-    li {
-        list-style: none;
-        display: grid;
-        grid-template-columns: 1fr min-content min-content;
-        align-items: center;
-        column-gap: 0.4em;
-    }
-    li:hover {
-        background-color: #90ff74;
-    }
-    li input {
-        line-height: 1em;
-        font-size: 1em;
-        padding: 0.4em;
-        border-radius: 2px;
-        border: 1px solid #fcfcfc;
-        background-color: hsla(0, 0%, 100%, 0.5);
-        cursor: default;
-    }
-    li input:focus {
-        background-color: #90ff74;
-        outline: none;
-        cursor: text;
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr min-content min-content;
+            align-items: center;
+            column-gap: 0.4em;
+        }
+        li:hover {
+            background-color: #90ff74;
+        }
+        li input {
+            line-height: 1em;
+            font-size: 1em;
+            padding: 0.4em;
+            border-radius: 2px;
+            border: 1px solid #fcfcfc;
+            background-color: hsla(0, 0%, 100%, 0.5);
+            cursor: default;
+        }
+        li input:focus {
+            background-color: #90ff74;
+            outline: none;
+            cursor: text;
+        }
+
+        a {
+            color: #1985ff;
+            font-size: 0.7em;
+            font-weight: normal;
+            text-decoration: none;
+        }
+        a:visited {
+            color: green;
+        }
+
+        .nolink {
+            color: red;
+        }
     }
 
     details {
@@ -165,4 +164,5 @@
     .rename-node {
         font-size: .6em;
     }
+
 </style>

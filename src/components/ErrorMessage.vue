@@ -1,6 +1,6 @@
 <template>
     <div v-if="errorMsg" class="error-msg">
-        <span>Error message{{errorMsg}}</span>
+        <span>Error: {{errorMsg}}</span>
         <button @click="onErrorClear" tabindex="-1">&times;</button>
     </div>
 </template>
@@ -41,16 +41,18 @@
     .error-msg {
         margin-top: 1rem;
         padding: .6rem;
-        background-color: red;
         display: flex;
         align-items: center;
+        background-color: red;
 
         span {
             color: white;
             flex-grow: 1;
+            font-size: .8rem;
         }
 
         button {
+            margin-left: 1rem;
             width: 1.6rem;
             outline: none;
             display: flex;

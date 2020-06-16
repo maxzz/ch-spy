@@ -5,6 +5,7 @@
             <button @click="onFetchDataClick">{{fetchBtnName}}</button>
             <button @click="onClearStorageClick">Clear</button>
         </div>
+
         <GeneratedList :items="webpageItems" :title="webpageTitle"/>
 
         <ErrorMessage v-model="errorMsg"></ErrorMessage>
@@ -35,6 +36,10 @@
             const webpageSource = ref('');
             const webpageItems = ref<Item[]>([]);
 
+            const isTypedUrl = computed(() => !!inputUrl.value.match(/^https?:\/\//));
+            const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isTypedUrl.value ? 'Fetch' : 'Parse');
+            const errorMsg = ref('');
+
             function applyNewHtml(html: string): void {
                 const { items, title, desc, source } = htmlToItems(html);
                 webpageTitle.value = title;
@@ -48,6 +53,7 @@
                 if (source) {
                     inputUrl.value = source;
                 }
+
                 let html = localStorage.getItem(SAVED_HTML);
                 if (html) {
                     applyNewHtml(html);
@@ -56,31 +62,28 @@
 
             const onClearStorageClick = () => {
                 localStorage.removeItem(SAVED_HTML);
+                inputUrl.value = '';
                 webpageItems.value = [];
                 webpageTitle.value = '';
             };
-
-            function isUrl(v: string): boolean {
-                return v.lastIndexOf('https:', 0) !== -1;
-            }
-
-            const errorMsg = ref('');
 
             const onFetchDataClick = async () => {
                 try {
                     let newUrl = inputUrl.value;
                     if (newUrl) {
                         let html = '';
-                        if (isUrl(newUrl)) {
+                        if (isTypedUrl.value) {
                             let res = await fetch(newUrl);
                             html = await res.text();
                             localStorage.setItem(SAVED_HTML, html);
                         } else {
                             html = newUrl;
-                            localStorage.removeItem(SAVED_HTML);
+                            localStorage.setItem(SAVED_HTML, html);
                         }
 
                         applyNewHtml(html);
+                    } else {
+                        errorMsg.value = `Type coursehuter.net course URL or paste html content from coursehuter.net`;
                     }
                 } catch (error) {
                     errorMsg.value = `Error: ${error}`;
@@ -88,20 +91,24 @@
             };
 
             watch(() => inputUrl.value, () => {
-                console.log('saved');
                 errorMsg.value = '';
-                localStorage.setItem(SAVED_SOURCE, inputUrl.value);
+
+                if (isTypedUrl.value) {
+                    if (inputUrl.value) {
+                        localStorage.setItem(SAVED_SOURCE, inputUrl.value);
+                    } else {
+                        localStorage.removeItem(SAVED_SOURCE);
+                    }
+                }
             });
 
-            const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isUrl(inputUrl.value) ? 'Fetch' : 'Parse');
-
             onMounted(() => {
-                console.log('mounted');
                 checkStorage();
             });
 
             return {
                 inputUrl,
+                isTypedUrl,
                 errorMsg,
                 webpageItems,
                 webpageTitle,
