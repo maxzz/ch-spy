@@ -2,6 +2,8 @@
 
 Application to grab video links from the [coursehunter](https://coursehunter.net) wbsite. This app can be easily customized by changing htmlToItems() implementation to scrap items from any webpage.
 
+![](src/assets/preview.png)
+
 ## Project setup
 ```
 yarn install
@@ -17,6 +19,6 @@ yarn serve
 yarn build
 ```
 
-# Running App
+# Docs
 
-![](assets/preview.png)
+TODO
