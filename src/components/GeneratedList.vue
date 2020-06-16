@@ -1,37 +1,38 @@
 <template>
-    <div>
-        <div v-if="title" class="main-title">{{title}}</div>
-
-        <div v-if="items.length">
-            <div class="container">
-                <ul>
-                    <li v-for="(item, index) of items" :key="index">
-                        <input :value="itemName(index, item, items)">
-                        <download-button :url="item.url" />
-                        <a 
-                            :class="{ nolink: !item.url }"
-                            :href="item.url"
-                            :title="itemIndex(index)"
-                            tabindex="-1" 
-                            target="blank"
-                        >
-                        <span>{{item.duration}}</span> mp4</a>
-                    </li>
-                </ul>
-            </div>
-
-            <details open>
-                <summary>Batch rename files</summary>
-                <button @click="downloadRename">Download rename.cmd</button>
-                <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
-                <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
-            </details>
-
-            <details>
-                <summary>All Together</summary>
-                <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
-            </details>
+    <div v-if="items.length">
+        <div v-if="title" class="main-title">
+            <div v-if="!desc">{{title}}</div>
+            <div :title="title">{{desc}}</div>
         </div>
+
+        <div class="container">
+            <ul>
+                <li v-for="(item, index) of items" :key="index">
+                    <input :value="itemName(index, item, items)">
+                    <download-button :url="item.url" />
+                    <a 
+                        :class="{ nolink: !item.url }"
+                        :href="item.url"
+                        :title="itemIndex(index)"
+                        tabindex="-1" 
+                        target="blank"
+                    >
+                    <span>{{item.duration}}</span> mp4</a>
+                </li>
+            </ul>
+        </div>
+
+        <details open>
+            <summary>Batch rename files</summary>
+            <button @click="downloadRename">Download rename.cmd</button>
+            <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
+            <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
+        </details>
+
+        <details>
+            <summary>All Together</summary>
+            <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
+        </details>
     </div>
 </template>
 
@@ -49,9 +50,9 @@
     };
 
     export default defineComponent({
-        props: [ 'items', 'title' ],
+        props: [ 'items', 'title', 'desc' ],
         components: { DownloadButton, CookieSetter },
-        setup(props: { items: Item[]; title: string; }) {
+        setup(props: { items: Item[]; title: string; desc: string; }) {
 
             const itemIndex = (index): string => {
                 return `video ${index + 1}`;
@@ -91,16 +92,18 @@
 
 <style lang="scss" scoped>
     .main-title {
-        text-align: center;
+        margin-top: 1rem;
         padding: 0.4em 0;
+        text-align: center;
+        cursor: default;
         color: #5d0083;
-        background: radial-gradient(51.24% 146.46% at 68.55% 55.56%, rgba(255, 205, 30, 0.19) 0%, rgba(255, 255, 255, 0) 100%),
+        background:
+            //works so far for Firefox only: radial-gradient(51.24% 146.46% at 68.55% 55.56%, rgba(255, 205, 30, 0.19) 0%, rgba(255, 255, 255, 0) 100%),
             linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%);
     }
 
     .container {
         border: 1px dotted #cecece;
-        padding: 0 1em;
         background-color: #f1f1f1;
 
         ul {
@@ -112,35 +115,39 @@
             list-style: none;
             display: grid;
             grid-template-columns: 1fr min-content min-content;
+            column-gap: .6rem;
             align-items: center;
-            column-gap: 0.4em;
-        }
-        li:hover {
-            background-color: #90ff74;
+
+            &:hover {
+                background-color: #90ff74;
+            }
         }
         li input {
-            line-height: 1em;
-            font-size: 1em;
-            padding: 0.4em;
+            line-height: 1rem;
+            font-size: .9rem;
+            padding: 0.4rem;
             border-radius: 2px;
             border: 1px solid #fcfcfc;
             background-color: hsla(0, 0%, 100%, 0.5);
             cursor: default;
-        }
-        li input:focus {
-            background-color: #90ff74;
-            outline: none;
-            cursor: text;
+
+            &:focus {
+                background-color: #90ff74;
+                outline: none;
+                cursor: text;
+            }
         }
 
         a {
-            color: #1985ff;
+            padding-right: .6rem;
             font-size: 0.7em;
             font-weight: normal;
             text-decoration: none;
-        }
-        a:visited {
-            color: green;
+            color: #1985ff;
+
+            &:visited {
+                color: green;
+            }
         }
 
         .nolink {
@@ -148,21 +155,27 @@
         }
     }
 
+    /* Details */
+
     details {
-        margin: 1em;
+        margin: 1em 0;
+        padding: .2rem 0;
+        font-size: .9rem;
         user-select: none;
-        padding: .2em;
     }
+
     summary:focus {
         outline: none;
         cursor: pointer;
     }
+
     details textarea {
+        margin-top: .2rem;
         width: 100%;
     }
 
     .rename-node {
-        font-size: .6em;
+        font-size: .7em;
     }
 
 </style>

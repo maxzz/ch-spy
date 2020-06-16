@@ -3,10 +3,12 @@
         <div class="controls">
             <input type="text" v-model="inputUrl" placeholder="URL from coursehunter.net">
             <button @click="onFetchDataClick">{{fetchBtnName}}</button>
-            <button @click="onClearStorageClick">Clear</button>
+            <button @click="onClearStorageClick" title="Clear fetched data">Clear</button>
+            <!-- <button @click="onCopyHTMLClick" v-if="hasHTML" title="Copy HTML to clipboard">Copy HTML</button> -->
+            <button @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
         </div>
 
-        <GeneratedList :items="webpageItems" :title="webpageTitle"/>
+        <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/>
 
         <ErrorMessage v-model="errorMsg"></ErrorMessage>
     </div>
@@ -40,6 +42,8 @@
             const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isTypedUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
 
+            const hasHTML = ref(false);
+
             function applyNewHtml(html: string): void {
                 const { items, title, desc, source } = htmlToItems(html);
                 webpageTitle.value = title;
@@ -57,15 +61,20 @@
                 let html = localStorage.getItem(SAVED_HTML);
                 if (html) {
                     applyNewHtml(html);
+                    hasHTML.value = true;
                 }
             };
 
             const onClearStorageClick = () => {
-                localStorage.removeItem(SAVED_HTML);
                 inputUrl.value = '';
                 webpageItems.value = [];
                 webpageTitle.value = '';
             };
+
+            const onClearHTMLClick = () => {
+                hasHTML.value = false;
+                localStorage.removeItem(SAVED_HTML);
+            }
 
             const onFetchDataClick = async () => {
                 try {
@@ -75,10 +84,14 @@
                         if (isTypedUrl.value) {
                             let res = await fetch(newUrl);
                             html = await res.text();
+
                             localStorage.setItem(SAVED_HTML, html);
+                            hasHTML.value = true;
                         } else {
                             html = newUrl;
+
                             localStorage.setItem(SAVED_HTML, html);
+                            hasHTML.value = true;
                         }
 
                         applyNewHtml(html);
@@ -112,27 +125,41 @@
                 errorMsg,
                 webpageItems,
                 webpageTitle,
+                webpageDesc,
+                hasHTML,
 
                 fetchBtnName,
                 onFetchDataClick,
                 onClearStorageClick,
+                onClearHTMLClick,
             }
         } //setup()
     });
 </script>
 
 <style lang="scss">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     #app {
         font-family: "Avenir", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;
+
+        padding: 1rem .4rem .4rem;
+    }
+
+    button {
+        padding: 1px 6px;
     }
 
     .controls {
         display: grid;
-        grid-template-columns: 1fr min-content min-content;
-
+        grid-template-columns: 1fr repeat(3, auto);
+        
         input {
             padding: .6em;
             border-top-left-radius: .4em;
@@ -140,6 +167,11 @@
         }
         button {
             user-select: none;
+            margin-left: .2rem;
+        }
+
+        button:first-of-type {
+            margin: 0;
         }
     }
 </style>
