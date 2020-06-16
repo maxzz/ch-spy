@@ -6,10 +6,8 @@
             <button @click="onClearStorageClick">Clear</button>
         </div>
         <GeneratedList :items="webpageItems" :title="webpageTitle"/>
-        <div v-if="errorMsg" class="error-msg">
-            <span>Error message{{errorMsg}}</span>
-            <button @click="onErrorClear" tabindex="-1">&times;</button>
-        </div>
+
+        <ErrorMessage v-model="errorMsg"></ErrorMessage>
     </div>
 </template>
 
@@ -18,6 +16,7 @@
     import { onMounted, ref, computed, watch, defineComponent } from '@vue/composition-api';
     import GeneratedList from './components/GeneratedList.vue';
     import { htmlToItems, Item } from './engine';
+    import ErrorMessage from './components/ErrorMessage.vue';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -25,7 +24,8 @@
     export default defineComponent({
         name: "app",
         components: {
-            GeneratedList
+            GeneratedList,
+            ErrorMessage,
         },
         setup() {
             const inputUrl = ref('');
@@ -65,13 +65,6 @@
             }
 
             const errorMsg = ref('');
-            function showError(msg: string) {
-                errorMsg.value = msg;
-                setTimeout(() => errorMsg.value = '', 5000); //alert(`Error: ${err}`);
-            }
-            function onErrorClear() {
-                errorMsg.value = '';
-            }
 
             const onFetchDataClick = async () => {
                 try {
@@ -90,7 +83,7 @@
                         applyNewHtml(html);
                     }
                 } catch (error) {
-                    showError(`Error: ${error}`);
+                    errorMsg.value = `Error: ${error}`;
                 }
             };
 
@@ -116,7 +109,6 @@
                 fetchBtnName,
                 onFetchDataClick,
                 onClearStorageClick,
-                onErrorClear,
             }
         } //setup()
     });
@@ -141,26 +133,6 @@
         }
         button {
             user-select: none;
-        }
-    }
-
-    .error-msg {
-        margin-top: 1rem;
-        padding: .6rem;
-        background-color: red;
-        display: flex;
-        align-items: center;
-
-        span {
-            color: white;
-            flex-grow: 1;
-        }
-
-        button {
-            width: 1.6rem;
-            outline: none;
-            display: flex;
-            justify-content: center;
         }
     }
 </style>
