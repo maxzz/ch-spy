@@ -1,97 +1,125 @@
 <template>
     <div id="app">
         <div class="controls">
-            <input type="text" v-model="urlInput" placeholder="URL from courcehunter.net">
-            <button @click="fetchData">{{buttonName}}</button>
-            <button @click="clearStorage">Clear</button>
+            <input type="text" v-model="inputUrl" placeholder="URL from coursehunter.net">
+            <button @click="onFetchDataClick">{{fetchBtnName}}</button>
+            <button @click="onClearStorageClick">Clear</button>
         </div>
-        <GeneratedList :items="items" :title="title"/>
+        <GeneratedList :items="webpageItems" :title="webpageTitle"/>
+        <div v-if="errorMsg" class="error-msg">
+            <span>Error message{{errorMsg}}</span>
+            <button @click="onErrorClear" tabindex="-1">&times;</button>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
     import Vue from "vue";
-    import { onMounted, ref, computed, watch } from '@vue/composition-api';
+    import { onMounted, ref, computed, watch, defineComponent } from '@vue/composition-api';
     import GeneratedList from './components/GeneratedList.vue';
-    import { htmlToItems } from './engine';
+    import { htmlToItems, Item } from './engine';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
 
-    export default {
+    export default defineComponent({
         name: "app",
         components: {
             GeneratedList
         },
         setup() {
-            let urlInput = ref(''); //https://coursehunter.net/course/sozdavayte-igry-v-realnom-vremeni-s-node-js
+            const inputUrl = ref('');
 
-            let items = ref([]);
-            let title = ref('');
+            const webpageTitle = ref('');
+            const webpageDesc = ref('');
+            const webpageSource = ref('');
+            const webpageItems = ref<Item[]>([]);
+
+            function applyNewHtml(html: string): void {
+                const { items, title, desc, source } = htmlToItems(html);
+                webpageTitle.value = title;
+                webpageDesc.value = desc;
+                webpageSource.value = source;
+                webpageItems.value = items;
+            }
 
             const checkStorage = () => {
                 let source = localStorage.getItem(SAVED_SOURCE);
                 if (source) {
-                    urlInput.value = source;
+                    inputUrl.value = source;
                 }
                 let html = localStorage.getItem(SAVED_HTML);
                 if (html) {
-                    let parced = htmlToItems(html);
-                    items.value = parced.items;
-                    title.value = parced.title;
+                    applyNewHtml(html);
                 }
             };
 
-            const clearStorage = () => {
+            const onClearStorageClick = () => {
                 localStorage.removeItem(SAVED_HTML);
-                items.value = [];
-                title.value = '';
+                webpageItems.value = [];
+                webpageTitle.value = '';
             };
 
             function isUrl(v: string): boolean {
                 return v.lastIndexOf('https:', 0) !== -1;
             }
 
-            const fetchData = async () => {
+            const errorMsg = ref('');
+            function showError(msg: string) {
+                errorMsg.value = msg;
+                setTimeout(() => errorMsg.value = '', 5000); //alert(`Error: ${err}`);
+            }
+            function onErrorClear() {
+                errorMsg.value = '';
+            }
+
+            const onFetchDataClick = async () => {
                 try {
-                    if (urlInput.value) {
+                    let newUrl = inputUrl.value;
+                    if (newUrl) {
                         let html = '';
-                        if (isUrl(urlInput.value)) {
-                            let res = await fetch(urlInput.value);
+                        if (isUrl(newUrl)) {
+                            let res = await fetch(newUrl);
                             html = await res.text();
                             localStorage.setItem(SAVED_HTML, html);
                         } else {
-                            html = urlInput.value;
+                            html = newUrl;
                             localStorage.removeItem(SAVED_HTML);
                         }
 
-                        let parced = htmlToItems(html); 
-                        items.value = parced.items;
-                        title.value = parced.title;
+                        applyNewHtml(html);
                     }
-                } catch (err) {
-                    alert(`Error: ${err}`);
+                } catch (error) {
+                    showError(`Error: ${error}`);
                 }
             };
 
-            watch(() => localStorage.setItem(SAVED_SOURCE, urlInput.value));
+            watch(() => inputUrl.value, () => {
+                console.log('saved');
+                errorMsg.value = '';
+                localStorage.setItem(SAVED_SOURCE, inputUrl.value);
+            });
 
-            const buttonName = computed(() => !urlInput.value ? 'Type' : isUrl(urlInput.value) ? 'Fetch' : 'Parse');
+            const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isUrl(inputUrl.value) ? 'Fetch' : 'Parse');
 
             onMounted(() => {
+                console.log('mounted');
                 checkStorage();
             });
 
             return {
-                urlInput,
-                items,
-                title,
-                buttonName,
-                fetchData,
-                clearStorage,
+                inputUrl,
+                errorMsg,
+                webpageItems,
+                webpageTitle,
+
+                fetchBtnName,
+                onFetchDataClick,
+                onClearStorageClick,
+                onErrorClear,
             }
-        }
-    } as any;
+        } //setup()
+    });
 </script>
 
 <style lang="scss">
@@ -99,9 +127,7 @@
         font-family: "Avenir", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        //text-align: center;
         color: #2c3e50;
-        //margin-top: 60px;
     }
 
     .controls {
@@ -115,6 +141,26 @@
         }
         button {
             user-select: none;
+        }
+    }
+
+    .error-msg {
+        margin-top: 1rem;
+        padding: .6rem;
+        background-color: red;
+        display: flex;
+        align-items: center;
+
+        span {
+            color: white;
+            flex-grow: 1;
+        }
+
+        button {
+            width: 1.6rem;
+            outline: none;
+            display: flex;
+            justify-content: center;
         }
     }
 </style>

@@ -12,12 +12,14 @@
 </template>
 
 <script lang="ts">
-    import { ref } from '@vue/composition-api';
+    import { defineComponent, ref } from '@vue/composition-api';
     import path from 'path';
     import Downloader from 'js-file-downloader'; // problem: handle timout; no cancel operation;
 
-    export default {
-        props: ['url'],
+    export default defineComponent({
+        props: {
+            url: String
+        },
         setup() {
             const progressPersent = ref(0);
             const disabledBtn = ref(false);
@@ -85,8 +87,8 @@
                 tryed,
                 downloadFile,
             };
-        }
-    };
+        } //setup()
+    });
 </script>
 
 <style lang="scss" scoped>

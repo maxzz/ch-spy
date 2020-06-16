@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="main-title">{{title}}</div>
+
         <div class="container">
             <ul>
                 <li v-for="(item, index) of items" :key="index">
@@ -12,11 +13,12 @@
                         :title="itemIndex(index)"
                         tabindex="-1" 
                         target="blank"
-                    ><span>{{item.duration}}</span> mp4
-                    </a>
+                    >
+                    <span>{{item.duration}}</span> mp4</a>
                 </li>
             </ul>
         </div>
+
         <div v-if="items.length">
             <details open>
                 <summary>Batch rename files</summary>
@@ -24,43 +26,45 @@
                 <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
                 <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
             </details>
+
             <details>
                 <summary>All Together</summary>
                 <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
             </details>
         </div>
-        <!-- <cookie-setter/> -->
+
+        <!-- <cookie-setter /> -->
     </div>
 </template>
 
 <script lang="ts">
-    import { computed } from "@vue/composition-api";
+    import { computed, defineComponent } from "@vue/composition-api";
     import path from 'path';
     import { pad, Item } from '../engine';
     import download from 'downloadjs';
     import DownloadButton from './DownloadButton.vue';
     import CookieSetter from './CookieSetter.vue';
 
-    const itemInputName = (index, name) => `${pad(index + 1)} - ${name.trim()}`;
-    const validateFname = (name) => {
-        // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
-        return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';');
+    const itemInputName = (index, name): string => `${pad(index + 1)} - ${name.trim()}`;
+    const validateFname = (name): string => {
+        return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
     };
 
-    export default {
-        props: ['items', 'title'],
-        components: { DownloadButton: DownloadButton as any, CookieSetter },
-        setup(props) {
-            const itemIndex = (index) => {
+    export default defineComponent({
+        props: [ 'items', 'title' ],
+        components: { DownloadButton, CookieSetter },
+        setup(props: { items: Item[]; title: string; }) {
+
+            const itemIndex = (index): string => {
                 return `video ${index + 1}`;
             };
 
-            const itemName = (index: number, item: Item, items: Item[]) => {
+            const itemName = (index: number, item: Item, items: Item[]): string => {
                 return itemInputName(index, item.name);
             };
 
             const allText = computed(() => {
-                return (props.items as Item[]).reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
+                return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
             });
 
             const allBatch = computed(() => {
@@ -83,8 +87,8 @@
                 allBatch,
                 downloadRename,
             };
-        }
-    };
+        } //setup()
+    });
 </script>
 
 <style lang="scss" scoped>

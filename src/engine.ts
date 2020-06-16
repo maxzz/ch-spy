@@ -17,10 +17,19 @@ export interface Item {
     url: string;
 }
 
-export function htmlToItems(html: string): {items: Item[], title: string} {
+export interface ParseResult {
+    items: Item[];      // Items on the page
+    title: string;      // Title in Russian
+    desc: string;       // Description in English
+    source: string;     // Page URL
+}
+
+export function htmlToItems(html: string): ParseResult {
     let $ = cheerio.load(html);
 
-    heroTitle = $('.hero-title').text();
+    const title = $('.hero-title').text();
+    const desc = $('.hero-description').text();
+    const source = $('.hero-source').text();
 
     let items: Item[] = [];
 
@@ -35,12 +44,14 @@ export function htmlToItems(html: string): {items: Item[], title: string} {
 
     return {
         items,
-        title: heroTitle
+        title,
+        desc,
+        source,
     };
 }
 
-function generateHtml(template, items) {
-    let $ = cheerio.load(template);
+function generateHtml(templateHtml, items: Item[]) {
+    let $ = cheerio.load(templateHtml);
 
     // Title
     let title = $('.container');
@@ -89,9 +100,4 @@ function generateHtml(template, items) {
     // Done
     let html = $.html();
     return html;
-}
-
-export function main(html: string): string {
-    
-    return '';
 }
