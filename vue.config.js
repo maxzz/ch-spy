@@ -13,11 +13,20 @@ module.exports = {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                filename: 'output.html', // the output file name that will be created
+                filename: 'single.html', // the output file name that will be created
                 template: 'src/output-template.html', // this is important - a template file to use for insertion
                 inlineSource: '.(js|css)$' // embed all javascript and css inline
             }),
             new HtmlWebpackInlineSourcePlugin()
         ]
-    }
+    },
+    publicPath: process.env.NODE_ENV === 'production' ? '/ch-spy/' : '/',
+    productionSourceMap: false
 };
+
+/*
+module.exports = {
+    publicPath: process.env.NODE_ENV === 'production' ? '/ch-spy/' : '/',
+    productionSourceMap: false
+}
+*/

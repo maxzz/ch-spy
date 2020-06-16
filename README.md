@@ -19,4 +19,4 @@ yarn build
 
 # Running App
 
-TODO: url
+![](assets/preview.png)
