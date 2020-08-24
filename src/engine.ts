@@ -34,11 +34,21 @@ export function htmlToItems(html: string): ParseResult {
     let items: Item[] = [];
 
     $('.lessons-item').each((index, el) => {
+
+        let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
+        if (!mediaUrl) { // website updated on 08.23.20
+            let script = $('script', el)[0].children[0].data;
+            let m = /"contentUrl":\s*"(https:\/\/[^"]+\.mp4)"/.exec(script);
+            if (m) {
+                mediaUrl = m[1];
+            }
+        }
+
         items.push({
             title: $('.lessons-title', el).text(),
             duration: $('.lessons-duration', el).text(),
             name: $('.lessons-name', el).text(),
-            url: $('[itemprop=contentUrl]', el).attr('href'),
+            url: mediaUrl,
         });
     });
 
