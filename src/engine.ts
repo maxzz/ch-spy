@@ -1,5 +1,6 @@
 import cheerio from 'cheerio';
 import path from 'path';
+import { reFileItem } from './assets/content-match-regexes';
 
 let heroTitle = 'Video course';
 
@@ -51,6 +52,43 @@ export function htmlToItems(html: string): ParseResult {
             url: mediaUrl,
         });
     });
+
+    if (!items.length) {
+        let scripts = $('script');
+
+        for (let script of scripts.toArray()) {
+            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes
+                let scriptText = script.children[0].data;
+                if (scriptText) {
+                    // let m = reFileItem.exec(scriptText);
+                    // console.log('mmm', m);
+
+                    // let m = scriptText.match(reFileItem);
+                    // if (m) {
+                    //     console.log('mmm', m);
+                    // }
+
+                    // let myregexp = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"(.*?)"\s*,\s*[\s\S]*?/mg;
+                    // let match = myregexp.exec(scriptText);
+                    // while (match != null) {
+                    //     // matched text: match[0]
+                    //     // match start: match.index
+                    //     // capturing group n: match[n]
+                    //     console.log(`Found ${match[0]} start=${match.index} end=${myregexp.lastIndex}.`);
+                    //     console.log('mmB', match);
+                    //     match = myregexp.exec(scriptText);
+                    // }
+                    
+                    let myregexp = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"(.*?)"\s*,\s*[\s\S]*?/mg;
+                    let matches = scriptText.matchAll(myregexp);
+                    let m = [...matches];
+                    console.log('mm', m);
+                }
+            }
+        }
+
+        //let script = scripts[0].children[0].data;
+    }
 
     return {
         items,

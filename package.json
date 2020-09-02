@@ -9,6 +9,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.21",
     "@u3u/vue-hooks": "^2.0.1",
     "@vue/composition-api": "^0.6.4",
     "cheerio": "^1.0.0-rc.3",
