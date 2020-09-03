@@ -60,34 +60,27 @@ export function htmlToItems(html: string): ParseResult {
             if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes
                 let scriptText = script.children[0].data;
                 if (scriptText) {
-                    // let m = reFileItem.exec(scriptText);
-                    // console.log('mmm', m);
+                    let matches = [...scriptText.matchAll(reFileItem)];
+                    if (matches.length) {
+                        items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  title: '??', url: m[2]}));
+                        items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // remove two commentes items.
+                        items.forEach((_: Item) => {
+                            let match = _.name.match(/^\d*\) #\d+\s*(.*) \| (.*)/); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15"
+                            if (match) {
+                                _.name= match[1];
+                                _.duration = match[2];
+                            }
+                            
+                            //console.log('match', match);
+                        });
 
-                    // let m = scriptText.match(reFileItem);
-                    // if (m) {
-                    //     console.log('mmm', m);
-                    // }
-
-                    // let myregexp = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"(.*?)"\s*,\s*[\s\S]*?/mg;
-                    // let match = myregexp.exec(scriptText);
-                    // while (match != null) {
-                    //     // matched text: match[0]
-                    //     // match start: match.index
-                    //     // capturing group n: match[n]
-                    //     console.log(`Found ${match[0]} start=${match.index} end=${myregexp.lastIndex}.`);
-                    //     console.log('mmB', match);
-                    //     match = myregexp.exec(scriptText);
-                    // }
-                    
-                    let myregexp = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"(.*?)"\s*,\s*[\s\S]*?/mg;
-                    let matches = scriptText.matchAll(myregexp);
-                    let m = [...matches];
-                    console.log('mm', m);
+                        //console.log('matches', matches);
+                    }
                 }
             }
         }
 
-        //let script = scripts[0].children[0].data;
+        //console.log('items', items);
     }
 
     return {

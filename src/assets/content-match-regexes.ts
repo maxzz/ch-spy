@@ -66,17 +66,4 @@
       }
 */
 
-/*NO
-    file:\s*\[\s*(?:{\s*"title":\s*"(.*?)"\s*,\s*"file":\s*"(.*?)".*}?\s*,??)+\s*\]
-
-file: [
- {"title": "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15", "file": "https://vss4.coursehunter.net/s/8f7045a014028cfc0880490909140008/lut-advframer/lesson1.mp4", "subtitle": "", "id": "c3451l1"},
- {"title": "2) #0 What&#039;s New In Framer Motion 2 | 00:04:15", "file": "https://vss4.coursehunter.net/s/8f7045a014028cfc0880490909140008/lut-advframer/lesson1.mp4", "subtitle": "", "id": "c3451l1"},
-]    
-*/
-
-/*NO
-export const reFileItem = /{"title":\s*"(.*?)"\s*,\s*"file":\s*"(.*?)".*}/g;
-*/
-
-export const reFileItem = /{"title":\s*"(.*?)"\s*,\s*"file":\s*"(.*?)"\s*,\s*.*?"id":\s*"([\s\S]*?)".*}/g;
+export const reFileItem = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"([^"]*?)"[^}]*},{0,1}/g;
