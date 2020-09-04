@@ -4,7 +4,7 @@ import { reFileItem } from './assets/content-match-regexes';
 
 let heroTitle = 'Video course';
 
-export function pad(n) {
+export function pad2(n: number): string {
     if (n < 10) {
         return `0${n}`;
     }
@@ -65,16 +65,22 @@ export function htmlToItems(html: string): ParseResult {
                         items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  title: '??', url: m[2]}));
                         items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // remove two commentes items.
                         items.forEach((_: Item) => {
-                            let match = _.name.match(/^\d*\) #\d+\s*(.*) \| (.*)/); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15"
+                            let match = _.name.match(/^\d*\) #{0,1}([\.\d]+){0,1}\s*(.*) \| (.*)/); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15" or "1) 1.1. AE Basics | 00:31:36"
                             if (match) {
-                                _.name= match[1];
-                                _.duration = match[2];
-                            }
-                            
-                            //console.log('match', match);
-                        });
+                                _.name = match[2];
+                                _.duration = match[3];
 
-                        //console.log('matches', matches);
+                                if (match[1]) { // '1.1.' -> '01.1'
+                                    let prefix = match[1];
+                                    let parts = prefix.split('.').filter(Boolean);
+                                    if (parts.length) {
+                                        parts[0] = pad2(+parts[0]);
+                                        prefix = parts.join('.');
+                                    }
+                                    _.name = `${prefix} - ${_.name}`;
+                                }
+                            }
+                        });
                     }
                 }
             }
@@ -98,7 +104,7 @@ function generateHtml(templateHtml, items: Item[]) {
     let title = $('.container');
     $(`<h3 class="main-title">TITLE ${heroTitle}</h3>`).insertBefore(title);
 
-    const itemName = (index, name) => `${pad(index + 1)} - ${name}`;
+    const itemName = (index, name) => `${pad2(index + 1)} - ${name}`;
     const validateFname = (name) => {
         // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
         return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';');

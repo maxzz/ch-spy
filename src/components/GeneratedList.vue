@@ -39,12 +39,12 @@
 <script lang="ts">
     import { computed, defineComponent } from "@vue/composition-api";
     import path from 'path';
-    import { pad, Item } from '../engine';
+    import { pad2, Item } from '../engine';
     import download from 'downloadjs';
     import DownloadButton from './DownloadButton.vue';
     import CookieSetter from './CookieSetter.vue';
 
-    const itemInputName = (index, name): string => `${pad(index + 1)} - ${name.trim()}`;
+    const itemInputName = (index, name): string => `${pad2(index + 1)} - ${name.trim()}`;
     const validateFname = (name): string => {
         return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
     };
