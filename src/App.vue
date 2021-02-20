@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <div class="controls">
-            <input type="text" v-model="inputUrl" placeholder="URL from coursehunter.net">
+            <input v-model="inputUrl" placeholder="URL from coursehunter.net">
             <button @click="onFetchDataClick">{{fetchBtnName}}</button>
             <button @click="onClearStorageClick" title="Clear fetched data">Clear</button>
             <!-- <button @click="onCopyHTMLClick" v-if="hasHTML" title="Copy HTML to clipboard">Copy HTML</button> -->
@@ -9,16 +9,20 @@
         </div>
 
         <div v-if="webpageItemsLink">
-            <div>No Items</div>
+            <div :style="{display: 'flex', margin: '1em .4em 0', fontSize: '.9em', padding: '.4em 0'}">
+                <a :href="webpageItemsLink" target="_blank">Get items:</a>
+                <input v-model="webpageItemsLink" :style="{flexGrow: '1', border: 'none', marginLeft: '.4em', outline: 'none'}" readonly tabindex="-1" >
+            </div>
             <div class="controls">
-                <input type="text" v-model="webpageItemsLink" placeholder="URL to get items">
-                <button @click="onFetchAxiosItemsClick">Get Links</button>
+                <input v-model="webpageItemsLink" placeholder="Paste items from URL above">
+                <button @click="onFetchAxiosItemsClick">Parse</button>
             </div>
         </div>
 
         <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/>
 
-        <ErrorMessage :value="errorMsg" @input="onClearErrorMsg()" />
+        <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
+        <!-- <ErrorMessage :value="errorMsg" @input="onClearErrorMsg($event)" /> -->
         <!-- <ErrorMessage v-model="errorMsg" /> -->
     </div>
 </template>
@@ -46,15 +50,15 @@
             const webpageDesc = ref('');
             const webpageSource = ref('');
             const webpageItemsLink = ref('');
+            const webpageItemsJson = ref('');
             const webpageItems = ref<Item[]>([]);
 
             const isTypedUrl = computed(() => !!inputUrl.value.match(/^https?:\/\//));
             const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isTypedUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
 
-            const onClearErrorMsg = () => {
-                console.log('aa', arguments);
-                errorMsg.value = '';
+            const onClearErrorMsg = (newValue) => {
+                errorMsg.value = newValue;
             }
 
             const hasHTML = ref(false);
@@ -70,7 +74,7 @@
                     try {
                     webpageItemsLink.value = getAxiosItemsLink(html);
                     if (webpageItemsLink.value) {
-                        await fetchAxiosItems(webpageItemsLink.value);
+                        //await fetchAxiosItems(webpageItemsLink.value);
                     }
                     } catch (error) {
                         errorMsg.value = error.ErrorMessage;
@@ -157,6 +161,7 @@
                 webpageTitle,
                 webpageDesc,
                 webpageItemsLink,
+                webpageItemsJson,
                 hasHTML,
 
                 fetchBtnName,
