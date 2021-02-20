@@ -1,6 +1,7 @@
 import Cheerio from 'cheerio';
 import path from 'path';
 import { reAxiosItemsQuery, reFileItem } from './assets/content-match-regexes';
+import axios from 'axios';
 
 let heroTitle = 'Video course';
 
@@ -99,11 +100,12 @@ export function htmlToItems(html: string): ParseResult {
 
 export function getAxiosItemsLink(html: string): string {
     let m: RegExpExecArray = reAxiosItemsQuery.exec(html);
-    console.log('m', m);
-    return m[0] ? `https://coursehunter.net${m[0]}` : '';
+    return m ? `https://coursehunter.net${m[0]}` : '';
 }
 
-export async function fetchAxiosItems(link: string) {
+export async function fetchAxiosItems(url: string): Promise<string> {
+    let res = await (await axios.get(url)).data;
+    return res;
 }
 
 function generateHtml(templateHtml, items: Item[]) {

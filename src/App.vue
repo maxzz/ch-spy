@@ -8,14 +8,17 @@
             <button @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
         </div>
 
-        <div class="controls" v-if="webpageItemsLink">
-            <input type="text" v-model="webpageItemsLink" placeholder="URL to get items">
-            <button @click="onFetchAxiosItemsClick">Get Links</button>
+        <div v-if="webpageItemsLink">
+            <div>No Items</div>
+            <div class="controls">
+                <input type="text" v-model="webpageItemsLink" placeholder="URL to get items">
+                <button @click="onFetchAxiosItemsClick">Get Links</button>
+            </div>
         </div>
 
         <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/>
 
-        <ErrorMessage :value="errorMsg" @input="errorMsg" />
+        <ErrorMessage :value="errorMsg" @input="onClearErrorMsg()" />
         <!-- <ErrorMessage v-model="errorMsg" /> -->
     </div>
 </template>
@@ -49,6 +52,11 @@
             const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isTypedUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
 
+            const onClearErrorMsg = () => {
+                console.log('aa', arguments);
+                errorMsg.value = '';
+            }
+
             const hasHTML = ref(false);
 
             async function applyNewHtml(html: string): Promise<void> {
@@ -59,8 +67,14 @@
                 webpageItems.value = items;
 
                 if (!items.length) {
+                    try {
                     webpageItemsLink.value = getAxiosItemsLink(html);
-                    //await fetchAxiosItems(html);
+                    if (webpageItemsLink.value) {
+                        await fetchAxiosItems(webpageItemsLink.value);
+                    }
+                    } catch (error) {
+                        errorMsg.value = error.ErrorMessage;
+                    }
                 }
             }
 
@@ -150,6 +164,7 @@
                 onFetchAxiosItemsClick,
                 onClearStorageClick,
                 onClearHTMLClick,
+                onClearErrorMsg,
             }
         } //setup()
     });
