@@ -14,8 +14,8 @@
                 <input v-model="webpageItemsLink" :style="{flexGrow: '1', border: 'none', marginLeft: '.4em', outline: 'none'}" readonly tabindex="-1" >
             </div>
             <div class="controls">
-                <input v-model="webpageItemsLink" placeholder="Paste items from URL above">
-                <button @click="onFetchAxiosItemsClick">Parse</button>
+                <input v-model="webpageItemsJson" placeholder="Paste items from URL above">
+                <button v-if="webpageItemsJson" @click="onFetchAxiosItemsClick">Parse</button>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
     import Vue from "vue";
     import { onMounted, ref, computed, watch, defineComponent } from '@vue/composition-api';
     import GeneratedList from './components/GeneratedList.vue';
-    import { htmlToItems, getAxiosItemsLink, fetchAxiosItems, Item } from './engine';
+    import { htmlToItems, getAxiosItemsLink, Item } from './engine';
     import ErrorMessage from './components/ErrorMessage.vue';
 
     const SAVED_HTML = 'coursehunters-items';
@@ -56,10 +56,6 @@
             const isTypedUrl = computed(() => !!inputUrl.value.match(/^https?:\/\//));
             const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isTypedUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
-
-            const onClearErrorMsg = (newValue) => {
-                errorMsg.value = newValue;
-            }
 
             const hasHTML = ref(false);
 
@@ -94,6 +90,10 @@
                     hasHTML.value = true;
                 }
             };
+
+            const onClearErrorMsg = (newValue) => {
+                errorMsg.value = newValue;
+            }
 
             const onClearStorageClick = () => {
                 inputUrl.value = '';
@@ -133,8 +133,13 @@
                 }
             };
 
-            const onFetchAxiosItemsClick = async () => {
-
+            const onWebpageItemsParseClick = () => {
+                try {
+                    let json = JSON.parse(webpageItemsJson.value);
+                    console.log({json});
+                } catch (error) {
+                    errorMsg.value = `Error: ${error}`;
+                }
             };
 
             watch(() => inputUrl.value, () => {
@@ -166,7 +171,7 @@
 
                 fetchBtnName,
                 onFetchDataClick,
-                onFetchAxiosItemsClick,
+                onFetchAxiosItemsClick: onWebpageItemsParseClick,
                 onClearStorageClick,
                 onClearHTMLClick,
                 onClearErrorMsg,
