@@ -1,4 +1,4 @@
-import cheerio from 'cheerio';
+import Cheerio from 'cheerio';
 import path from 'path';
 import { reAxiosItemsQuery, reFileItem } from './assets/content-match-regexes';
 
@@ -26,7 +26,7 @@ export interface ParseResult {
 }
 
 export function htmlToItems(html: string): ParseResult {
-    let $ = cheerio.load(html);
+    let $ = Cheerio.load(html);
 
     const title = $('.hero-title').text();
     const desc = $('.hero-description').text();
@@ -38,7 +38,7 @@ export function htmlToItems(html: string): ParseResult {
 
         let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
         if (!mediaUrl) { // website updated on 08.23.20
-            let script = $('script', el)[0].children[0].data;
+            let script = ($('script', el)[0] as any/*cheerio.TagElement*/).children[0].data;
             let m = /"contentUrl":\s*"(https:\/\/[^"]+\.mp4)"/.exec(script);
             if (m) {
                 mediaUrl = m[1];
@@ -57,8 +57,8 @@ export function htmlToItems(html: string): ParseResult {
         let scripts = $('script');
 
         for (let script of scripts.toArray()) {
-            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes
-                let scriptText = script.children[0].data;
+            if (!Object.keys((script as any/*cheerio.TagElement*/).attribs).length) { // i.e. just <script> wo/ attributes
+                let scriptText = (script as any/*cheerio.TagElement*/).children[0].data;
                 if (scriptText) {
                     let matches = [...scriptText.matchAll(reFileItem)];
                     if (matches.length) {
@@ -107,7 +107,7 @@ export async function fetchAxiosItems(link: string) {
 }
 
 function generateHtml(templateHtml, items: Item[]) {
-    let $ = cheerio.load(templateHtml);
+    let $ = Cheerio.load(templateHtml);
 
     // Title
     let title = $('.container');
