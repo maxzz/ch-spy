@@ -5,6 +5,10 @@
             <div :title="title">{{desc}}</div>
         </div>
 
+        <div :style="{display: 'flex', justifyContent: 'flex-end'}">
+            <button @click="downloadRename">Download rename.cmd</button>
+        </div>
+
         <div class="container">
             <ul>
                 <li v-for="(item, index) of items" :key="index">
@@ -22,8 +26,8 @@
             </ul>
         </div>
 
-        <details open>
-            <summary>Batch rename files</summary>
+        <details><!-- <details open> -->
+            <summary>Batch rename file</summary>
             <button @click="downloadRename">Download rename.cmd</button>
             <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
             <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
@@ -44,8 +48,8 @@
     import DownloadButton from './DownloadButton.vue';
     import CookieSetter from './CookieSetter.vue';
 
-    const itemInputName = (index, name): string => `${pad2(index + 1)} - ${name.trim()}`;
-    const validateFname = (name): string => {
+    const itemInputName = (index: number, name: string): string => `${pad2(index + 1)} - ${name.trim()}`;
+    const validateFname = (name: string): string => {
         return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
     };
 
@@ -54,12 +58,12 @@
         components: { DownloadButton, CookieSetter },
         setup(props: { items: Item[]; title: string; desc: string; }) {
 
-            const itemIndex = (index): string => {
-                return `video ${index + 1}`;
+            const itemIndex = (index: number | string): string => {
+                return `video ${+index + 1}`;
             };
 
-            const itemName = (index: number, item: Item, items: Item[]): string => {
-                return itemInputName(index, item.name);
+            const itemName = (index: number | string, item: Item, items: Item[]): string => {
+                return itemInputName(+index, item.name);
             };
 
             const allText = computed(() => {

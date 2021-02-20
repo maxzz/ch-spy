@@ -12,10 +12,11 @@ export function pad2(n: number): string {
 }
 
 export interface Item {
-    title: string;
-    duration: string;
-    name: string;
-    url: string;
+    title: string;      // not really used ( it was $('.lessons-title', el).text(), but not used )
+    duration: string;   // video duration
+    name: string;       // display name
+    url: string;        // video URL
+    srt?: string;       // close captions
 }
 
 export interface ParseResult {
@@ -101,6 +102,37 @@ export function getAxiosItemsLink(html: string): string {
     let m: RegExpExecArray = reAxiosItemsQuery.exec(html);
     return m ? `https://coursehunter.net${m[0]}` : '';
 }
+
+export interface PlayerItem {   // items for build-in video player on the webpage
+    id: string;                 // id: "c37871"
+    file: string;               // file: "https://vss5.coursehunter.net/s/8f91140b938014446b02c00615768193/udemy-vueinfluencer/lesson1.mp4"
+    subtitle: string;           // subtitle: "[English]https://vss5.coursehunter.net/udemy-vueinfluencer/lesson1.srt"
+    title: string;              // title: "1 Introduction | 00:03:45"
+}
+
+export function parsePlayerItems(items: string) {
+    let re = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
+    try {
+        let json: PlayerItem[] = JSON.parse(items);
+        console.log({json});
+        let res = json.map((item: PlayerItem) => {
+            let m = re.exec(item.title);
+            let title = m ? m[1] : item.title;
+            let duration = m ? m[2] : '';
+            let newItem: Item = {
+                title: title,
+                duration: duration,
+                url: item.file,
+                name: title,
+            };
+            return newItem;
+        });
+        return { items: res };
+    } catch (error) {
+        return { error: `Error: ${error}` };
+    }
+};
+
 
 function generateHtml(templateHtml, items: Item[]) {
     let $ = Cheerio.load(templateHtml);

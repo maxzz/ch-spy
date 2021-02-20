@@ -31,7 +31,7 @@
     import Vue from "vue";
     import { onMounted, ref, computed, watch, defineComponent } from '@vue/composition-api';
     import GeneratedList from './components/GeneratedList.vue';
-    import { htmlToItems, getAxiosItemsLink, Item } from './engine';
+    import { htmlToItems, getAxiosItemsLink, parsePlayerItems, Item } from './engine';
     import ErrorMessage from './components/ErrorMessage.vue';
 
     const SAVED_HTML = 'coursehunters-items';
@@ -68,12 +68,9 @@
 
                 if (!items.length) {
                     try {
-                    webpageItemsLink.value = getAxiosItemsLink(html);
-                    if (webpageItemsLink.value) {
-                        //await fetchAxiosItems(webpageItemsLink.value);
-                    }
+                        webpageItemsLink.value = getAxiosItemsLink(html);
                     } catch (error) {
-                        errorMsg.value = error.ErrorMessage;
+                        errorMsg.value = `Error: ${error}`;
                     }
                 }
             }
@@ -134,11 +131,11 @@
             };
 
             const onWebpageItemsParseClick = () => {
-                try {
-                    let json = JSON.parse(webpageItemsJson.value);
-                    console.log({json});
-                } catch (error) {
-                    errorMsg.value = `Error: ${error}`;
+                let res = parsePlayerItems(webpageItemsJson.value);
+                if (res.error) {
+                    errorMsg.value = `Error: ${res.error}`;
+                } else {
+                    webpageItems.value = res.items;
                 }
             };
 
