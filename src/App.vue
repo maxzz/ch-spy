@@ -8,6 +8,11 @@
             <button @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
         </div>
 
+        <div class="controls">
+            <input type="text" v-model="webpageItemsLink" placeholder="URL to get items">
+            <button @click="onFetchAxiosItemsClick">Get Links</button>
+        </div>
+
         <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/>
 
         <ErrorMessage v-model="errorMsg"></ErrorMessage>
@@ -18,7 +23,7 @@
     import Vue from "vue";
     import { onMounted, ref, computed, watch, defineComponent } from '@vue/composition-api';
     import GeneratedList from './components/GeneratedList.vue';
-    import { htmlToItems, Item } from './engine';
+    import { htmlToItems, getAxiosItemsLink, fetchAxiosItems, Item } from './engine';
     import ErrorMessage from './components/ErrorMessage.vue';
 
     const SAVED_HTML = 'coursehunters-items';
@@ -36,6 +41,7 @@
             const webpageTitle = ref('');
             const webpageDesc = ref('');
             const webpageSource = ref('');
+            const webpageItemsLink = ref('');
             const webpageItems = ref<Item[]>([]);
 
             const isTypedUrl = computed(() => !!inputUrl.value.match(/^https?:\/\//));
@@ -44,15 +50,20 @@
 
             const hasHTML = ref(false);
 
-            function applyNewHtml(html: string): void {
+            async function applyNewHtml(html: string): Promise<void> {
                 const { items, title, desc, source } = htmlToItems(html);
                 webpageTitle.value = title;
                 webpageDesc.value = desc;
                 webpageSource.value = source;
                 webpageItems.value = items;
+
+                if (!items.length) {
+                    webpageItemsLink.value = getAxiosItemsLink(html);
+                    //await fetchAxiosItems(html);
+                }
             }
 
-            const checkStorage = () => {
+            const checkStorage = async () => {
                 let source = localStorage.getItem(SAVED_SOURCE);
                 if (source) {
                     inputUrl.value = source;
@@ -60,7 +71,7 @@
 
                 let html = localStorage.getItem(SAVED_HTML);
                 if (html) {
-                    applyNewHtml(html);
+                    await applyNewHtml(html);
                     hasHTML.value = true;
                 }
             };
@@ -94,13 +105,17 @@
                             hasHTML.value = true;
                         }
 
-                        applyNewHtml(html);
+                        await applyNewHtml(html);
                     } else {
                         errorMsg.value = `Type coursehuter.net course URL or paste html content from coursehuter.net`;
                     }
                 } catch (error) {
                     errorMsg.value = `Error: ${error}`;
                 }
+            };
+
+            const onFetchAxiosItemsClick = async () => {
+
             };
 
             watch(() => inputUrl.value, () => {
@@ -126,10 +141,12 @@
                 webpageItems,
                 webpageTitle,
                 webpageDesc,
+                webpageItemsLink,
                 hasHTML,
 
                 fetchBtnName,
                 onFetchDataClick,
+                onFetchAxiosItemsClick,
                 onClearStorageClick,
                 onClearHTMLClick,
             }
