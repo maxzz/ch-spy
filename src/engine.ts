@@ -33,12 +33,12 @@ export function htmlToItems(html: string): ParseResult {
     const source = $('.hero-source').text();
 
     let items: Item[] = [];
-
+    
     $('.lessons-item').each((index, el) => {
 
         let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
         if (!mediaUrl) { // website updated on 08.23.20
-            let script = ($('script', el)[0] as any/*cheerio.TagElement*/).children[0].data;
+            let script = ($('script', el)[0].children[0] as any/*node.DataNode*/).data;
             let m = /"contentUrl":\s*"(https:\/\/[^"]+\.mp4)"/.exec(script);
             if (m) {
                 mediaUrl = m[1];
@@ -57,7 +57,7 @@ export function htmlToItems(html: string): ParseResult {
         let scripts = $('script');
 
         for (let script of scripts.toArray()) {
-            if (!Object.keys((script as any/*cheerio.TagElement*/).attribs).length) { // i.e. just <script> wo/ attributes
+            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes
                 let scriptText = (script as any/*cheerio.TagElement*/).children[0].data;
                 if (scriptText) {
                     let matches = [...scriptText.matchAll(reFileItem)];

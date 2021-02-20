@@ -9,7 +9,12 @@
     import { defineComponent, watch, ref } from '@vue/composition-api';
 
     export default defineComponent({
-        props: ['value'],
+        props: {
+            value: {
+                type: String,
+                default: ''
+            }
+        },
         setup(props: { value: string }, { emit }) {
 
             const errorMsg = ref(props.value);

@@ -14,7 +14,7 @@
 <script lang="ts">
     import { defineComponent, ref } from '@vue/composition-api';
     import path from 'path';
-    import Downloader from 'js-file-downloader'; // problem: handle timout; no cancel operation;
+    import Downloader from 'js-file-downloader'; //TODO: Upgrade to 1.1.15 (warning: w/ diff API) // problem: handle timout; no cancel operation;
 
     export default defineComponent({
         props: {

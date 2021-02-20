@@ -8,14 +8,15 @@
             <button @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
         </div>
 
-        <div class="controls">
+        <div class="controls" v-if="webpageItemsLink">
             <input type="text" v-model="webpageItemsLink" placeholder="URL to get items">
             <button @click="onFetchAxiosItemsClick">Get Links</button>
         </div>
 
         <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/>
 
-        <ErrorMessage v-model="errorMsg"></ErrorMessage>
+        <ErrorMessage :value="errorMsg" @input="errorMsg" />
+        <!-- <ErrorMessage v-model="errorMsg" /> -->
     </div>
 </template>
 
