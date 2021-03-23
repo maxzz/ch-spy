@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from '@vue/composition-api';
+    import { defineComponent, ref } from 'vue';
 
     function setCookieValue(name, value, domain?, path?): void {
         var domain = domain || document.domain;

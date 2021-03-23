@@ -1,12 +1,12 @@
 <template>
     <div v-if="errorMsg" class="error-msg">
         <span>Error: {{errorMsg}}</span>
-        <button @click="onErrorClear" tabindex="-1">&times;</button>
+        <button @click="onErrorClear" tabIndex="-1">&times;</button>
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent, watch, ref } from '@vue/composition-api';
+    import { defineComponent, watch, ref } from 'vue';
 
     export default defineComponent({
         props: {

@@ -11,7 +11,7 @@
         <div v-if="webpageItemsLink">
             <div :style="{display: 'flex', margin: '1em .4em 0', fontSize: '.9em', padding: '.4em 0'}">
                 <a :href="webpageItemsLink" target="_blank">Get items:</a>
-                <input v-model="webpageItemsLink" :style="{flexGrow: '1', border: 'none', marginLeft: '.4em', outline: 'none'}" readonly tabindex="-1" >
+                <input v-model="webpageItemsLink" :style="{flexGrow: 1, border: 'none', marginLeft: '.4em', outline: 'none'}" readonly tabIndex="-1" >
             </div>
             <div class="controls">
                 <input v-model="webpageItemsJson" placeholder="Paste items from URL above">
@@ -28,8 +28,7 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
-    import { onMounted, ref, computed, watch, defineComponent } from '@vue/composition-api';
+    import { defineComponent, onMounted, ref, computed, watch } from 'vue';
     import GeneratedList from './components/GeneratedList.vue';
     import { htmlToItems, getAxiosItemsLink, parsePlayerItems, Item } from './engine';
     import ErrorMessage from './components/ErrorMessage.vue';
