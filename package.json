@@ -5,13 +5,14 @@
     "description": "Web scrapping",
     "scripts": {
         "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
+        "build": "vite build",
+        "build-check": "vue-tsc --noEmit && vite build",
         "serve": "vite preview",
         "predeploy": "yarn build",
         "deploy": "gh-pages -d dist"
     },
     "dependencies": {
-        "cheerio": "^1.0.0-rc.3",
+        "cheerio": "^1.0.0-rc.5",
         "downloadjs": "^1.4.7",
         "js-file-downloader": "1.1.4",
         "path-browserify": "^1.0.1",
