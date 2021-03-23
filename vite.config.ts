@@ -11,6 +11,14 @@ const builtinsPlugin = {
 export default ({command}) => {
     return defineConfig({
         base: command === 'build' ? '/animated-sidebar/' : '',
-        plugins: [builtinsPlugin, vue()],
+        //plugins: [builtinsPlugin, vue()],
+        plugins: [vue()],
+        // rollupOptions: {
+        //     plugins: [
+        //         //globalsPlugin,
+        //         builtinsPlugin,
+        //     ]
+        // }
+        
     });
 };
