@@ -42,7 +42,7 @@
 
 <script lang="ts">
     import { defineComponent, computed } from "vue";
-    import path from 'path';
+    import path from 'path-browserify'; //import path from 'path';
     import { pad2, Item } from '../engine';
     import download from 'downloadjs';
     import DownloadButton from './DownloadButton.vue';
