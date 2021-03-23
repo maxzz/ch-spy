@@ -1,5 +1,6 @@
 import Cheerio from 'cheerio';
-import path from 'path';
+//import path from 'path';
+import path2 from 'path-browserify';
 import { reAxiosItemsQuery, reFileItem } from './assets/content-match-regexes';
 
 let heroTitle = 'Video course';
@@ -172,8 +173,8 @@ function generateHtml(templateHtml, items: Item[]) {
 
     // Batch rename files
     let textBatch = items.reduce((acc, item, index) => {
-        let orgFname = path.basename(item.url);
-        let orgExt = path.extname(orgFname);
+        let orgFname = path2.basename(item.url);
+        let orgExt = path2.extname(orgFname);
         let newFname = validateFname(itemName(index, item.name));
         return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
     }, 'chcp 1251\n');
