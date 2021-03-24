@@ -1,4 +1,5 @@
-import Cheerio from 'cheerio';
+//import Cheerio from 'cheerio';
+import Cheerio from './cheerio/cheerio';
 //import path from 'path';
 import path from 'path-browserify';
 import { reAxiosItemsQuery, reFileItem } from './assets/content-match-regexes';
