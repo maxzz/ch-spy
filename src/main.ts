@@ -1,15 +1,5 @@
-import Vue from 'vue';
-import store from './store';
-import VueCompositionApi from '@vue/composition-api';
-import VueHooks from '@u3u/vue-hooks';
+import { createApp } from 'vue';
 import App from './App.vue';
+//import './index.css';
 
-Vue.config.productionTip = false;
-
-Vue.use(VueHooks);
-Vue.use(VueCompositionApi);
-
-new Vue({
-    store,
-    render: h => h(App)
-}).$mount('#app');
+createApp(App).mount('#app');

@@ -1,5 +1,7 @@
-import Cheerio from 'cheerio';
-import path from 'path';
+//import Cheerio from 'cheerio';
+import Cheerio from './cheerio/cheerio';
+//import path from 'path';
+import path from 'path-browserify';
 import { reAxiosItemsQuery, reFileItem } from './assets/content-match-regexes';
 
 let heroTitle = 'Video course';
@@ -114,7 +116,7 @@ export function parsePlayerItems(items: string) {
     let re = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
     try {
         let json: PlayerItem[] = JSON.parse(items);
-        console.log({json});
+        //console.log({json});
         let res = json.map((item: PlayerItem) => {
             let m = re.exec(item.title);
             let title = m ? m[1] : item.title;

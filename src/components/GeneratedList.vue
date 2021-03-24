@@ -18,7 +18,7 @@
                         :class="{ nolink: !item.url }"
                         :href="item.url"
                         :title="itemIndex(index)"
-                        tabindex="-1" 
+                        tabIndex="-1" 
                         target="blank"
                     >
                     <span>{{item.duration}}</span> mp4</a>
@@ -41,8 +41,8 @@
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent } from "@vue/composition-api";
-    import path from 'path';
+    import { defineComponent, computed } from "vue";
+    import path from 'path-browserify'; //import path from 'path';
     import { pad2, Item } from '../engine';
     import download from 'downloadjs';
     import DownloadButton from './DownloadButton.vue';
