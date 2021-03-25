@@ -7,17 +7,13 @@
 
             <button class="btn" @click="onFetchDataClick">{{fetchBtnName}}</button>
             <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
-            <!-- <button @click="onCopyHTMLClick" v-if="hasHTML" title="Copy HTML to clipboard">Copy HTML</button> -->
             <button class="btn ml-1" @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
         </div>
 
         <div v-if="webpageItemsJsonUrl !== ''">
         <!-- <div v-if="webpageItemsJsonUrl"> -->
             <div class="flex text-sm mt-4">
-                <a 
-                    class="btn"
-                    :href="webpageItemsJsonUrl" target="_blank">Get items from:</a>
-
+                <a class="btn" :href="webpageItemsJsonUrl" target="_blank">Get items from:</a>
                 <input class="flex-1 px-2" readonly tabIndex="-1" v-model="webpageItemsJsonUrl">
             </div>
 
@@ -190,42 +186,3 @@
         } //setup()
     });
 </script>
-
-<style lang="scss">
-    // * {
-    //     margin: 0;
-    //     padding: 0;
-    // }
-
-    // #app {
-    //     font-family: "Avenir", Helvetica, Arial, sans-serif;
-    //     -webkit-font-smoothing: antialiased;
-    //     -moz-osx-font-smoothing: grayscale;
-    //     color: #2c3e50;
-
-    //     padding: 1rem .4rem .4rem;
-    // }
-
-    // button {
-    //     padding: 1px 6px;
-    // }
-
-    // .controls {
-    //     display: grid;
-    //     grid-template-columns: 1fr repeat(3, auto);
-        
-    //     input {
-    //         padding: .6em;
-    //         border-top-left-radius: .4em;
-    //         border: 1px solid #ddd;
-    //     }
-    //     button {
-    //         user-select: none;
-    //         margin-left: .2rem;
-    //     }
-
-    //     button:first-of-type {
-    //         margin: 0;
-    //     }
-    // }
-</style>
