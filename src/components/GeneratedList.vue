@@ -55,8 +55,20 @@
     import DownloadButton from './DownloadButton.vue';
     import CookieSetter from './CookieSetter.vue';
 
-    const itemInputName = (index: number, name: string): string => `${pad2(index + 1)} - ${name.trim()}`;
-    const validateFname = (name: string): string => (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegals: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
+    function numberLength(n: number): number {
+        return n < 10 ? 1 : n < 100 ? 2 : 3;
+    }
+
+    function itemInputName(index: number, name: string, total: number): string {
+        // 0. Remove duplicated file index.
+        let m = /^(\d+)\s*-?\s*(.*)/.exec(name);
+        let s = m && +m[1] === index + 1 ? m[2] : name;
+        return `${String(index + 1).padStart(numberLength(total), '0')} - ${s.trim()}`;
+    }
+
+    function validateFname(name: string): string {
+        return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegals: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
+    }
 
     export default defineComponent({
         props: {
@@ -67,14 +79,14 @@
         components: { DownloadButton, CookieSetter },
         setup(props) {
             const allTogetherTextFile = computed(() => {
-                return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
+                return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name, props.items.length)}\n`, '');
             });
 
             const allTogetherBatchFile = computed(() => {
-                return (props.items as Item[]).reduce((acc, item, index) => {
+                return props.items.reduce((acc, item, index) => {
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
-                    let newFname = validateFname(itemInputName(index, item.name));
+                    let newFname = validateFname(itemInputName(index, item.name, props.items.length));
                     return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
                 }, 'chcp 1251\n');
             });
@@ -84,7 +96,7 @@
             };
 
             const itemName = (index: number | string, item: Item, items: Item[]): string => {
-                return itemInputName(+index, item.name);
+                return itemInputName(+index, item.name, items.length);
             };
 
             const onClickDownloadReadmeFile = () => {
