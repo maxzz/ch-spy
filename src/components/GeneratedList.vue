@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, computed } from "vue";
+    import { defineComponent, computed, PropType } from "vue";
     import path from 'path-browserify'; //import path from 'path';
     import { pad2, Item } from '../core/engine';
     import downloadjs from 'downloadjs';
@@ -61,9 +61,14 @@
     };
 
     export default defineComponent({
-        props: [ 'items', 'title', 'desc' ],
+        // props: [ 'items', 'title', 'desc' ],
+        props: {
+            items: Array as PropType<Item[]>,
+            title: String,
+            desc: String
+        },
         components: { DownloadButton, CookieSetter },
-        setup(props: { items: Item[]; title: string; desc: string; }) {
+        setup(props) { //props: { items: Item[]; title: string; desc: string; }
 
             const itemIndex = (index: number | string): string => {
                 return `video ${+index + 1}`;
