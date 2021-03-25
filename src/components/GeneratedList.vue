@@ -43,8 +43,8 @@
 <script lang="ts">
     import { defineComponent, computed } from "vue";
     import path from 'path-browserify'; //import path from 'path';
-    import { pad2, Item } from '../engine';
-    import download from 'downloadjs';
+    import { pad2, Item } from '../core/engine';
+    import downloadjs from 'downloadjs';
     import DownloadButton from './DownloadButton.vue';
     import CookieSetter from './CookieSetter.vue';
 
@@ -80,7 +80,7 @@
             });
 
             const downloadRename = () => {
-                download(allBatch.value, 'rename.cmd', 'text/plain');
+                downloadjs(allBatch.value, 'rename.cmd', 'text/plain');
             };
 
             return {

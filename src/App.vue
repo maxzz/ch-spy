@@ -2,16 +2,17 @@
     <div id="app">
         <div class="controls">
             <input v-model="inputUrl" placeholder="URL from coursehunter.net">
+
             <button @click="onFetchDataClick">{{fetchBtnName}}</button>
             <button @click="onClearStorageClick" title="Clear fetched data">Clear</button>
             <!-- <button @click="onCopyHTMLClick" v-if="hasHTML" title="Copy HTML to clipboard">Copy HTML</button> -->
             <button @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
         </div>
 
-        <div v-if="webpageItemsLink">
+        <div v-if="webpageItemsJsonUrl !== ''">
             <div :style="{display: 'flex', margin: '1em .4em 0', fontSize: '.9em', padding: '.4em 0'}">
-                <a :href="webpageItemsLink" target="_blank">Get items:</a>
-                <input v-model="webpageItemsLink" :style="{flexGrow: 1, border: 'none', marginLeft: '.4em', outline: 'none'}" readonly tabIndex="-1" >
+                <a :href="webpageItemsJsonUrl" target="_blank">Get items:</a>
+                <input v-model="webpageItemsJsonUrl" :style="{flexGrow: 1, border: 'none', marginLeft: '.4em', outline: 'none'}" readonly tabIndex="-1" >
             </div>
             <div class="controls">
                 <input v-model="webpageItemsJson" placeholder="Paste items from URL above">
@@ -30,8 +31,8 @@
 <script lang="ts">
     import { defineComponent, onMounted, ref, computed, watch } from 'vue';
     import GeneratedList from './components/GeneratedList.vue';
-    import { htmlToItems, getAxiosItemsLink, parsePlayerItems, Item } from './engine';
     import ErrorMessage from './components/ErrorMessage.vue';
+    import { htmlToItems, getAxiosItemsLink, parsePlayerItems, Item } from './core/engine';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -48,7 +49,7 @@
             const webpageTitle = ref('');
             const webpageDesc = ref('');
             const webpageSource = ref('');
-            const webpageItemsLink = ref('');
+            const webpageItemsJsonUrl = ref('');
             const webpageItemsJson = ref('');
             const webpageItems = ref<Item[]>([]);
 
@@ -67,7 +68,7 @@
 
                 if (!items.length) {
                     try {
-                        webpageItemsLink.value = getAxiosItemsLink(html);
+                        webpageItemsJsonUrl.value = getAxiosItemsLink(html);
                     } catch (error) {
                         errorMsg.value = `Error: ${error}`;
                     }
@@ -161,7 +162,7 @@
                 webpageItems,
                 webpageTitle,
                 webpageDesc,
-                webpageItemsLink,
+                webpageItemsJsonUrl,
                 webpageItemsJson,
                 hasHTML,
 

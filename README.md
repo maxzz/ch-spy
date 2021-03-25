@@ -6,5 +6,5 @@ Application to grab video links from the [coursehunter](https://coursehunter.net
 
 ## TODO
 
-* the input value not saved in the Directory.mht file: we need to add a button that by default will render &lt;a> and than switch to &lt;input> if needed.
-* *.srt are not saved
+* [ ] the input value not saved in the Directory.mht file: we need to add a button that by default will render &lt;a> and than switch to &lt;input> if needed.
+* [ ] *.srt are not saved

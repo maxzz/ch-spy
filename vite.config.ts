@@ -7,8 +7,8 @@ export default ({command}) => {
         base: command === 'build' ? '/ch-spy/' : '',
         //base: '/',
         plugins: [vue()],
-        build: {
-            sourcemap: true
-        }
+        // build: {
+        //     sourcemap: true
+        // }
     });
 };
