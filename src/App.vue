@@ -22,14 +22,15 @@
                     v-model="webpageItemsJson" placeholder="Paste items from URL above">
                 <button 
                     class="btn"
-                    v-if="webpageItemsJson" @click="onFetchAxiosItemsClick"
+                    v-if="webpageItemsJson" @click="onWebpageItemsParseClick"
                 >
                     Parse
                 </button>
             </div>
         </div>
 
-        <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/>
+        <GeneratedList :items="data.items" :title="data.title" :desc="data.desc"/>
+        <!-- <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/> -->
 
         <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
         <!-- <ErrorMessage :value="errorMsg" @input="onClearErrorMsg($event)" /> -->
@@ -38,10 +39,11 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, onMounted, ref, computed, watch } from 'vue';
+    import { defineComponent, onMounted, ref, computed, watch, reactive, toRef, toRefs } from 'vue';
     import GeneratedList from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
-    import { htmlToItems, getAxiosItemsLink, parsePlayerItems, Item } from './core/engine';
+    import { htmlToItems, getAxiosItemsLink, parsePlayerItems, Item, ParseResult } from './core/engine';
+import { log } from 'node:console';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -55,12 +57,22 @@
         setup() {
             const inputUrl = ref('');
 
-            const webpageTitle = ref('');
-            const webpageDesc = ref('');
-            const webpageSource = ref('');
+            const source = reactive({
+                data: {
+                    items: [],
+                    title: '', 
+                    desc: '',
+                    source: '',
+                }
+            });
+
+            // const webpageTitle = ref('');
+            // const webpageDesc = ref('');
+            // const webpageSource = ref('');
+            // const webpageItems = ref<Item[]>([]);
+
             const webpageItemsJsonUrl = ref('');
             const webpageItemsJson = ref('');
-            const webpageItems = ref<Item[]>([]);
 
             const isTypedUrl = computed(() => !!inputUrl.value.match(/^https?:\/\//));
             const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isTypedUrl.value ? 'Fetch' : 'Parse');
@@ -69,13 +81,14 @@
             const hasHTML = ref(false);
 
             async function applyNewHtml(html: string): Promise<void> {
-                const { items, title, desc, source } = htmlToItems(html);
-                webpageTitle.value = title;
-                webpageDesc.value = desc;
-                webpageSource.value = source;
-                webpageItems.value = items;
+                source.data = htmlToItems(html);
+                // const { items, title, desc, source } = htmlToItems(html);
+                // webpageTitle.value = title;
+                // webpageDesc.value = desc;
+                // webpageSource.value = source;
+                // webpageItems.value = items;
 
-                if (!items.length) {
+                if (!source.data.items.length) {
                     try {
                         webpageItemsJsonUrl.value = getAxiosItemsLink(html);
                     } catch (error) {
@@ -85,9 +98,9 @@
             }
 
             const checkStorage = async () => {
-                let source = localStorage.getItem(SAVED_SOURCE);
-                if (source) {
-                    inputUrl.value = source;
+                let data = localStorage.getItem(SAVED_SOURCE);
+                if (data) {
+                    inputUrl.value = data;
                 }
 
                 let html = localStorage.getItem(SAVED_HTML);
@@ -103,14 +116,23 @@
 
             const onClearStorageClick = () => {
                 inputUrl.value = '';
-                webpageItems.value = [];
-                webpageTitle.value = '';
+                source.data.items = [];
+                source.data.title = '';
+                // webpageItems.value = [];
+                // webpageTitle.value = '';
             };
 
             const onClearHTMLClick = () => {
                 hasHTML.value = false;
                 localStorage.removeItem(SAVED_HTML);
             }
+
+            /*
+            const titleText = computed(() => {
+                // ru + eng + description
+                return 
+            });
+            */
 
             const onFetchDataClick = async () => {
                 try {
@@ -141,10 +163,12 @@
 
             const onWebpageItemsParseClick = () => {
                 let res = parsePlayerItems(webpageItemsJson.value);
+                console.log(res)
                 if (res.error) {
                     errorMsg.value = `Error: ${res.error}`;
                 } else {
-                    webpageItems.value = res.items;
+                    // webpageItems.value = res.items;
+                    source.data.items = res.items;
                 }
             };
 
@@ -168,16 +192,19 @@
                 inputUrl,
                 isTypedUrl,
                 errorMsg,
-                webpageItems,
-                webpageTitle,
-                webpageDesc,
+
+                ...toRefs(source),
+                // webpageItems,
+                // webpageTitle,
+                // webpageDesc,
+
                 webpageItemsJsonUrl,
                 webpageItemsJson,
                 hasHTML,
 
                 fetchBtnName,
                 onFetchDataClick,
-                onFetchAxiosItemsClick: onWebpageItemsParseClick,
+                onWebpageItemsParseClick,
                 onClearStorageClick,
                 onClearHTMLClick,
                 onClearErrorMsg,

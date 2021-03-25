@@ -37,12 +37,12 @@
             <summary>Batch rename file</summary>
             <button @click="downloadRename">Download rename.cmd</button>
             <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
-            <textarea class="all-rename" v-model="allBatch" readonly :rows="items.length + 2"></textarea>
+            <textarea class="all-rename" v-model="allTogetherBatch" readonly :rows="items.length + 2"></textarea>
         </details>
 
         <details>
             <summary>All Together</summary>
-            <textarea class="all-together" v-model="allText" readonly :rows="items.length + 1"></textarea>
+            <textarea class="all-together" v-model="allTogetherText" readonly :rows="items.length + 1"></textarea>
         </details>
     </div>
 </template>
@@ -61,14 +61,25 @@
     };
 
     export default defineComponent({
-        // props: [ 'items', 'title', 'desc' ],
         props: {
             items: Array as PropType<Item[]>,
             title: String,
             desc: String
         },
         components: { DownloadButton, CookieSetter },
-        setup(props) { //props: { items: Item[]; title: string; desc: string; }
+        setup(props) {
+            const allTogetherText = computed(() => {
+                return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
+            });
+
+            const allTogetherBatch = computed(() => {
+                return (props.items as Item[]).reduce((acc, item, index) => {
+                    let orgFname = path.basename(item.url);
+                    let orgExt = path.extname(orgFname);
+                    let newFname = validateFname(itemInputName(index, item.name));
+                    return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
+                }, 'chcp 1251\n');
+            });
 
             const itemIndex = (index: number | string): string => {
                 return `video ${+index + 1}`;
@@ -78,28 +89,15 @@
                 return itemInputName(+index, item.name);
             };
 
-            const allText = computed(() => {
-                return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
-            });
-
-            const allBatch = computed(() => {
-                return (props.items as Item[]).reduce((acc, item, index) => {
-                    let orgFname = path.basename(item.url);
-                    let orgExt = path.extname(orgFname);
-                    let newFname = validateFname(itemInputName(index, item.name));
-                    return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
-                }, 'chcp 1251\n');
-            });
-
             const downloadRename = () => {
-                downloadjs(allBatch.value, 'rename.cmd', 'text/plain');
+                downloadjs(allTogetherBatch.value, 'rename.cmd', 'text/plain');
             };
 
             return {
                 itemIndex,
                 itemName,
-                allText,
-                allBatch,
+                allTogetherText,
+                allTogetherBatch,
                 downloadRename,
             };
         } //setup()
