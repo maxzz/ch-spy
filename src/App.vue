@@ -1,22 +1,36 @@
 <template>
-    <div id="app">
-        <div class="controls">
-            <input v-model="inputUrl" placeholder="URL from coursehunter.net">
+    <div id="app" class="mx-2 mt-4">
+        <div class="flex">
+            <input 
+                class="flex-1 input"
+                v-model="inputUrl" placeholder="URL from coursehunter.net">
 
-            <button @click="onFetchDataClick">{{fetchBtnName}}</button>
-            <button @click="onClearStorageClick" title="Clear fetched data">Clear</button>
+            <button class="btn" @click="onFetchDataClick">{{fetchBtnName}}</button>
+            <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
             <!-- <button @click="onCopyHTMLClick" v-if="hasHTML" title="Copy HTML to clipboard">Copy HTML</button> -->
-            <button @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
+            <button class="btn ml-1" @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
         </div>
 
         <div v-if="webpageItemsJsonUrl !== ''">
-            <div :style="{display: 'flex', margin: '1em .4em 0', fontSize: '.9em', padding: '.4em 0'}">
-                <a :href="webpageItemsJsonUrl" target="_blank">Get items:</a>
-                <input v-model="webpageItemsJsonUrl" :style="{flexGrow: 1, border: 'none', marginLeft: '.4em', outline: 'none'}" readonly tabIndex="-1" >
+        <!-- <div v-if="webpageItemsJsonUrl"> -->
+            <div class="flex text-sm mt-4">
+                <a 
+                    class="btn"
+                    :href="webpageItemsJsonUrl" target="_blank">Get items from:</a>
+
+                <input class="flex-1 px-2" readonly tabIndex="-1" v-model="webpageItemsJsonUrl">
             </div>
-            <div class="controls">
-                <input v-model="webpageItemsJson" placeholder="Paste items from URL above">
-                <button v-if="webpageItemsJson" @click="onFetchAxiosItemsClick">Parse</button>
+
+            <div class="flex">
+                <input
+                    class="flex-1 input"
+                    v-model="webpageItemsJson" placeholder="Paste items from URL above">
+                <button 
+                    class="btn"
+                    v-if="webpageItemsJson" @click="onFetchAxiosItemsClick"
+                >
+                    Parse
+                </button>
             </div>
         </div>
 
@@ -178,40 +192,40 @@
 </script>
 
 <style lang="scss">
-    * {
-        margin: 0;
-        padding: 0;
-    }
+    // * {
+    //     margin: 0;
+    //     padding: 0;
+    // }
 
-    #app {
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: #2c3e50;
+    // #app {
+    //     font-family: "Avenir", Helvetica, Arial, sans-serif;
+    //     -webkit-font-smoothing: antialiased;
+    //     -moz-osx-font-smoothing: grayscale;
+    //     color: #2c3e50;
 
-        padding: 1rem .4rem .4rem;
-    }
+    //     padding: 1rem .4rem .4rem;
+    // }
 
-    button {
-        padding: 1px 6px;
-    }
+    // button {
+    //     padding: 1px 6px;
+    // }
 
-    .controls {
-        display: grid;
-        grid-template-columns: 1fr repeat(3, auto);
+    // .controls {
+    //     display: grid;
+    //     grid-template-columns: 1fr repeat(3, auto);
         
-        input {
-            padding: .6em;
-            border-top-left-radius: .4em;
-            border: 1px solid #ddd;
-        }
-        button {
-            user-select: none;
-            margin-left: .2rem;
-        }
+    //     input {
+    //         padding: .6em;
+    //         border-top-left-radius: .4em;
+    //         border: 1px solid #ddd;
+    //     }
+    //     button {
+    //         user-select: none;
+    //         margin-left: .2rem;
+    //     }
 
-        button:first-of-type {
-            margin: 0;
-        }
-    }
+    //     button:first-of-type {
+    //         margin: 0;
+    //     }
+    // }
 </style>

@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .btn {
+        @apply
+            px-2 py-1 border rounded-sm 
+            bg-gray-200 text-gray-900 border-gray-500;
+    }
+
+    .input {
+        @apply 
+            px-2 py-1 border rounded-sm
+    }
+}
