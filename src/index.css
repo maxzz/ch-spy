@@ -5,8 +5,12 @@
 @layer components {
     .btn {
         @apply
-            px-2 py-1 border rounded-sm 
+            px-2 py-1 border rounded-sm
             bg-gray-200 text-gray-900 border-gray-500;
+    }
+
+    .btn:hover {
+        @apply bg-gray-300
     }
 
     .input {

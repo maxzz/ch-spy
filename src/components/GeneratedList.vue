@@ -1,19 +1,25 @@
 <template>
-    <div v-if="items.length">
-        <div v-if="title" class="main-title">
-            <div v-if="!desc">{{title}}</div>
-            <div :title="title">{{desc}}</div>
+    <div v-if="items.length" class="relative">
+        <div v-if="title" class="main-title min-h-[5rem] flex items-center justify-center">
+            <div v-if="!desc">
+                {{title}}
+            </div>
+            <div :title="title">
+                {{desc}}
+            </div>
         </div>
 
-        <div class="flex justify-end">
-            <button class="btn py-0 text-sm h-6" @click="downloadRename">Download rename.cmd</button>
+        <div class="flex justify-end absolute top-0 right-0">
+            <button class="btn py-0 text-sm h-6" @click="downloadRename">
+                Download rename.cmd
+            </button>
         </div>
 
         <div class="container">
             <ul>
                 <li v-for="(item, index) of items" :key="index">
                     <input :value="itemName(index, item, items)">
-                    <download-button :url="item.url" />
+                    <DownloadButton :url="item.url" />
                     <a 
                         :class="{ nolink: !item.url }"
                         :href="item.url"
@@ -21,7 +27,8 @@
                         tabIndex="-1" 
                         target="blank"
                     >
-                    <span>{{item.duration}}</span> mp4</a>
+                        <span>{{item.duration}}</span> mp4
+                    </a>
                 </li>
             </ul>
         </div>
@@ -98,7 +105,7 @@
     .main-title {
         margin-top: 1rem;
         padding: 0.4em 0;
-        text-align: center;
+        //text-align: center;
         cursor: default;
         color: #5d0083;
         background:

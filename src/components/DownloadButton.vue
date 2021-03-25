@@ -1,5 +1,5 @@
 <template>
-    <div class="download-button">
+    <div class="relative">
         <button
             class="btn py-0 text-sm h-6"
             :disabled="disabledBtn" @click="downloadFile(url)"
@@ -96,10 +96,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .download-button {
-        position: relative;
-    }
-
     // https://css-tricks.com/css3-progress-bars/
     
     .progress {
@@ -144,5 +140,4 @@
             background-color: red;
         }
     }
-
 </style>
