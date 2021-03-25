@@ -11,6 +11,6 @@
 
     .input {
         @apply 
-            px-2 py-1 border rounded-sm
+            px-2 py-1 border rounded-sm text-sm
     }
 }

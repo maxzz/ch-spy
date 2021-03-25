@@ -2,7 +2,7 @@
 import Cheerio from '../cheerio/cheerio';
 //import path from 'path';
 import path from 'path-browserify';
-import { reAxiosItemsQuery, reFileItem } from '../assets/content-match-regexes';
+import { reAxiosItemsQuery, reFileItem } from './content-match-regexes';
 
 let heroTitle = 'Video course';
 

@@ -1,6 +1,10 @@
 <template>
     <div class="download-button">
-        <button :disabled="disabledBtn" @click="downloadFile(url)">Get</button>
+        <button
+            class="btn py-0 text-sm h-6"
+            :disabled="disabledBtn" @click="downloadFile(url)"
+        >Get</button>
+
         <div v-if="progressPersent !== 0" class="progress">{{progressPersent}}</div>
         <div v-if="tryed" class="meter">
             <span 
@@ -109,6 +113,7 @@
         color: green;
         background-color: #ddd;
     }
+
     .meter { 
         height: .2em;  /* Can be anything */
         position: relative;
@@ -116,27 +121,28 @@
         border-radius: .2em;
         //padding: .2em;
         box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+
+        & > span {
+            display: block;
+            height: 100%;
+    
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+    
+            background-color: rgb(43,194,83);
+            background-image: linear-gradient(center bottom, rgb(43,194,83) 37%, rgb(84,240,84) 69%);
+            box-shadow: 
+                inset 0 2px 9px  rgba(255,255,255,0.3),
+                inset 0 -2px 6px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }    
+    
+        & > span.failed {
+            background-color: red;
+        }
     }
 
-    .meter > span {
-        display: block;
-        height: 100%;
-
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-
-        background-color: rgb(43,194,83);
-        background-image: linear-gradient(center bottom, rgb(43,194,83) 37%, rgb(84,240,84) 69%);
-        box-shadow: 
-            inset 0 2px 9px  rgba(255,255,255,0.3),
-            inset 0 -2px 6px rgba(0,0,0,0.4);
-        position: relative;
-        overflow: hidden;
-    }    
-
-    .meter > span.failed {
-        background-color: red;
-    }
 </style>

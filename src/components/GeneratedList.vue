@@ -5,8 +5,8 @@
             <div :title="title">{{desc}}</div>
         </div>
 
-        <div :style="{display: 'flex', justifyContent: 'flex-end'}">
-            <button @click="downloadRename">Download rename.cmd</button>
+        <div class="flex justify-end">
+            <button class="btn py-0 text-sm h-6" @click="downloadRename">Download rename.cmd</button>
         </div>
 
         <div class="container">
