@@ -10,7 +10,7 @@
         </div>
 
         <div class="flex justify-end absolute top-0 right-0">
-            <button class="btn py-0 text-sm h-6" @click="downloadRename">
+            <button class="btn py-0 text-sm h-6" @click="onClickDownloadReadmeFile">
                 Download rename.cmd
             </button>
         </div>
@@ -35,14 +35,14 @@
 
         <details><!-- <details open> -->
             <summary>Batch rename file</summary>
-            <button @click="downloadRename">Download rename.cmd</button>
+            <button @click="onClickDownloadReadmeFile">Download rename.cmd</button>
             <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
-            <textarea class="all-rename" v-model="allTogetherBatch" readonly :rows="items.length + 2"></textarea>
+            <textarea class="all-rename" v-model="allTogetherBatchFile" readonly :rows="items.length + 2"></textarea>
         </details>
 
         <details>
             <summary>All Together</summary>
-            <textarea class="all-together" v-model="allTogetherText" readonly :rows="items.length + 1"></textarea>
+            <textarea class="all-together" v-model="allTogetherTextFile" readonly :rows="items.length + 1"></textarea>
         </details>
     </div>
 </template>
@@ -56,9 +56,7 @@
     import CookieSetter from './CookieSetter.vue';
 
     const itemInputName = (index: number, name: string): string => `${pad2(index + 1)} - ${name.trim()}`;
-    const validateFname = (name: string): string => {
-        return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
-    };
+    const validateFname = (name: string): string => (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegals: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
 
     export default defineComponent({
         props: {
@@ -68,11 +66,11 @@
         },
         components: { DownloadButton, CookieSetter },
         setup(props) {
-            const allTogetherText = computed(() => {
+            const allTogetherTextFile = computed(() => {
                 return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name)}\n`, '');
             });
 
-            const allTogetherBatch = computed(() => {
+            const allTogetherBatchFile = computed(() => {
                 return (props.items as Item[]).reduce((acc, item, index) => {
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
@@ -89,16 +87,16 @@
                 return itemInputName(+index, item.name);
             };
 
-            const downloadRename = () => {
-                downloadjs(allTogetherBatch.value, 'rename.cmd', 'text/plain');
+            const onClickDownloadReadmeFile = () => {
+                downloadjs(allTogetherBatchFile.value, 'rename.cmd', 'text/plain');
             };
 
             return {
                 itemIndex,
                 itemName,
-                allTogetherText,
-                allTogetherBatch,
-                downloadRename,
+                allTogetherTextFile,
+                allTogetherBatchFile,
+                onClickDownloadReadmeFile,
             };
         } //setup()
     });
