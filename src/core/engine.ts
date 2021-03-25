@@ -28,7 +28,7 @@ export interface ParseResult {
     source: string;     // Page URL
 }
 
-export function htmlToItems(html: string): ParseResult {
+export function parseHtmlToItems(html: string): ParseResult {
     let $ = Cheerio.load(html);
 
     const title = $('.hero-title').text();
@@ -100,7 +100,7 @@ export function htmlToItems(html: string): ParseResult {
     };
 }
 
-export function getAxiosItemsLink(html: string): string {
+export function getPlayerItemsUrl(html: string): string {
     let m: RegExpExecArray = reAxiosItemsQuery.exec(html);
     return m ? `https://coursehunter.net${m[0]}` : '';
 }

@@ -1,36 +1,35 @@
 <template>
     <div id="app" class="px-2 pt-4 bg-gray-300 max-w-3xl mx-auto min-h-screen">
         <div class="flex">
-            <input class="flex-1 input" v-model="inputUrl" placeholder="URL from coursehunter.net">
+            <input class="flex-1 input" v-model="sourceInput" placeholder="URL from coursehunter.net">
 
             <button class="btn" @click="onFetchDataClick">{{fetchBtnName}}</button>
             <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
-            <button class="btn ml-1" @click="onClearHTMLClick" v-if="hasHTML" title="Clear local storage">Clear HTML</button>
+            <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
         </div>
 
-        <div v-if="webpageItemsJsonUrl !== ''">
+        <div v-if="playerItemsUrl !== ''">
             <div class="flex text-sm mt-4 mb-1">
-                <a class="btn mr-1" :href="webpageItemsJsonUrl" target="_blank">
+                <a class="btn mr-1" :href="playerItemsUrl" target="_blank">
                     Get items from:
                 </a>
-                <input class="flex-1 px-2" readonly tabIndex="-1" v-model="webpageItemsJsonUrl">
+                <input class="flex-1 px-2" readonly tabIndex="-1" v-model="playerItemsUrl">
             </div>
 
             <div class="flex">
                 <input
                     class="flex-1 input"
-                    v-model="webpageItemsJson" placeholder="Paste items from URL above">
+                    v-model="playerItemsJson" placeholder="Paste items from URL above">
                 <button 
                     class="btn"
-                    v-if="webpageItemsJson" @click="onWebpageItemsParseClick"
+                    v-if="playerItemsJson" @click="onWebpageItemsParseClick"
                 >
                     Parse
                 </button>
             </div>
         </div>
 
-        <GeneratedList :items="data.items" :title="data.title" :desc="data.desc"/>
-        <!-- <GeneratedList :items="webpageItems" :title="webpageTitle" :desc="webpageDesc"/> -->
+        <GeneratedList :items="parsed.items" :title="parsed.title" :desc="parsed.desc"/>
 
         <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
         <!-- <ErrorMessage :value="errorMsg" @input="onClearErrorMsg($event)" /> -->
@@ -39,26 +38,22 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, onMounted, ref, computed, watch, reactive, toRef, toRefs } from 'vue';
+    import { defineComponent, onMounted, ref, computed, watch, reactive, toRefs } from 'vue';
     import GeneratedList from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
-    import { htmlToItems, getAxiosItemsLink, parsePlayerItems, Item, ParseResult } from './core/engine';
-import { log } from 'node:console';
+    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems } from './core/engine';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
 
     export default defineComponent({
-        name: "app",
-        components: {
-            GeneratedList,
-            ErrorMessage,
-        },
+        name: "App",
+        components: { GeneratedList, ErrorMessage, },
         setup() {
-            const inputUrl = ref('');
+            const sourceInput = ref('');
 
             const source = reactive({
-                data: {
+                parsed: {
                     items: [],
                     title: '', 
                     desc: '',
@@ -66,93 +61,60 @@ import { log } from 'node:console';
                 }
             });
 
-            // const webpageTitle = ref('');
-            // const webpageDesc = ref('');
-            // const webpageSource = ref('');
-            // const webpageItems = ref<Item[]>([]);
+            const playerItemsUrl = ref('');
+            const playerItemsJson = ref('');
 
-            const webpageItemsJsonUrl = ref('');
-            const webpageItemsJson = ref('');
-
-            const isTypedUrl = computed(() => !!inputUrl.value.match(/^https?:\/\//));
-            const fetchBtnName = computed(() => !inputUrl.value ? 'Type' : isTypedUrl.value ? 'Fetch' : 'Parse');
+            const isSourceInputUrl = computed(() => !!sourceInput.value.match(/^https?:\/\//));
+            const fetchBtnName = computed(() => !sourceInput.value ? 'Type' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
 
-            const hasHTML = ref(false);
+            const storedToLocalStorage = ref(false);
 
-            async function applyNewHtml(html: string): Promise<void> {
-                source.data = htmlToItems(html);
-                // const { items, title, desc, source } = htmlToItems(html);
-                // webpageTitle.value = title;
-                // webpageDesc.value = desc;
-                // webpageSource.value = source;
-                // webpageItems.value = items;
+            function applyNewHtml(html: string): void {
+                source.parsed = parseHtmlToItems(html);
 
-                if (!source.data.items.length) {
-                    try {
-                        webpageItemsJsonUrl.value = getAxiosItemsLink(html);
-                    } catch (error) {
-                        errorMsg.value = `Error: ${error}`;
-                    }
+                if (source.parsed.items.length) {
+                    playerItemsUrl.value = '';
+                } else {
+                    playerItemsUrl.value = getPlayerItemsUrl(html);
                 }
             }
-
-            const checkStorage = async () => {
-                let data = localStorage.getItem(SAVED_SOURCE);
-                if (data) {
-                    inputUrl.value = data;
-                }
-
-                let html = localStorage.getItem(SAVED_HTML);
-                if (html) {
-                    await applyNewHtml(html);
-                    hasHTML.value = true;
-                }
-            };
 
             const onClearErrorMsg = (newValue) => {
                 errorMsg.value = newValue;
             }
 
             const onClearStorageClick = () => {
-                inputUrl.value = '';
-                source.data.items = [];
-                source.data.title = '';
-                // webpageItems.value = [];
-                // webpageTitle.value = '';
+                sourceInput.value = '';
+                source.parsed.items = [];
+                source.parsed.title = '';
             };
 
             const onClearHTMLClick = () => {
-                hasHTML.value = false;
+                storedToLocalStorage.value = false;
                 localStorage.removeItem(SAVED_HTML);
             }
 
-            /*
-            const titleText = computed(() => {
-                // ru + eng + description
-                return 
-            });
-            */
-
             const onFetchDataClick = async () => {
                 try {
-                    let newUrl = inputUrl.value;
-                    if (newUrl) {
+                    let s = sourceInput.value;
+                    if (s) {
                         let html = '';
-                        if (isTypedUrl.value) {
-                            let res = await fetch(newUrl);
+                        
+                        if (isSourceInputUrl.value) {
+                            let res = await fetch(s);
                             html = await res.text();
 
                             localStorage.setItem(SAVED_HTML, html);
-                            hasHTML.value = true;
+                            storedToLocalStorage.value = true;
                         } else {
-                            html = newUrl;
+                            html = s;
 
                             localStorage.setItem(SAVED_HTML, html);
-                            hasHTML.value = true;
+                            storedToLocalStorage.value = true;
                         }
 
-                        await applyNewHtml(html);
+                        applyNewHtml(html);
                     } else {
                         errorMsg.value = `Type coursehuter.net course URL or paste html content from coursehuter.net`;
                     }
@@ -162,22 +124,21 @@ import { log } from 'node:console';
             };
 
             const onWebpageItemsParseClick = () => {
-                let res = parsePlayerItems(webpageItemsJson.value);
+                let res = parsePlayerItems(playerItemsJson.value);
                 console.log(res)
                 if (res.error) {
                     errorMsg.value = `Error: ${res.error}`;
                 } else {
-                    // webpageItems.value = res.items;
-                    source.data.items = res.items;
+                    source.parsed.items = res.items;
                 }
             };
 
-            watch(() => inputUrl.value, () => {
+            watch(() => sourceInput.value, () => {
                 errorMsg.value = '';
 
-                if (isTypedUrl.value) {
-                    if (inputUrl.value) {
-                        localStorage.setItem(SAVED_SOURCE, inputUrl.value);
+                if (isSourceInputUrl.value) {
+                    if (sourceInput.value) {
+                        localStorage.setItem(SAVED_SOURCE, sourceInput.value);
                     } else {
                         localStorage.removeItem(SAVED_SOURCE);
                     }
@@ -185,22 +146,34 @@ import { log } from 'node:console';
             });
 
             onMounted(() => {
+                const checkStorage = () => {
+                    let data = localStorage.getItem(SAVED_SOURCE);
+                    if (data) {
+                        sourceInput.value = data;
+                    }
+
+                    let html = localStorage.getItem(SAVED_HTML);
+                    if (html) {
+                        sourceInput.value = html;
+                        storedToLocalStorage.value = true;
+                        applyNewHtml(html);
+                    }
+                };
+
                 checkStorage();
             });
 
             return {
-                inputUrl,
-                isTypedUrl,
-                errorMsg,
+                sourceInput,
+                isSourceInputUrl,
+
+                playerItemsUrl,
+                playerItemsJson,
 
                 ...toRefs(source),
-                // webpageItems,
-                // webpageTitle,
-                // webpageDesc,
 
-                webpageItemsJsonUrl,
-                webpageItemsJson,
-                hasHTML,
+                storedToLocalStorage,
+                errorMsg,
 
                 fetchBtnName,
                 onFetchDataClick,
