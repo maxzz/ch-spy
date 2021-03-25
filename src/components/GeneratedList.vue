@@ -1,6 +1,6 @@
 <template>
     <div v-if="items.length" class="relative">
-        <div v-if="title" class="main-title min-h-[5rem] flex items-center justify-center">
+        <div v-if="title" class="main-title min-h-[4rem] flex items-end justify-center font-bold">
             <div v-if="!desc">
                 {{title}}
             </div>

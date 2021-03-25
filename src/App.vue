@@ -1,9 +1,7 @@
 <template>
-    <div id="app" class="mx-2 mt-4">
+    <div id="app" class="px-2 pt-4 bg-gray-300 max-w-3xl mx-auto min-h-screen">
         <div class="flex">
-            <input 
-                class="flex-1 input"
-                v-model="inputUrl" placeholder="URL from coursehunter.net">
+            <input class="flex-1 input" v-model="inputUrl" placeholder="URL from coursehunter.net">
 
             <button class="btn" @click="onFetchDataClick">{{fetchBtnName}}</button>
             <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
@@ -11,9 +9,10 @@
         </div>
 
         <div v-if="webpageItemsJsonUrl !== ''">
-        <!-- <div v-if="webpageItemsJsonUrl"> -->
-            <div class="flex text-sm mt-4">
-                <a class="btn" :href="webpageItemsJsonUrl" target="_blank">Get items from:</a>
+            <div class="flex text-sm mt-4 mb-1">
+                <a class="btn mr-1" :href="webpageItemsJsonUrl" target="_blank">
+                    Get items from:
+                </a>
                 <input class="flex-1 px-2" readonly tabIndex="-1" v-model="webpageItemsJsonUrl">
             </div>
 
