@@ -1,39 +1,43 @@
 <template>
-    <div id="app" class="px-2 pt-4 bg-gray-300 max-w-3xl mx-auto min-h-screen">
-        <div class="flex">
-            <input class="flex-1 input" v-model="sourceInput" placeholder="URL from coursehunter.net">
-
-            <button class="btn" @click="onFetchDataClick">{{fetchBtnName}}</button>
-            <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
-            <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
+    <div class="bg-[#201c2b] min-h-screen">
+        <div class="pl-2 py-4 bg-[#201c2b] font-bold text-2xl">
+            <a href="https://coursehunter.net/course" target="blank">
+                <span class="text-gray-100">course</span>
+                <span class="text-[#944fff]">hunter</span>
+            </a>
         </div>
 
-        <div v-if="playerItemsUrl !== ''">
-            <div class="flex text-sm mt-4 mb-1">
-                <a class="btn mr-1" :href="playerItemsUrl" target="_blank">
-                    Get items from:
-                </a>
-                <input class="flex-1 px-2" readonly tabIndex="-1" v-model="playerItemsUrl">
-            </div>
-
+        <div class="px-2 pt-4 bg-gray-300 max-w-3xl mx-auto h-full">
             <div class="flex">
-                <input
-                    class="flex-1 input"
-                    v-model="playerItemsJson" placeholder="Paste items from URL above">
-                <button 
-                    class="btn"
-                    v-if="playerItemsJson" @click="onWebpageItemsParseClick"
-                >
-                    Parse
-                </button>
+                <input class="flex-1 input" v-model="sourceInput" placeholder="URL from coursehunter.net">
+                <button class="btn" @click="onFetchDataClick">{{fetchBtnName}}</button>
+                <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
+                <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
             </div>
+            <div v-if="playerItemsUrl !== ''">
+                <div class="flex text-sm mt-4 mb-1">
+                    <a class="btn mr-1" :href="playerItemsUrl" target="_blank">
+                        Get items from:
+                    </a>
+                    <input class="flex-1 px-2" readonly tabIndex="-1" v-model="playerItemsUrl">
+                </div>
+                <div class="flex">
+                    <input
+                        class="flex-1 input"
+                        v-model="playerItemsJson" placeholder="Paste items from URL above">
+                    <button
+                        class="btn"
+                        v-if="playerItemsJson" @click="onWebpageItemsParseClick"
+                    >
+                        Parse
+                    </button>
+                </div>
+            </div>
+            <GeneratedList :items="parsed.items" :title="parsed.title" :desc="parsed.desc"/>
+            <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
+            <!-- <ErrorMessage :value="errorMsg" @input="onClearErrorMsg($event)" /> -->
+            <!-- <ErrorMessage v-model="errorMsg" /> -->
         </div>
-
-        <GeneratedList :items="parsed.items" :title="parsed.title" :desc="parsed.desc"/>
-
-        <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
-        <!-- <ErrorMessage :value="errorMsg" @input="onClearErrorMsg($event)" /> -->
-        <!-- <ErrorMessage v-model="errorMsg" /> -->
     </div>
 </template>
 

@@ -1,6 +1,7 @@
 <template>
     <div v-if="items.length" class="relative">
-        <div v-if="title" class="main-title min-h-[4rem] flex items-end justify-center font-bold">
+        <div v-if="title" class="main-title pb-2 min-h-[4rem] flex items-end justify-center font-bold text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]">
+            <!-- linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%) -->
             <div v-if="!desc">
                 {{title}}
             </div>
@@ -115,16 +116,16 @@
 </script>
 
 <style lang="scss" scoped>
-    .main-title {
-        margin-top: 1rem;
-        padding: 0.4em 0;
+    // .main-title {
+        //margin-top: 1rem;
+        //padding: 0.4em 0;
         //text-align: center;
-        cursor: default;
-        color: #5d0083;
-        background:
-            //works so far for Firefox only: radial-gradient(51.24% 146.46% at 68.55% 55.56%, rgba(255, 205, 30, 0.19) 0%, rgba(255, 255, 255, 0) 100%),
-            linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%);
-    }
+        //cursor: default;
+        //color: #5d0083;
+        // background:
+        //     //works so far for Firefox only: radial-gradient(51.24% 146.46% at 68.55% 55.56%, rgba(255, 205, 30, 0.19) 0%, rgba(255, 255, 255, 0) 100%),
+        //     linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%);
+    // }
 
     .container {
         border: 1px dotted #cecece;
