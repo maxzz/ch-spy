@@ -68,6 +68,9 @@
             <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
             <!-- <ErrorMessage :value="errorMsg" @input="onClearErrorMsg($event)" /> -->
             <!-- <ErrorMessage v-model="errorMsg" /> -->
+
+            <!-- Hidden text -->
+            <div ref="hiddenPermanentSource"></div>
         </div>
     </div>
 </template>
@@ -98,6 +101,8 @@
 
             const playerItemsUrl = ref('');
             const playerItemsJson = ref('');
+
+            const hiddenPermanentSource = ref<HTMLDivElement>(null);
 
             const isSourceInputUrl = computed(() => !!sourceInput.value.match(/^https?:\/\//));
             const fetchBtnName = computed(() => !sourceInput.value ? '' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
@@ -173,6 +178,8 @@
             watch(() => sourceInput.value, () => {
                 errorMsg.value = '';
 
+                hiddenPermanentSource.value.innerText = sourceInput.value;
+
                 if (isSourceInputUrl.value) {
                     if (sourceInput.value) {
                         localStorage.setItem(SAVED_SOURCE, sourceInput.value);
@@ -207,6 +214,7 @@
                 playerItemsJson,
 
                 ...toRefs(source),
+                hiddenPermanentSource,
 
                 storedToLocalStorage,
                 errorMsg,
