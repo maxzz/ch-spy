@@ -2,7 +2,7 @@
 import Cheerio from '../cheerio/cheerio';
 //import path from 'path';
 import path from 'path-browserify';
-import { reAxiosItemsQuery, reFileItem } from './content-match-regexes';
+import { reFileItem } from './content-match-regexes';
 
 let heroTitle = 'Video course';
 
@@ -103,6 +103,7 @@ export function parseHtmlToItems(html: string): ParseResult {
 }
 
 export function getPlayerItemsUrl(html: string): string {
+    const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/g;
     let m: RegExpExecArray = reAxiosItemsQuery.exec(html);
     return m ? `https://coursehunter.net${m[0]}` : '';
 }
@@ -137,7 +138,7 @@ export function parsePlayerItems(items: string) {
 };
 
 
-function generateHtml(templateHtml, items: Item[]) {
+function generateHtml(templateHtml: string, items: Item[]) {
     let $ = Cheerio.load(templateHtml);
 
     // Title

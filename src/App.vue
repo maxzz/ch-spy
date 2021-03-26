@@ -11,26 +11,29 @@
         <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
             <!-- Row 1 -->
             <div class="flex">
-                <div class="flex flex-1 overflow-hidden">
+                <!-- HTML input -->
+                <div class="flex flex-1 overflow-hidden rounded-sm focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200">
                     <input 
                         class="flex-1 input border border-gray-600 outline-none" 
                         :class="[sourceInput ? 'border-r-0' : 'border']"
                         v-model="sourceInput" 
-                        placeholder="URL from coursehunter.net"
+                        placeholder="URL or HTML from coursehunter.net"
                         spellcheck="false"
                         @keypress.enter="sourceInput && onParseOrFetchHtmlClick()"
                     >
                     <button 
                         class="
                             btn
-                            transition-transform duration-500
+                            transition-transform
                             border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border"
                         :class="[sourceInput ? '-ml-4' : 'px-0 w-0 border-none transform -translate-x-6']"
                         @click="onParseOrFetchHtmlClick"
+                        :tabindex="-1"
                     >
                         {{fetchBtnName}}
                     </button>
                 </div>
+                <!-- Clear buttons -->
                 <button class="btn ml-2" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
                 <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
             </div>
@@ -104,6 +107,7 @@
                     playerItemsUrl.value = '';
                 } else {
                     playerItemsUrl.value = getPlayerItemsUrl(html);
+                    errorMsg.value = playerItemsUrl.value !== '' ? '' : 'Nothing detected';
                 }
             }
 
