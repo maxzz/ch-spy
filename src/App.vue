@@ -182,7 +182,7 @@
                 const url = URL.createObjectURL(blob);
                 new jsDownloader({
                     url: url,
-                    filename: 'test.cmd5',
+                    filename: 'rename.cmd.txt',
                 })
                 .then(function done() {
                     console.log('done');
@@ -190,8 +190,11 @@
                 .catch(function err(error) {
                     console.log('error', error);
                 })
+                .finally(() => {
+                    console.log('clean');
+                    URL.revokeObjectURL(url);
+                });
             }
-
 
             watch(() => sourceInput.value, () => {
                 errorMsg.value = '';
