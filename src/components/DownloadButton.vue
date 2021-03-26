@@ -2,7 +2,7 @@
     <div class="relative">
         <button
             class="btn py-0 text-sm h-6"
-            :disabled="disabledBtn" @click="downloadFile(url)"
+            :disabled="disabledBtn" @click="onDownloadFileClick(url)"
         >Get</button>
 
         <div v-if="progressPersent !== 0" class="progress">{{progressPersent}}</div>
@@ -19,7 +19,7 @@
     import { defineComponent, ref } from 'vue';
     //import path from 'path';
     import path from 'path-browserify';
-    import Downloader from 'js-file-downloader'; //TODO: Upgrade to 1.1.15 (warning: w/ diff API) // problem: handle timout; no cancel operation;
+    import jsDownloader from 'js-file-downloader'; //TODO: Upgrade to 1.1.15 (warning: w/ diff API) // problem: handle timout; no cancel operation;
 
     export default defineComponent({
         props: {
@@ -40,14 +40,14 @@
                 progressPersent.value = 0;
             }
 
-            function stateFailed(url, err) {
+            function stateFailed(url: string, err: string) {
                 disabledBtn.value = false;
                 succeeded.value = false;
                 failed.value = true;
                 console.log('err', url, err);
             }
 
-            function stateDone(url) {
+            function stateDone(url: string) {
                 disabledBtn.value = false;
                 progressPersent.value = 0;
                 succeeded.value = true;
@@ -64,13 +64,13 @@
                 progressPersent.value = downloadingPercentage;
             }
 
-            const downloadFile = (url: string): void => {
+            const onDownloadFileClick = (url: string): void => {
                 //download(url);
 
                 stateStart();
 
                 let filename = path.basename(url);
-                new Downloader({
+                new jsDownloader({
                     url: url,
                     process: process,
                     filename: filename,
@@ -90,7 +90,7 @@
                 succeeded,
                 failed,
                 tryed,
-                downloadFile,
+                onDownloadFileClick,
             };
         } //setup()
     });

@@ -101,5 +101,5 @@
 export const reFileItem = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"([^"]*?)"[^}]*},{0,1}/g;
 
 // 02.19.21: axios.get('/course/3787/lessons') -> //course/(\d{3,10}?)/lessons'/g -> /axios\.get\('\/course\/3787\/lessons'\)/g -> /\/course\/\d{3,10}?\/lessons/g
-// It cannot be global:
+// It cannot be global (or reset lastIndex):
 //export const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/g;

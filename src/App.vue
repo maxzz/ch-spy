@@ -8,6 +8,8 @@
             </a>
         </div>
 
+        <button class="btn" @click="onDownloadFilesClcik">Download</button>
+
         <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
             <!-- Row 1 -->
             <div class="flex">
@@ -80,6 +82,7 @@
     import GeneratedList from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
     import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems } from './core/engine';
+    import jsDownloader from 'js-file-downloader';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -173,6 +176,23 @@
                 }
             };
 
+            function onDownloadFilesClcik() {
+                const obj = 'my file';
+                const blob = new Blob([obj], {type : 'application/json'});
+                const url = URL.createObjectURL(blob);
+                new jsDownloader({
+                    url: url,
+                    filename: 'test.cmd5',
+                })
+                .then(function done() {
+                    console.log('done');
+                })
+                .catch(function err(error) {
+                    console.log('error', error);
+                })
+            }
+
+
             watch(() => sourceInput.value, () => {
                 errorMsg.value = '';
 
@@ -220,6 +240,7 @@
                 onClearStorageClick,
                 onClearHTMLClick,
                 onClearErrorMsg,
+                onDownloadFilesClcik,
             }
         } //setup()
     });
