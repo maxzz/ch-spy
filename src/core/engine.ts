@@ -1,8 +1,7 @@
-//import Cheerio from 'cheerio';
-import Cheerio from '../cheerio/cheerio';
-//import path from 'path';
-import path from 'path-browserify';
+import Cheerio from '../cheerio/cheerio'; //import Cheerio from 'cheerio';
+import path from 'path-browserify'; //import path from 'path';
 import { reFileItem } from './content-match-regexes';
+import jsDownloader from 'js-file-downloader';
 
 let heroTitle = 'Video course';
 
@@ -135,8 +134,22 @@ export function parsePlayerItems(items: string) {
     } catch (error) {
         return { error };
     }
-};
+}
 
+export async function downloadFile(blob: Blob, filename: string) {
+    const url = URL.createObjectURL(blob);
+    try {
+        await new jsDownloader({ url, filename });
+    } catch (error) {
+        console.log('error', error);
+        return { error };
+    } finally {
+        console.log('clean');
+        URL.revokeObjectURL(url);
+    }
+    console.log('done');
+    return { success: true };
+}
 
 function generateHtml(templateHtml: string, items: Item[]) {
     let $ = Cheerio.load(templateHtml);

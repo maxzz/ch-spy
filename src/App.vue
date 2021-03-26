@@ -81,8 +81,7 @@
     import { defineComponent, onMounted, ref, computed, watch, reactive, toRefs } from 'vue';
     import GeneratedList from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
-    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems } from './core/engine';
-    import jsDownloader from 'js-file-downloader';
+    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile } from './core/engine';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -176,24 +175,11 @@
                 }
             };
 
-            function onDownloadFilesClcik() {
-                const obj = 'my file';
-                const blob = new Blob([obj], {type : 'application/json'});
-                const url = URL.createObjectURL(blob);
-                new jsDownloader({
-                    url: url,
-                    filename: 'rename.cmd.txt',
-                })
-                .then(function done() {
-                    console.log('done');
-                })
-                .catch(function err(error) {
-                    console.log('error', error);
-                })
-                .finally(() => {
-                    console.log('clean');
-                    URL.revokeObjectURL(url);
-                });
+            async function onDownloadFilesClcik() {
+                let obj = 'my file';
+                let data = 'spage source file';
+                await downloadFile(new Blob([obj], {type : 'application/json'}), 'rename.cmd.txt');
+                await downloadFile(new Blob([data], {type : 'application/json'}), 'page-sourse.txt');
             }
 
             watch(() => sourceInput.value, () => {
