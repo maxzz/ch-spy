@@ -11,10 +11,10 @@
         <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
             <!-- Row 1 -->
             <div class="flex">
-                <!-- <div class=""> -->
-                    <input class="flex-1 input border border-gray-500 border-r-0" v-model="sourceInput" placeholder="URL from coursehunter.net">
-                    <button class="btn border-l-0" @click="onFetchDataClick">{{fetchBtnName}}</button>
-                <!-- </div> -->
+                <div class="flex flex-1">
+                    <input class="flex-1 input border border-r-0 border-gray-600 outline-none" v-model="sourceInput" placeholder="URL from coursehunter.net" spellcheck="false">
+                    <button class="btn -ml-4 border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border" @click="onFetchDataClick">{{fetchBtnName}}</button>
+                </div>
                 <button class="btn ml-2" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
                 <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
             </div>
