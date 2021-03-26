@@ -1,39 +1,46 @@
 <template>
     <div class="bg-[#201c2b] min-h-screen">
-        <div class="pl-2 py-4 bg-[#201c2b] font-bold text-2xl">
+        <!-- Row Logo -->
+        <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b]">
             <a href="https://coursehunter.net/course" target="blank">
                 <span class="text-gray-100">course</span>
                 <span class="text-[#944fff]">hunter</span>
             </a>
         </div>
 
-        <div class="px-2 pt-4 bg-gray-300 max-w-3xl mx-auto h-full">
+        <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
+            <!-- Row 1 -->
             <div class="flex">
-                <input class="flex-1 input" v-model="sourceInput" placeholder="URL from coursehunter.net">
-                <button class="btn" @click="onFetchDataClick">{{fetchBtnName}}</button>
-                <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
+                <!-- <div class=""> -->
+                    <input class="flex-1 input border border-gray-500 border-r-0" v-model="sourceInput" placeholder="URL from coursehunter.net">
+                    <button class="btn border-l-0" @click="onFetchDataClick">{{fetchBtnName}}</button>
+                <!-- </div> -->
+                <button class="btn ml-2" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
                 <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
             </div>
+
+            <!-- Row 2 -->
             <div v-if="playerItemsUrl !== ''">
+                <!-- Get player items URL -->
                 <div class="flex text-sm mt-4 mb-1">
                     <a class="btn mr-1" :href="playerItemsUrl" target="_blank">
                         Get items from:
                     </a>
                     <input class="flex-1 px-2" readonly tabIndex="-1" v-model="playerItemsUrl">
                 </div>
+                <!-- Parse player items -->
                 <div class="flex">
-                    <input
-                        class="flex-1 input"
-                        v-model="playerItemsJson" placeholder="Paste items from URL above">
-                    <button
-                        class="btn"
-                        v-if="playerItemsJson" @click="onWebpageItemsParseClick"
-                    >
+                    <input class="flex-1 input" v-model="playerItemsJson" placeholder="Paste items from URL above">
+                    <button class="btn" v-if="playerItemsJson" @click="onWebpageItemsParseClick">
                         Parse
                     </button>
                 </div>
             </div>
+
+            <!-- Row 3 -->
             <GeneratedList :items="parsed.items" :title="parsed.title" :desc="parsed.desc"/>
+
+            <!-- Row 4 -->
             <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
             <!-- <ErrorMessage :value="errorMsg" @input="onClearErrorMsg($event)" /> -->
             <!-- <ErrorMessage v-model="errorMsg" /> -->
@@ -74,7 +81,7 @@
 
             const storedToLocalStorage = ref(false);
 
-            function applyNewHtml(html: string): void {
+            function parseAndApplyNewHtml(html: string): void {
                 source.parsed = parseHtmlToItems(html);
 
                 if (source.parsed.items.length) {
@@ -118,7 +125,7 @@
                             storedToLocalStorage.value = true;
                         }
 
-                        applyNewHtml(html);
+                        parseAndApplyNewHtml(html);
                     } else {
                         errorMsg.value = `Type coursehuter.net course URL or paste html content from coursehuter.net`;
                     }
@@ -129,9 +136,10 @@
 
             const onWebpageItemsParseClick = () => {
                 let res = parsePlayerItems(playerItemsJson.value);
-                console.log(res)
+                //console.log(res);
                 if (res.error) {
-                    errorMsg.value = `Error: ${res.error}`;
+                    errorMsg.value = `${res.error}`;
+                    source.parsed.items = [];
                 } else {
                     source.parsed.items = res.items;
                 }
@@ -160,7 +168,7 @@
                     if (html) {
                         sourceInput.value = html;
                         storedToLocalStorage.value = true;
-                        applyNewHtml(html);
+                        parseAndApplyNewHtml(html);
                     }
                 };
 
@@ -169,7 +177,6 @@
 
             return {
                 sourceInput,
-                isSourceInputUrl,
 
                 playerItemsUrl,
                 playerItemsJson,

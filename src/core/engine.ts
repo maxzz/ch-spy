@@ -31,6 +31,8 @@ export interface ParseResult {
 export function parseHtmlToItems(html: string): ParseResult {
     let $ = Cheerio.load(html);
 
+    //<meta property="og:image" content="https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg">
+
     const title = $('.hero-title').text();
     const desc = $('.hero-description').text();
     const source = $('.hero-source').text();
@@ -116,7 +118,6 @@ export function parsePlayerItems(items: string) {
     let re = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
     try {
         let json: PlayerItem[] = JSON.parse(items);
-        //console.log({json});
         let res = json.map((item: PlayerItem) => {
             let m = re.exec(item.title);
             let title = m ? m[1] : item.title;
@@ -131,7 +132,7 @@ export function parsePlayerItems(items: string) {
         });
         return { items: res };
     } catch (error) {
-        return { error: `Error: ${error}` };
+        return { error };
     }
 };
 
