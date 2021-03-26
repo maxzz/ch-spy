@@ -11,24 +11,21 @@
         <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
             <!-- Row 1 -->
             <div class="flex">
-                <div class="flex flex-1">
+                <div class="flex flex-1 overflow-hidden">
                     <input 
-                        class="flex-1 input border border-r-0 border-gray-600 outline-none" 
+                        class="flex-1 input border border-gray-600 outline-none" 
+                        :class="[sourceInput ? 'border-r-0' : 'border']"
                         v-model="sourceInput" 
                         placeholder="URL from coursehunter.net"
                         spellcheck="false"
+                        @keypress.enter="sourceInput && onFetchDataClick()"
                     >
-                    <!-- min-w-[4rem] 
-                        class="btn -ml-4 w-0 border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border"
-                    -->
                     <button 
                         class="
                             btn
-                            overflow-hidden 
+                            transition-transform duration-500
                             border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border"
-                        :class="[
-                            sourceInput ? '-ml-4' :'px-0 w-0'
-                        ]"
+                        :class="[sourceInput ? '-ml-4' : 'px-0 w-0 border-none transform -translate-x-6']"
                         @click="onFetchDataClick"
                     >
                         {{fetchBtnName}}
