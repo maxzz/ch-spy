@@ -12,8 +12,25 @@
             <!-- Row 1 -->
             <div class="flex">
                 <div class="flex flex-1">
-                    <input class="flex-1 input border border-r-0 border-gray-600 outline-none" v-model="sourceInput" placeholder="URL from coursehunter.net" spellcheck="false">
-                    <button class="btn -ml-4 min-w-[4rem] border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border" @click="onFetchDataClick">
+                    <input 
+                        class="flex-1 input border border-r-0 border-gray-600 outline-none" 
+                        v-model="sourceInput" 
+                        placeholder="URL from coursehunter.net"
+                        spellcheck="false"
+                    >
+                    <!-- min-w-[4rem] 
+                        class="btn -ml-4 w-0 border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border"
+                    -->
+                    <button 
+                        class="
+                            btn
+                            overflow-hidden 
+                            border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border"
+                        :class="[
+                            sourceInput ? '-ml-4' :'px-0 w-0'
+                        ]"
+                        @click="onFetchDataClick"
+                    >
                         {{fetchBtnName}}
                     </button>
                 </div>
