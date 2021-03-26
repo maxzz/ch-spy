@@ -180,7 +180,7 @@
 
             async function onSavePersistentFileClick(payload: EventSaveFiles) {
                 await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
-                await downloadFile(new Blob([payload.itemsList], {type : 'application/txt'}), 'page-sourse.txt');
+                await downloadFile(new Blob([payload.itemsList], {type : 'text/plain'}), 'page-sourse.txt');
             }
 
             watch(() => sourceInput.value, () => {

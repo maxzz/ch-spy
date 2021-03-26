@@ -51,8 +51,7 @@
 <script lang="ts">
     import { defineComponent, computed, PropType } from "vue";
     import path from 'path-browserify'; //import path from 'path';
-    import { pad2, Item } from '../core/engine';
-    import downloadjs from 'downloadjs';
+    import { Item } from '../core/engine';
     import DownloadButton from './DownloadButton.vue';
     import CookieSetter from './CookieSetter.vue';
 
@@ -107,7 +106,6 @@
             };
 
             const onClickDownloadReadmeFile = () => {
-                //downloadjs(allTogetherBatchFile.value, 'rename.cmd', 'text/plain');
                 emit('save-files', {rename: allTogetherBatchFile.value, itemsList: allTogetherTextFile.value} as EventSaveFiles);
             };
 
