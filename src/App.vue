@@ -18,7 +18,7 @@
                         v-model="sourceInput" 
                         placeholder="URL from coursehunter.net"
                         spellcheck="false"
-                        @keypress.enter="sourceInput && onFetchDataClick()"
+                        @keypress.enter="sourceInput && onParseOrFetchHtmlClick()"
                     >
                     <button 
                         class="
@@ -26,7 +26,7 @@
                             transition-transform duration-500
                             border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border"
                         :class="[sourceInput ? '-ml-4' : 'px-0 w-0 border-none transform -translate-x-6']"
-                        @click="onFetchDataClick"
+                        @click="onParseOrFetchHtmlClick"
                     >
                         {{fetchBtnName}}
                     </button>
@@ -47,7 +47,7 @@
                 <!-- Parse player items -->
                 <div class="flex">
                     <input class="flex-1 input" v-model="playerItemsJson" placeholder="Paste items from URL above">
-                    <button class="btn" v-if="playerItemsJson" @click="onWebpageItemsParseClick">
+                    <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
                         Parse
                     </button>
                 </div>
@@ -122,7 +122,7 @@
                 localStorage.removeItem(SAVED_HTML);
             }
 
-            const onFetchDataClick = async () => {
+            const onParseOrFetchHtmlClick = async () => {
                 try {
                     let s = sourceInput.value;
                     if (s) {
@@ -150,7 +150,7 @@
                 }
             };
 
-            const onWebpageItemsParseClick = () => {
+            const onParsePlayerItemsClick = () => {
                 let res = parsePlayerItems(playerItemsJson.value);
                 //console.log(res);
                 if (res.error) {
@@ -203,8 +203,8 @@
                 errorMsg,
 
                 fetchBtnName,
-                onFetchDataClick,
-                onWebpageItemsParseClick,
+                onParseOrFetchHtmlClick,
+                onParsePlayerItemsClick,
                 onClearStorageClick,
                 onClearHTMLClick,
                 onClearErrorMsg,
