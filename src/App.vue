@@ -13,7 +13,9 @@
             <div class="flex">
                 <div class="flex flex-1">
                     <input class="flex-1 input border border-r-0 border-gray-600 outline-none" v-model="sourceInput" placeholder="URL from coursehunter.net" spellcheck="false">
-                    <button class="btn -ml-4 border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border" @click="onFetchDataClick">{{fetchBtnName}}</button>
+                    <button class="btn -ml-4 min-w-[4rem] border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border" @click="onFetchDataClick">
+                        {{fetchBtnName}}
+                    </button>
                 </div>
                 <button class="btn ml-2" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
                 <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
@@ -76,7 +78,7 @@
             const playerItemsJson = ref('');
 
             const isSourceInputUrl = computed(() => !!sourceInput.value.match(/^https?:\/\//));
-            const fetchBtnName = computed(() => !sourceInput.value ? 'Type' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
+            const fetchBtnName = computed(() => !sourceInput.value ? '' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
 
             const storedToLocalStorage = ref(false);
