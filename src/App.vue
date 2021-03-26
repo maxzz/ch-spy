@@ -8,7 +8,7 @@
             </a>
         </div>
 
-        <button class="btn" @click="onDownloadFilesClcik">Download</button>
+        <!-- <button class="btn" @click="onDownloadFilesClcik">Download</button> -->
 
         <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
             <!-- Row 1 -->
@@ -64,7 +64,7 @@
             </div>
 
             <!-- Row 3 -->
-            <GeneratedList :items="parsed.items" :title="parsed.title" :desc="parsed.desc"/>
+            <GeneratedList :items="parsed.items" :title="parsed.title" :desc="parsed.desc" @save-files="onSavePersistentFileClick"/>
 
             <!-- Row 4 -->
             <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
@@ -79,7 +79,7 @@
 
 <script lang="ts">
     import { defineComponent, onMounted, ref, computed, watch, reactive, toRefs } from 'vue';
-    import GeneratedList from './components/GeneratedList.vue';
+    import GeneratedList, { EventSaveFiles } from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
     import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile } from './core/engine';
 
@@ -175,11 +175,12 @@
                 }
             };
 
-            async function onDownloadFilesClcik() {
-                let obj = 'my file';
-                let data = 'spage source file';
-                await downloadFile(new Blob([obj], {type : 'application/json'}), 'rename.cmd.txt');
-                await downloadFile(new Blob([data], {type : 'application/json'}), 'page-sourse.txt');
+            // async function onDownloadFilesClcik() {
+            // }
+
+            async function onSavePersistentFileClick(payload: EventSaveFiles) {
+                await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
+                await downloadFile(new Blob([payload.itemsList], {type : 'application/txt'}), 'page-sourse.txt');
             }
 
             watch(() => sourceInput.value, () => {
@@ -229,7 +230,8 @@
                 onClearStorageClick,
                 onClearHTMLClick,
                 onClearErrorMsg,
-                onDownloadFilesClcik,
+                // onDownloadFilesClcik,
+                onSavePersistentFileClick,
             }
         } //setup()
     });

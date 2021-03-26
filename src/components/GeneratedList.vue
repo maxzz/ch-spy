@@ -71,6 +71,11 @@
         return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegals: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
     }
 
+    export type EventSaveFiles = {
+        rename: string;
+        itemsList: string;
+    }
+
     export default defineComponent({
         props: {
             items: Array as PropType<Item[]>,
@@ -78,7 +83,8 @@
             desc: String
         },
         components: { DownloadButton, CookieSetter },
-        setup(props) {
+        emits: ['save-files'],
+        setup(props, { emit }) {
             const allTogetherTextFile = computed(() => {
                 return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name, props.items.length)}\n`, '');
             });
@@ -101,7 +107,8 @@
             };
 
             const onClickDownloadReadmeFile = () => {
-                downloadjs(allTogetherBatchFile.value, 'rename.cmd', 'text/plain');
+                //downloadjs(allTogetherBatchFile.value, 'rename.cmd', 'text/plain');
+                emit('save-files', {rename: allTogetherBatchFile.value, itemsList: allTogetherTextFile.value} as EventSaveFiles);
             };
 
             return {
