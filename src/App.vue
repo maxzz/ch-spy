@@ -2,7 +2,7 @@
     <div class="bg-[#201c2b] min-h-screen">
         <!-- Row Logo -->
         <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b]">
-            <a href="https://coursehunter.net/course" target="blank">
+            <a href="https://coursehunter.net/course" target="_blank">
                 <span class="text-gray-100">course</span>
                 <span class="text-[#944fff]">hunter</span>
             </a>
@@ -42,14 +42,19 @@
             <div v-if="playerItemsUrl !== ''">
                 <!-- Get player items URL -->
                 <div class="flex text-sm mt-4 mb-1">
-                    <a class="btn mr-1" :href="playerItemsUrl" target="_blank">
+                    <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
                         Get items from:
                     </a>
-                    <input class="flex-1 px-2" readonly tabIndex="-1" v-model="playerItemsUrl">
+                    <a class="flex text-xs items-center underline" :href="playerItemsUrl" target="_blank">
+                        {{playerItemsUrl}}
+                    </a>
+                    <!-- <a :href="playerItemsUrl" target="_blank">
+                        <input class="flex-1 px-2 text-xs bg-gray-300 underline" readonly tabIndex="-1" v-model="playerItemsUrl">
+                    </a> -->
                 </div>
                 <!-- Parse player items -->
                 <div class="flex">
-                    <input class="flex-1 input" v-model="playerItemsJson" placeholder="Paste items from URL above">
+                    <input class="flex-1 input" v-model="playerItemsJson" placeholder="Copy and paste items from url above">
                     <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
                         Parse
                     </button>
