@@ -1,11 +1,14 @@
 <template>
     <div class="bg-[#201c2b] min-h-screen">
         <!-- Row Logo -->
-        <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b]">
-            <a href="https://coursehunter.net/course" target="_blank">
-                <span class="text-gray-100">course</span>
-                <span class="text-[#944fff]">hunter</span>
-            </a>
+        <div class="flex justify-between items-center">
+            <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b]">
+                <a href="https://coursehunter.net/course" target="_blank">
+                    <span class="text-gray-100">course</span>
+                    <span class="text-[#944fff]">hunter</span>
+                </a>
+            </div>
+            <span><img class="max-h-14 mr-2" :src="parsed.preview" alt="course logo"></span>
         </div>
 
         <!-- <button class="btn" @click="onDownloadFilesClcik">Download</button> -->
@@ -88,7 +91,7 @@
     import { defineComponent, onMounted, ref, computed, watch, reactive, toRefs } from 'vue';
     import GeneratedList, { EventSaveFiles } from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
-    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent } from './core/engine';
+    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent, ParseResult } from './core/engine';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -99,7 +102,7 @@
         setup() {
             const sourceInput = ref('');
 
-            const source = reactive({
+            const source = reactive<{parsed: ParseResult}>({
                 parsed: {
                     items: [],
                     title: '', 
