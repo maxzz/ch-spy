@@ -67,7 +67,11 @@
     }
 
     function validateFname(name: string): string {
-        return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegals: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
+        let s = (name || '').trim();
+        s = s.replace(/&#039;/g, "'");
+        s = s.replace(/"/g, "'");
+        s = s.replace(/[\\\/:\*\?\"\<\>\|]/g, ';'); // Windows illegals: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
+        return s;
     }
 
     export type EventSaveFiles = {

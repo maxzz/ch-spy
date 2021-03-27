@@ -115,9 +115,9 @@ export function getPlayerItemsUrl(html: string): string {
     return m ? `https://coursehunter.net${m[0]}` : '';
 }
 
-export interface PlayerItem {   // items for build-in video player on the webpage
+interface PlayerItem {          // items for build-in video player on the webpage
     id: string;                 // id: "c37871"
-    file: string;               // file: "https://vss5.coursehunter.net/s/8f91140b938014446b02c00615768193/udemy-vueinfluencer/lesson1.mp4"
+    file: string;               // remote file: "https://vss5.coursehunter.net/s/8f91140b938014446b02c00615768193/udemy-vueinfluencer/lesson1.mp4"
     subtitle: string;           // subtitle: "[English]https://vss5.coursehunter.net/udemy-vueinfluencer/lesson1.srt"
     title: string;              // title: "1 Introduction | 00:03:45"
 }
