@@ -15,7 +15,7 @@ export function pad2(n: number): string {
 export interface Item {
     titleOld: string;    // not really used ( it was $('.lessons-title', el).text(), but not used )
     duration: string;    // video duration
-    name: string;        // display name
+    dispname: string;    // display name
     url: string;         // video URL
     //srt?: string;      // closed captions; was not used
     subtitle?: boolean;  // if true the srt file has the same name
@@ -53,7 +53,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         items.push({
             titleOld: $('.lessons-title', el).text(),
             duration: $('.lessons-duration', el).text(),
-            name: $('.lessons-name', el).text(),
+            dispname: $('.lessons-name', el).text(),
             url: mediaUrl,
         });
     });
@@ -61,14 +61,14 @@ export function parseHtmlToItems(html: string): ParseResult {
     function handleScriptWithPlayerItems(scriptText: string): Item[] | undefined {
         let matches = [...scriptText.matchAll(reFileItem)];
         if (matches.length) {
-            let items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  titleOld: '??', url: m[2]}));
+            let items = matches.map((m: RegExpMatchArray) => ({dispname: m[1], duration: '',  titleOld: '??', url: m[2]}));
             items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // Remove two commentes items.
             items.forEach((_: Item) => {
                 // Correct name for each item
                 const reTitleDuration = /^\d*\) #{0,1}([\.\d]+){0,1}\s*(.*) \| (.*)/;
-                let match = _.name.match(reTitleDuration); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15" or "1) 1.1. AE Basics | 00:31:36"
+                let match = _.dispname.match(reTitleDuration); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15" or "1) 1.1. AE Basics | 00:31:36"
                 if (match) {
-                    _.name = match[2];
+                    _.dispname = match[2];
                     _.duration = match[3];
 
                     if (match[1]) { // '1.1.' -> '01.1'
@@ -78,7 +78,7 @@ export function parseHtmlToItems(html: string): ParseResult {
                             parts[0] = pad2(+parts[0]);
                             prefix = parts.join('.');
                         }
-                        _.name = `${prefix} - ${_.name}`;
+                        _.dispname = `${prefix} - ${_.dispname}`;
                     }
                 }
             });
@@ -136,7 +136,7 @@ export function parsePlayerItems(items: string) {
                 titleOld: title,
                 duration: duration,
                 url: item.file,
-                name: title,
+                dispname: title,
             };
             return newItem;
         });
@@ -191,7 +191,7 @@ function generateHtml(templateHtml: string, items: Item[]) {
         newText += 
         `
         <li>
-            <input type="text" value="${itemName(index, item.name)}" />
+            <input type="text" value="${itemName(index, item.dispname)}" />
             <a href="${item.url}" tabindex="-1" target="blank" download="${item.url}" title="video ${index + 1}">
                 <span>${item.duration}</span> mp4
             </a>
@@ -203,7 +203,7 @@ function generateHtml(templateHtml: string, items: Item[]) {
     ul.append(newText);
 
     // All together
-    let textAll = items.reduce((acc, item, index) => acc += `${itemName(index, item.name)}\n`, '');
+    let textAll = items.reduce((acc, item, index) => acc += `${itemName(index, item.dispname)}\n`, '');
     let summary = $('.all-together');
     summary.text(textAll);
     summary.attr({rows: items.length + 1});
@@ -212,7 +212,7 @@ function generateHtml(templateHtml: string, items: Item[]) {
     let textBatch = items.reduce((acc, item, index) => {
         let orgFname = path.basename(item.url);
         let orgExt = path.extname(orgFname);
-        let newFname = validateFname(itemName(index, item.name));
+        let newFname = validateFname(itemName(index, item.dispname));
         return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
     }, 'chcp 1251\n');
     summary = $('.all-rename');

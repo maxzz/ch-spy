@@ -89,14 +89,14 @@
         emits: ['save-files'],
         setup(props, { emit }) {
             const allTogetherTextFile = computed(() => {
-                return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.name, props.items.length)}\n`, '');
+                return props.items.reduce((acc, item, index) => acc += `${itemInputName(index, item.dispname, props.items.length)}\n`, '');
             });
 
             const allTogetherBatchFile = computed(() => {
                 return props.items.reduce((acc, item, index) => {
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
-                    let newFname = validateFname(itemInputName(index, item.name, props.items.length));
+                    let newFname = validateFname(itemInputName(index, item.dispname, props.items.length));
                     return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
                 }, 'chcp 1251\n');
             });
@@ -106,7 +106,7 @@
             };
 
             const itemName = (index: number | string, item: Item, items: Item[]): string => {
-                return itemInputName(+index, item.name, items.length);
+                return itemInputName(+index, item.dispname, items.length);
             };
 
             const onClickDownloadReadmeFile = () => {
