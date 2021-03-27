@@ -1,4 +1,4 @@
-import Cheerio from '../cheerio/cheerio'; //import Cheerio from 'cheerio';
+import cheerio from '../cheerio/cheerio'; //import Cheerio from 'cheerio';
 import path from 'path-browserify'; //import path from 'path';
 import { reFileItem } from './content-match-regexes';
 import jsDownloader from 'js-file-downloader';
@@ -25,7 +25,7 @@ export interface ParseResult {
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
-    let $ = Cheerio.load(html);
+    let $ = cheerio.load(html);
 
     //<meta property="og:image" content="https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg">
 
@@ -84,9 +84,11 @@ export function parseHtmlToItems(html: string): ParseResult {
     if (!items.length) {
         let scripts = $('script');
         for (let script of scripts.toArray()) {
+            let scr: cheerio.TagElement;
             if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
                 let scriptText = (script as any/*cheerio.TagElement*/).children[0].data as string; // Note: script wo/ children[0].data is scr=URL.
                 if (scriptText) {
+                    console.log({scriptText});
                     items = handleScriptWithPlayerItems(scriptText);
                     if (items) {
                         break;
@@ -95,6 +97,22 @@ export function parseHtmlToItems(html: string): ParseResult {
             }
         }
     }
+
+    // if (!items.length) {
+    //     let scripts = $('script');
+    //     for (let script of scripts.toArray()) {
+    //         if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
+    //             let scriptText = (script as any/*cheerio.TagElement*/).children[0].data as string; // Note: script wo/ children[0].data is scr=URL.
+    //             if (scriptText) {
+    //                 console.log({scriptText});
+    //                 items = handleScriptWithPlayerItems(scriptText);
+    //                 if (items) {
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     return {
         items: items || [],
@@ -168,7 +186,7 @@ ${(allSource || '').trim()}
 }
 
 function generateHtml(templateHtml: string, items: Item[]) {
-    let $ = Cheerio.load(templateHtml);
+    let $ = cheerio.load(templateHtml);
 
     // Title
     let heroTitle = 'Video course';
