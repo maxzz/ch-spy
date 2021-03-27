@@ -13,18 +13,19 @@ export function pad2(n: number): string {
 }
 
 export interface Item {
-    title: string;      // not really used ( it was $('.lessons-title', el).text(), but not used )
-    duration: string;   // video duration
-    name: string;       // display name
-    url: string;        // video URL
-    srt?: string;       // close captions
+    title: string;       // not really used ( it was $('.lessons-title', el).text(), but not used )
+    duration: string;    // video duration
+    name: string;        // display name
+    url: string;         // video URL
+    srt?: string;        // closed captions
+    subtitle?: boolean;  // if true the srt file has the same name
 }
 
 export interface ParseResult {
-    items: Item[];      // Items on the page
-    title: string;      // Title in Russian
-    desc: string;       // Description in English
-    source: string;     // Page URL
+    items: Item[];       // Items on the page
+    title: string;       // Title in Russian
+    desc: string;        // Description in English
+    source: string;      // Page URL
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
@@ -61,9 +62,11 @@ export function parseHtmlToItems(html: string): ParseResult {
         let matches = [...scriptText.matchAll(reFileItem)];
         if (matches.length) {
             let items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  title: '??', url: m[2]}));
-            items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // remove two commentes items.
+            items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // Remove two commentes items.
             items.forEach((_: Item) => {
-                let match = _.name.match(/^\d*\) #{0,1}([\.\d]+){0,1}\s*(.*) \| (.*)/); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15" or "1) 1.1. AE Basics | 00:31:36"
+                // Correct name for each item
+                const reTitleDuration = /^\d*\) #{0,1}([\.\d]+){0,1}\s*(.*) \| (.*)/;
+                let match = _.name.match(reTitleDuration); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15" or "1) 1.1. AE Basics | 00:31:36"
                 if (match) {
                     _.name = match[2];
                     _.duration = match[3];
@@ -90,7 +93,9 @@ export function parseHtmlToItems(html: string): ParseResult {
                 let scriptText = (script as any/*cheerio.TagElement*/).children[0].data as string; // Note: script wo/ children[0].data is scr=URL.
                 if (scriptText) {
                     items = handleScriptWithPlayerItems(scriptText);
-                    break;
+                    if (items) {
+                        break;
+                    }
                 }
             }
         }
@@ -118,13 +123,15 @@ export interface PlayerItem {   // items for build-in video player on the webpag
 }
 
 export function parsePlayerItems(items: string) {
-    let re = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
+    let titleDuration = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
     try {
         let json: PlayerItem[] = JSON.parse(items);
         let res = json.map((item: PlayerItem) => {
-            let m = re.exec(item.title);
+            // Strip title duration
+            let m = titleDuration.exec(item.title);
             let title = m ? m[1] : item.title;
             let duration = m ? m[2] : '';
+            // Make new item
             let newItem: Item = {
                 title: title,
                 duration: duration,

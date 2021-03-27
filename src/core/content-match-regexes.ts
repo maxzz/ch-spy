@@ -103,3 +103,34 @@ export const reFileItem = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"([^"]*?)"
 // 02.19.21: axios.get('/course/3787/lessons') -> //course/(\d{3,10}?)/lessons'/g -> /axios\.get\('\/course\/3787\/lessons'\)/g -> /\/course\/\d{3,10}?\/lessons/g
 // It cannot be global (or reset lastIndex):
 //export const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/g;
+
+// Lesson items for player 03.26.21
+/*
+[
+  {
+    "title": "1 О данном видео курсе | 00:09:28",        // In reply it is: "title": "1 \u041e \u0434\u0430\u043d\u043d\u043e\u043c \u0432\u0438\u0434\u0435\u043e \u043a\u0443\u0440\u0441\u0435 | 00:09:28",
+    "file": "https://vss3.coursehunter.net/s/8f911b8f9fc0036506c18081141576c1/wfms-nodecc26/lesson1.mp4",
+    "subtitle": "[English]",
+    "id": "c18781"
+  },
+  {
+    "title": "2 Что такое Node.js | 00:06:05",
+    "file": "https://vss3.coursehunter.net/s/8f819f038fc09180761b3e066514153e/wfms-nodecc26/lesson2.mp4",
+    "subtitle": "[English]",
+    "id": "c18782"
+  },
+  {
+    "title": "3 Как установить Node.js | 00:04:50",
+    "file": "https://vss3.coursehunter.net/s/8f817665e0c0911403151b9f06808fe0/wfms-nodecc26/lesson3.mp4",
+    "subtitle": "[English]",
+    "id": "c18783"
+  },
+  ...
+  {
+    "title": "101 Удаление задачи | 00:04:43",
+    "file": "https://vss3.coursehunter.net/s/8fc0651b819103768f9f061484158084/wfms-nodecc26/lesson101.mp4",
+    "subtitle": "[English]",
+    "id": "c1878101"
+  }
+]
+*/
