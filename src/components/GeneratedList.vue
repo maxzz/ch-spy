@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="flex justify-end absolute top-0 right-0">
+        <div class="flex justify-end absolute top-1 right-0">
             <button class="btn py-0 text-sm h-6" @click="onClickDownloadReadmeFile">
                 Download rename.cmd
             </button>
@@ -36,7 +36,9 @@
 
         <details><!-- <details open> -->
             <summary>Batch rename file</summary>
-            <button @click="onClickDownloadReadmeFile">Download rename.cmd</button>
+            <button @click="onClickDownloadReadmeFile">
+                Download rename.cmd
+            </button>
             <span class="rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
             <textarea class="all-rename" v-model="allTogetherBatchFile" readonly :rows="items.length + 2"></textarea>
         </details>
@@ -97,7 +99,8 @@
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
                     let newFname = validateFname(itemInputName(index, item.dispname, props.items.length));
-                    return acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
+                    acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
+                    return acc;
                 }, 'chcp 1251\n');
             });
 

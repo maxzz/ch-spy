@@ -42,6 +42,7 @@
 
             <!-- Row 2 -->
             <div v-if="playerItemsUrl !== ''">
+            <!-- <div v-if="playerItemsUrl !== '' && !parsed.items.length"> --> <!-- < - This is how it should be in production -->
                 <!-- Get player items URL -->
                 <div class="flex text-sm mt-4 mb-1">
                     <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
@@ -182,6 +183,7 @@
                 let persistent = generatePersistentFileContent(payload.itemsList, sourceInput.value);
                 await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
                 await downloadFile(new Blob([persistent], {type : 'text/plain'}), 'page-sourse.txt');
+                // TODO: show error; implement downloadFiles([])
             }
 
             watch(() => sourceInput.value, () => {

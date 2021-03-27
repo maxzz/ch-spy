@@ -128,9 +128,10 @@ export function parsePlayerItems(items: string) {
             let duration = m ? m[2] : '';
             // Make new item
             let newItem: Item = {
-                duration: duration,
-                url: item.file,
                 dispname: title,
+                duration: duration,
+                subtitle: !!item.subtitle?.length,
+                url: item.file,
             };
             return newItem;
         });
@@ -145,13 +146,13 @@ export async function downloadFile(blob: Blob, filename: string) {
     try {
         await new jsDownloader({ url, filename });
     } catch (error) {
-        console.log('error', error);
+        //console.log('error', error);
         return { error };
     } finally {
-        console.log('clean');
+        //console.log('clean');
         URL.revokeObjectURL(url);
     }
-    console.log('done');
+    //console.log('done');
     return { success: true };
 }
 
