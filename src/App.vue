@@ -3,12 +3,12 @@
         <!-- Row Logo -->
         <div class="flex justify-between items-center">
             <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b]">
-                <a href="https://coursehunter.net/course" target="_blank">
+                <a href="https://coursehunter.net" target="_blank">
                     <span class="text-gray-100">course</span>
                     <span class="text-[#944fff]">hunter</span>
                 </a>
             </div>
-            <span><img class="max-h-14 mr-2" :src="parsed.preview" alt="course logo"></span>
+            <span><a v-if="parsed.preview" :href="parsed.site" target="_blank"><img class="max-h-14 mr-2" :src="parsed.preview" alt="course logo"></a></span>
         </div>
 
         <!-- <button class="btn" @click="onDownloadFilesClcik">Download</button> -->

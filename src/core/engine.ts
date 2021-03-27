@@ -37,8 +37,6 @@ export function parseHtmlToItems(html: string): ParseResult {
     const preview = $('meta[property="og:image"]').attr('content');
     const site = $('meta[property="og:url"]').attr('content');
 
-    //console.log('aa', $('meta[property="og:url"]').attr('content'));
-
     let items: Item[] = [];
     
     $('.lessons-item').each((index, el) => {
