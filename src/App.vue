@@ -41,8 +41,11 @@
             </div>
 
             <!-- Row 2 -->
-            <div v-if="playerItemsUrl !== ''"> <!-- <div v-if="playerItemsUrl !== '' && !parsed.items.length"> --> <!-- < - This is how it should be in production -->
-                <div :class="[!parsed.items.length ? '' : 'transform scale-50' ]">
+            <div v-if="playerItemsUrl !== ''">
+                <div
+                    class="transition-transform duration-1000 animate-bounce2"
+                    :class="[!parsed.items.length ? '' : 'transform -translate-x-28 -translate-y-6 scale-50' ]"
+                >
                     <!-- Get player items URL -->
                     <div class="flex text-sm mt-4 mb-1">
                         <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
@@ -57,7 +60,12 @@
                     </div>
                     <!-- Parse player items -->
                     <div class="flex">
-                        <input class="flex-1 input" v-model="playerItemsJson" placeholder="Copy and paste items from url above">
+                        <input 
+                            class="flex-1 input" 
+                            v-model="playerItemsJson" 
+                            placeholder="Copy and paste items from url above"
+                            @keypress.enter="onParsePlayerItemsClick"
+                        >
                         <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
                             Parse
                         </button>
