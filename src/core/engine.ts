@@ -82,19 +82,18 @@ export function parseHtmlToItems(html: string): ParseResult {
     }
 
     if (!items.length) {
-        let scripts = $('script');
-        for (let script of scripts.toArray()) {
-            let scr: cheerio.TagElement;
-            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
-                let scriptText = (script as any/*cheerio.TagElement*/).children[0].data as string; // Note: script wo/ children[0].data is scr=URL.
+        let scripts = $('script').toArray() as unknown as cheerio.TagElement[];
+        for (let script of scripts) {
+                //console.log({script});
+                let scriptText = !script.attribs['src'] && script.children && script.children[0]?.data; // Note: script wo/ children[0].data is scr=URL.
                 if (scriptText) {
-                    console.log({scriptText});
+                    //console.log({scriptText});
                     items = handleScriptWithPlayerItems(scriptText);
                     if (items) {
                         break;
                     }
                 }
-            }
+
         }
     }
 
