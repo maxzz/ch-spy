@@ -13,11 +13,11 @@ export function pad2(n: number): string {
 }
 
 export interface Item {
-    title: string;       // not really used ( it was $('.lessons-title', el).text(), but not used )
+    titleOld: string;    // not really used ( it was $('.lessons-title', el).text(), but not used )
     duration: string;    // video duration
     name: string;        // display name
     url: string;         // video URL
-    srt?: string;        // closed captions
+    //srt?: string;      // closed captions; was not used
     subtitle?: boolean;  // if true the srt file has the same name
 }
 
@@ -51,7 +51,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         }
 
         items.push({
-            title: $('.lessons-title', el).text(),
+            titleOld: $('.lessons-title', el).text(),
             duration: $('.lessons-duration', el).text(),
             name: $('.lessons-name', el).text(),
             url: mediaUrl,
@@ -61,7 +61,7 @@ export function parseHtmlToItems(html: string): ParseResult {
     function handleScriptWithPlayerItems(scriptText: string): Item[] | undefined {
         let matches = [...scriptText.matchAll(reFileItem)];
         if (matches.length) {
-            let items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  title: '??', url: m[2]}));
+            let items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  titleOld: '??', url: m[2]}));
             items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // Remove two commentes items.
             items.forEach((_: Item) => {
                 // Correct name for each item
@@ -133,7 +133,7 @@ export function parsePlayerItems(items: string) {
             let duration = m ? m[2] : '';
             // Make new item
             let newItem: Item = {
-                title: title,
+                titleOld: title,
                 duration: duration,
                 url: item.file,
                 name: title,
