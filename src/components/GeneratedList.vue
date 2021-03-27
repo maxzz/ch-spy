@@ -95,13 +95,16 @@
             });
 
             const allTogetherBatchFile = computed(() => {
-                return props.items.reduce((acc, item, index) => {
+                //TODO: map first filenames and then create .mp4 and .srt
+                let s: string = props.items.reduce((acc, item, index) => {
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
                     let newFname = validateFname(itemInputName(index, item.dispname, props.items.length));
                     acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
+                    //TODO: if subtitle
                     return acc;
                 }, 'chcp 1251\n');
+                return s;
             });
 
             const itemIndex = (index: number | string): string => {

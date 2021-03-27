@@ -41,26 +41,27 @@
             </div>
 
             <!-- Row 2 -->
-            <div v-if="playerItemsUrl !== ''">
-            <!-- <div v-if="playerItemsUrl !== '' && !parsed.items.length"> --> <!-- < - This is how it should be in production -->
-                <!-- Get player items URL -->
-                <div class="flex text-sm mt-4 mb-1">
-                    <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
-                        Get items from:
-                    </a>
-                    <a class="flex text-xs items-center underline" :href="playerItemsUrl" target="_blank">
-                        {{playerItemsUrl}}
-                    </a>
-                    <!-- <a :href="playerItemsUrl" target="_blank">
-                        <input class="flex-1 px-2 text-xs bg-gray-300 underline" readonly tabIndex="-1" v-model="playerItemsUrl">
-                    </a> -->
-                </div>
-                <!-- Parse player items -->
-                <div class="flex">
-                    <input class="flex-1 input" v-model="playerItemsJson" placeholder="Copy and paste items from url above">
-                    <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
-                        Parse
-                    </button>
+            <div v-if="playerItemsUrl !== ''"> <!-- <div v-if="playerItemsUrl !== '' && !parsed.items.length"> --> <!-- < - This is how it should be in production -->
+                <div :class="[!parsed.items.length ? '' : 'transform scale-50' ]">
+                    <!-- Get player items URL -->
+                    <div class="flex text-sm mt-4 mb-1">
+                        <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
+                            Get items from:
+                        </a>
+                        <a class="flex text-xs items-center underline" :href="playerItemsUrl" target="_blank">
+                            {{playerItemsUrl}}
+                        </a>
+                        <!-- <a :href="playerItemsUrl" target="_blank">
+                            <input class="flex-1 px-2 text-xs bg-gray-300 underline" readonly tabIndex="-1" v-model="playerItemsUrl">
+                        </a> -->
+                    </div>
+                    <!-- Parse player items -->
+                    <div class="flex">
+                        <input class="flex-1 input" v-model="playerItemsJson" placeholder="Copy and paste items from url above">
+                        <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
+                            Parse
+                        </button>
+                    </div>
                 </div>
             </div>
 
