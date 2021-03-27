@@ -39,6 +39,9 @@ export function parseHtmlToItems(html: string): ParseResult {
 
     // console.log('source', $('.hero-source').children('a').attr('href')); // if not found: undefined
     // console.log('source text', `'${$('.hero-source').children('a').text()}'`); // if not found: empty string
+    console.log('script:', $('script[type="application/ld+json"]')); // if not found: empty string
+    console.log('script:', $('script[type="application/ld+json"]').get(0)); // if not found: empty string
+    console.log('script:', $('script[type="application/ld+json"]').toArray()); // if not found: empty string
 
     let items: Item[] = [];
     
@@ -124,6 +127,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         title,
         desc,
         producerUrl,
+        producerName,
         preview,
         site,
     };
