@@ -57,44 +57,47 @@ export function parseHtmlToItems(html: string): ParseResult {
         });
     });
 
+    function handleScriptWithPlayerItems(scriptText: string): Item[] | undefined {
+        let matches = [...scriptText.matchAll(reFileItem)];
+        if (matches.length) {
+            let items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  title: '??', url: m[2]}));
+            items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // remove two commentes items.
+            items.forEach((_: Item) => {
+                let match = _.name.match(/^\d*\) #{0,1}([\.\d]+){0,1}\s*(.*) \| (.*)/); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15" or "1) 1.1. AE Basics | 00:31:36"
+                if (match) {
+                    _.name = match[2];
+                    _.duration = match[3];
+
+                    if (match[1]) { // '1.1.' -> '01.1'
+                        let prefix = match[1];
+                        let parts = prefix.split('.').filter(Boolean);
+                        if (parts.length) {
+                            parts[0] = pad2(+parts[0]);
+                            prefix = parts.join('.');
+                        }
+                        _.name = `${prefix} - ${_.name}`;
+                    }
+                }
+            });
+            return items;
+        }
+    }
+
     if (!items.length) {
         let scripts = $('script');
-
         for (let script of scripts.toArray()) {
-            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes
-                let scriptText = (script as any/*cheerio.TagElement*/).children[0].data;
+            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
+                let scriptText = (script as any/*cheerio.TagElement*/).children[0].data as string; // Note: script wo/ children[0].data is scr=URL.
                 if (scriptText) {
-                    let matches = [...scriptText.matchAll(reFileItem)];
-                    if (matches.length) {
-                        items = matches.map((m: RegExpMatchArray) => ({name: m[1], duration: '',  title: '??', url: m[2]}));
-                        items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // remove two commentes items.
-                        items.forEach((_: Item) => {
-                            let match = _.name.match(/^\d*\) #{0,1}([\.\d]+){0,1}\s*(.*) \| (.*)/); // "1) #0 What&#039;s New In Framer Motion 2 | 00:04:15" or "1) 1.1. AE Basics | 00:31:36"
-                            if (match) {
-                                _.name = match[2];
-                                _.duration = match[3];
-
-                                if (match[1]) { // '1.1.' -> '01.1'
-                                    let prefix = match[1];
-                                    let parts = prefix.split('.').filter(Boolean);
-                                    if (parts.length) {
-                                        parts[0] = pad2(+parts[0]);
-                                        prefix = parts.join('.');
-                                    }
-                                    _.name = `${prefix} - ${_.name}`;
-                                }
-                            }
-                        });
-                    }
+                    items = handleScriptWithPlayerItems(scriptText);
+                    break;
                 }
             }
         }
-
-        //console.log('items', items);
     }
 
     return {
-        items,
+        items: items || [],
         title,
         desc,
         source,
