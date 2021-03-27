@@ -37,7 +37,7 @@
             });
         }
       }
-      
+
       function PlayerjsAsync() {
         myPlayer = new Playerjs({
           id: "player",
@@ -134,3 +134,96 @@ export const reFileItem = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"([^"]*?)"
   }
 ]
 */
+
+// 03.27.21 Description script
+/*
+[
+    {
+        "name": "Vue 3, Nuxt.js and Laravel: A Practical Guide",
+        "alternateName": "Vue 3, Nuxt.js и Laravel: Практическое Руководство",
+        "about": {
+            "name": "Frontend"
+        },
+        "creator": [
+            {
+                "@type": "Person",
+                "name": "udemy"
+            }
+        ],
+        "@type": "Course",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "bestRating": 5,
+            "ratingValue": "3.3",
+            "reviewCount": 3,
+            "worstRating": 0
+        },
+        "@id": "https://coursehunter.net/course/vue-3-nuxt-js-i-laravel-prakticheskoe-rukovodstvo",
+        "inLanguage": "en",
+        "image": "https://coursehunter.net/https://cdn.coursehunter.net/course/vue-3-nuxt-js-i-laravel-prakticheskoe-rukovodstvo.jpg",
+        "description": "Узнайте, как создать 3 разных приложения с Vue 3, Nuxt.js и Laravel. Первое приложение будет приложением админ панели, использующим Vue 3 Composition API. Второе будет приложением Инфлюенсер, использующим Vue 3 Options API. Третьим приложением будет Checkout с использованием Nuxt.js.",
+        "@context": "https://schema.org",
+        "datePublished": "2021-03-26",
+        "dateModified": "2021-03-27",
+        "provider": [
+            {
+                "@type": "Organization",
+                "name": "udemy",
+                "sameAs": "https://coursehunter.net/source/udemy"
+            }
+        ],
+        "isAccessibleForFree": false,
+        "publisher": {
+            "@type": "Organization",
+            "name": "CourseHunter",
+            "sameAs": "https://coursehunter.net"
+        }
+    }
+]
+*/
+namespace CourseInfo {
+    
+    export interface Description {
+        name: string;
+        alternateName: string;
+        datePublished: string;
+        dateModified: string;
+        creator: Creator[];
+        inLanguage: string;
+        image: string;
+        description: string;
+        provider: Provider[];
+        isAccessibleForFree: boolean;
+        '@id': string;
+        about: About;
+
+        aggregateRating: Rating;
+        publisher: Provider;
+        '@context': string;
+        '@type': string;
+    }
+
+    export interface Creator {
+        '@type': string;
+        name: string;
+    }
+
+    export interface Provider {
+        '@type': string;
+        name: string;
+        sameAs: string;
+    }
+
+    export interface About {
+        name: string;
+    }
+
+    export interface Rating {
+        '@type': string;
+        bestRating: number;
+        ratingValue: string;
+        reviewCount: number;
+        worstRating: number;
+    }
+
+} //namespace CourseInfo

@@ -37,11 +37,8 @@ export function parseHtmlToItems(html: string): ParseResult {
     const preview = $('meta[property="og:image"]').attr('content');
     const site = $('meta[property="og:url"]').attr('content');
 
-    // console.log('source', $('.hero-source').children('a').attr('href')); // if not found: undefined
-    // console.log('source text', `'${$('.hero-source').children('a').text()}'`); // if not found: empty string
-    console.log('script:', $('script[type="application/ld+json"]')); // if not found: empty string
-    console.log('script:', $('script[type="application/ld+json"]').get(0)); // if not found: empty string
-    console.log('script:', $('script[type="application/ld+json"]').toArray()); // if not found: empty string
+    let descriptionJson = getDescriptionJson(); // if not found: empty string
+    console.log('script:', JSON.stringify(descriptionJson, null, 4));
 
     let items: Item[] = [];
     
@@ -62,6 +59,18 @@ export function parseHtmlToItems(html: string): ParseResult {
             url: mediaUrl,
         });
     });
+
+    function getDescriptionJson() {
+        let descriptionScript = $('script[type="application/ld+json"]').get(0) as cheerio.TagElement;
+        let data = descriptionScript && descriptionScript.childNodes[0]?.data;
+        if (data) {
+            try {
+                return JSON.parse(data);
+            } catch (error) {
+                
+            }
+        }
+    }
 
     function handleScriptWithPlayerItems(scriptText: string): Item[] | undefined {
         let matches = [...scriptText.matchAll(reFileItem)];
