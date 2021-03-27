@@ -37,8 +37,11 @@ export function parseHtmlToItems(html: string): ParseResult {
     const preview = $('meta[property="og:image"]').attr('content');
     const site = $('meta[property="og:url"]').attr('content');
 
-    let descriptionJson = getDescriptionJson(); // if not found: empty string
-    console.log('script:', JSON.stringify(descriptionJson, null, 4));
+    let courseInfo = getDescriptionJson(); // if not found: empty string
+    let courseDuration = $($('.course-box-value').get(0)).text();
+
+    console.log('courseInfo:', JSON.stringify(courseInfo, null, 4));
+    console.log('courseDuration:', courseDuration); // '10:17:09'
 
     let items: Item[] = [];
     
