@@ -81,7 +81,7 @@
     import { defineComponent, onMounted, ref, computed, watch, reactive, toRefs } from 'vue';
     import GeneratedList, { EventSaveFiles } from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
-    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile } from './core/engine';
+    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent } from './core/engine';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -179,8 +179,9 @@
             // }
 
             async function onSavePersistentFileClick(payload: EventSaveFiles) {
+                let persistent = generatePersistentFileContent(payload.itemsList, sourceInput.value);
                 await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
-                await downloadFile(new Blob([payload.itemsList], {type : 'text/plain'}), 'page-sourse.txt');
+                await downloadFile(new Blob([persistent], {type : 'text/plain'}), 'page-sourse.txt');
             }
 
             watch(() => sourceInput.value, () => {

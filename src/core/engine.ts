@@ -151,6 +151,17 @@ export async function downloadFile(blob: Blob, filename: string) {
     return { success: true };
 }
 
+export function generatePersistentFileContent(allItems: string, allSource: string) {
+    let persistent = 
+`--------------------------------- 1 - player list ---------------------------------
+${(allItems || '').trim()}
+--------------------------------- 2 - source html ---------------------------------
+${(allSource || '').trim()}
+--------------------------------- 3 - end -----------------------------------------
+`;
+    return persistent;
+}
+
 function generateHtml(templateHtml: string, items: Item[]) {
     let $ = Cheerio.load(templateHtml);
 
