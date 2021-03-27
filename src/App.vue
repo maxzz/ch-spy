@@ -107,7 +107,7 @@
                     items: [],
                     title: '', 
                     desc: '',
-                    source: '',
+                    producerUrl: '',
                 }
             });
 

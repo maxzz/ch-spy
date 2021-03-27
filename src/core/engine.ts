@@ -21,21 +21,24 @@ export interface ParseResult {
     items: Item[];      // Items on the page
     title: string;      // Title in Russian
     desc: string;       // Description in English
-    source: string;     // Page URL
-    preview?: string;   // Preview URL
-    site?: string;       // "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
+    producerUrl?: string;   // Course producer URL
+    producerName?: string; // Course producer name
+    preview?: string;   // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
+    site?: string;      // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
     let $ = cheerio.load(html);
 
-    //<meta property="og:image" content="https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg">
-
     const title = $('.hero-title').text();
     const desc = $('.hero-description').text();
-    const source = $('.hero-source').text();
+    const producerUrl = $('.hero-source').children('a').attr('href');   // if not found: undefined
+    const producerName = $('.hero-source').children('a').text();        // if not found: empty string
     const preview = $('meta[property="og:image"]').attr('content');
     const site = $('meta[property="og:url"]').attr('content');
+
+    // console.log('source', $('.hero-source').children('a').attr('href')); // if not found: undefined
+    // console.log('source text', `'${$('.hero-source').children('a').text()}'`); // if not found: empty string
 
     let items: Item[] = [];
     
@@ -120,7 +123,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         items: items || [],
         title,
         desc,
-        source,
+        producerUrl,
         preview,
         site,
     };
