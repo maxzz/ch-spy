@@ -24,10 +24,7 @@
                         @keypress.enter="sourceInput && onParseOrFetchHtmlClick()"
                     >
                     <button 
-                        class="
-                            btn
-                            transition-transform
-                            border-l-0 rounded-tl-none rounded-bl-none active:rounded-sm active:border"
+                        class="btn transition-transform rounded-l-none active:rounded-sm active:border"
                         :class="[sourceInput ? '-ml-4' : 'px-0 w-0 border-none transform -translate-x-6']"
                         @click="onParseOrFetchHtmlClick"
                         :tabindex="-1"
@@ -43,7 +40,7 @@
             <!-- Row 2 -->
             <div v-if="playerItemsUrl !== ''">
                 <div
-                    class="transition-transform duration-1000 animate-bounce2"
+                    class="transition-transform duration-1000"
                     :class="[!parsed.items.length ? '' : 'transform -translate-x-28 -translate-y-6 scale-50' ]"
                 >
                     <!-- Get player items URL -->
@@ -68,7 +65,7 @@
                         >
                         <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
                             Parse
-                        </button>
+                        </button> <!-- TODO: clear, copy -->
                     </div>
                 </div>
             </div>

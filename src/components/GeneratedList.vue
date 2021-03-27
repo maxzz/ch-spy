@@ -95,15 +95,19 @@
             });
 
             const allTogetherBatchFile = computed(() => {
-                //TODO: map first filenames and then create .mp4 and .srt
+                let subtitles = [];
                 let s: string = props.items.reduce((acc, item, index) => {
                     let orgFname = path.basename(item.url);
                     let orgExt = path.extname(orgFname);
+                    let orgWoExt = orgFname.replace(/\.[^/.]+$/, '');
                     let newFname = validateFname(itemInputName(index, item.dispname, props.items.length));
+                    newFname && subtitles.push(`ren "${orgWoExt}.srt" "${newFname}.srt"`);
                     acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
-                    //TODO: if subtitle
                     return acc;
                 }, 'chcp 1251\n');
+                if (subtitles.length) {
+                    s = `${s}\n${subtitles.join('\n')}\n`;
+                }
                 return s;
             });
 
