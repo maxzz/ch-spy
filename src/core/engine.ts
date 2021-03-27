@@ -3,8 +3,6 @@ import path from 'path-browserify'; //import path from 'path';
 import { reFileItem } from './content-match-regexes';
 import jsDownloader from 'js-file-downloader';
 
-let heroTitle = 'Video course';
-
 export function pad2(n: number): string {
     if (n < 10) {
         return `0${n}`;
@@ -13,12 +11,10 @@ export function pad2(n: number): string {
 }
 
 export interface Item {
-    //titleOld: string;    // not really used ( it was $('.lessons-title', el).text(), but not used )
-    duration: string;    // video duration
     dispname: string;    // display name
-    url: string;         // video URL
-    //srt?: string;      // closed captions; was not used
+    duration: string;    // video duration
     subtitle?: boolean;  // if true the srt file has the same name
+    url: string;         // video URL
 }
 
 export interface ParseResult {
@@ -51,9 +47,8 @@ export function parseHtmlToItems(html: string): ParseResult {
         }
 
         items.push({
-            //titleOld: $('.lessons-title', el).text(),
-            duration: $('.lessons-duration', el).text(),
             dispname: $('.lessons-name', el).text(),
+            duration: $('.lessons-duration', el).text(),
             url: mediaUrl,
         });
     });
@@ -61,7 +56,7 @@ export function parseHtmlToItems(html: string): ParseResult {
     function handleScriptWithPlayerItems(scriptText: string): Item[] | undefined {
         let matches = [...scriptText.matchAll(reFileItem)];
         if (matches.length) {
-            let items = matches.map((m: RegExpMatchArray) => ({dispname: m[1], duration: ''/*,  titleOld: '??'*/, url: m[2]}));
+            let items = matches.map((m: RegExpMatchArray) => ({dispname: m[1], duration: '', url: m[2]}));
             items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // Remove two commentes items.
             items.forEach((_: Item) => {
                 // Correct name for each item
@@ -133,7 +128,6 @@ export function parsePlayerItems(items: string) {
             let duration = m ? m[2] : '';
             // Make new item
             let newItem: Item = {
-                //titleOld: title,
                 duration: duration,
                 url: item.file,
                 dispname: title,
@@ -176,10 +170,11 @@ function generateHtml(templateHtml: string, items: Item[]) {
     let $ = Cheerio.load(templateHtml);
 
     // Title
+    let heroTitle = 'Video course';
     let title = $('.container');
     $(`<h3 class="main-title">TITLE ${heroTitle}</h3>`).insertBefore(title);
 
-    const itemName = (index, name) => `${pad2(index + 1)} - ${name}`;
+    const itemName = (index: number, name: string) => `${pad2(index + 1)} - ${name}`;
     const validateFname = (name) => {
         // Windows illegal: '\\/:*?"<>|'; or escaped /\\/:\*\?\"<>\|/
         return (name || '').trim().replace(/[\\\/:\*\?\"\<\>\|]/g, ';');
