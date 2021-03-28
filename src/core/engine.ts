@@ -1,6 +1,6 @@
 import cheerio from '../cheerio/cheerio'; //import Cheerio from 'cheerio';
 import path from 'path-browserify'; //import path from 'path';
-import { reFileItem } from './content-match-regexes';
+import { CourseInfo, reFileItem } from './content-match-regexes';
 import jsDownloader from 'js-file-downloader';
 
 export function pad2(n: number): string {
@@ -46,7 +46,6 @@ export function parseHtmlToItems(html: string): ParseResult {
     let items: Item[] = [];
     
     $('.lessons-item').each((index, el) => {
-
         let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
         if (!mediaUrl) { // website updated on 08.23.20
             let script = ($('script', el)[0].children[0] as any/*node.DataNode*/).data;
@@ -55,7 +54,6 @@ export function parseHtmlToItems(html: string): ParseResult {
                 mediaUrl = m[1];
             }
         }
-
         items.push({
             dispname: $('.lessons-name', el).text(),
             duration: $('.lessons-duration', el).text(),
@@ -63,14 +61,39 @@ export function parseHtmlToItems(html: string): ParseResult {
         });
     });
 
-    function getDescriptionJson() {
+    if (!items.length) {
+        let scripts = $('script').toArray() as unknown as cheerio.TagElement[];
+        for (let script of scripts) {
+            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
+                let scriptText = script.children?.[0]?.data; // Note: script wo/ children[0].data is scr=URL.
+                if (scriptText) {
+                    items = handleScriptWithPlayerItems(scriptText);
+                    if (items) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    return {
+        items: items || [],
+        title,
+        desc,
+        producerUrl,
+        producerName,
+        preview,
+        site,
+    };
+
+    function getDescriptionJson(): CourseInfo.Description | undefined {
         let descriptionScript = $('script[type="application/ld+json"]').get(0) as cheerio.TagElement;
-        let data = descriptionScript && descriptionScript.childNodes[0]?.data;
+        let data = descriptionScript?.childNodes?.[0]?.data;
         if (data) {
             try {
-                return JSON.parse(data);
+                return JSON.parse(data) as CourseInfo.Description;
             } catch (error) {
-                
+                console.log('Tm: Invalid Description Script:', error);
             }
         }
     }
@@ -103,47 +126,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         }
     }
 
-    if (!items.length) {
-        let scripts = $('script').toArray() as unknown as cheerio.TagElement[];
-        for (let script of scripts) {
-            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
-                let scriptText = script.children[0]?.data; // Note: script wo/ children[0].data is scr=URL.
-                if (scriptText) {
-                    items = handleScriptWithPlayerItems(scriptText);
-                    if (items) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    // if (!items.length) {
-    //     let scripts = $('script');
-    //     for (let script of scripts.toArray()) {
-    //         if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
-    //             let scriptText = (script as any/*cheerio.TagElement*/).children[0].data as string; // Note: script wo/ children[0].data is scr=URL.
-    //             if (scriptText) {
-    //                 console.log({scriptText});
-    //                 items = handleScriptWithPlayerItems(scriptText);
-    //                 if (items) {
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    return {
-        items: items || [],
-        title,
-        desc,
-        producerUrl,
-        producerName,
-        preview,
-        site,
-    };
-}
+} //parseHtmlToItems()
 
 export function getPlayerItemsUrl(html: string): string {
     const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/g;

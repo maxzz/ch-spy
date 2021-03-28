@@ -181,7 +181,7 @@ export const reFileItem = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"([^"]*?)"
     }
 ]
 */
-namespace CourseInfo {
+export namespace CourseInfo {
     
     export interface Description {
         name: string;
