@@ -52,7 +52,7 @@ export function parseHtmlToItems(html: string): ParseResult {
     rv.info.raw.dateModified = convertTimeRuToLocal(rv.info.raw.dateModified);
 
     console.log('date', convertTimeRuToLocal(rv.info.raw.dateModified));
-    //console.log('courseInfo:', JSON.stringify(rv.info.raw, null, 4));
+    console.log('courseInfo:', JSON.stringify(rv.info.raw, null, 4));
 
     let items: Item[] = scanForOldDefinitions($);
 
@@ -73,17 +73,33 @@ export function parseHtmlToItems(html: string): ParseResult {
     return rv;
 
     function getDescriptionJson($: cheerio.Root): CourseInfo.Description | undefined {
-        let descriptionScript = $('script[type="application/ld+json"]').get(0) as cheerio.TagElement;
-        let data = descriptionScript?.childNodes?.[0]?.data;
-        if (data) {
+        let scripts = $('script[type="application/ld+json"]').toArray() as unknown as cheerio.TagElement[];
+        for (let script of scripts) {
+            let text = script.children[0].data;
+            let raw: CourseInfo.Description;
             try {
-                let raw = JSON.parse(data) as CourseInfo.Description[];
-                return raw?.[0];
+                raw = JSON.parse(text);
+                raw = raw?.[0];
             } catch (error) {
-                console.log('Tm: Invalid Description Script:', error);
+            }
+            if (raw) {
+                return raw;
             }
         }
     }
+
+    // function getDescriptionJson($: cheerio.Root): CourseInfo.Description | undefined {
+    //     let descriptionScript = $('script[type="application/ld+json"]').get(0) as cheerio.TagElement;
+    //     let data = descriptionScript?.childNodes?.[0]?.data;
+    //     if (data) {
+    //         try {
+    //             let raw = JSON.parse(data) as CourseInfo.Description[];
+    //             return raw?.[0];
+    //         } catch (error) {
+    //             console.log('Tm: Invalid Description Script:', error);
+    //         }
+    //     }
+    // }
 
     function convertTimeRuToLocal(dateStr: string | undefined): string {
         if (!dateStr) {
