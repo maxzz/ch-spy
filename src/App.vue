@@ -8,15 +8,29 @@
                     <span class="text-[#944fff]">hunter</span>
                 </a>
             </div>
-            <div class="flex items-center">
-                <div class="flex-1 column px-4 text-gray-300 text-xs">
-                    <ul>
-                        <li>{{parsed.info.raw.datePublished}}</li>
-                        <li>{{parsed.info.raw.dateModified}}</li>
-                        <li>{{parsed.info.duration}}</li>
-                    </ul>
+            <div class="flex">
+                <div class="mr-2 w-6 h-6 relative text-gray-400 self-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showRawInfo = !showRawInfo">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+                    </svg>
+                    <div class="absolute top-8 -right-32 border rounded-sm bg-gray-800 text-gray-100 text-xs font-mono z-20 cursor-default" v-if="showRawInfo">
+                        <div class="max-w-xs max-h-96 overflow-auto">
+                            <pre>{{JSON.stringify(parsed.info.raw, null, 2)}}</pre>
+                        </div>
+                    </div>
                 </div>
-                <span><a v-if="parsed.info.preview" :href="parsed.info.site" target="_blank"><img class="max-h-14 mr-2" :src="parsed.info.preview" alt="course logo"></a></span>
+                <div class="flex items-center">
+                    <div class="px-1 grid grid-flow-row grid-cols-2 gap-x-1 text-gray-400 text-xs">
+                        <div class="text-right">Published:</div>
+                        <div>{{parsed.info.raw.datePublished}}</div>
+                        <div class="text-right">Modified:</div>
+                        <div>{{parsed.info.raw.dateModified}}</div>
+                        <div class="text-right">Duration:</div>
+                        <div>{{parsed.info.duration}}</div>
+                    </div>
+                    <span><a v-if="parsed.info.preview" :href="parsed.info.site" target="_blank"><img class="max-h-14 mr-2" :src="parsed.info.preview" alt="course logo"></a></span>
+                </div>
             </div>
         </div>
 
@@ -27,15 +41,15 @@
             <div class="flex">
                 <!-- HTML input -->
                 <div class="flex flex-1 overflow-hidden rounded-sm focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200">
-                    <input 
-                        class="flex-1 input border border-gray-600 outline-none" 
+                    <input
+                        class="flex-1 input border border-gray-600 outline-none"
                         :class="[sourceInput ? 'border-r-0' : 'border']"
-                        v-model="sourceInput" 
+                        v-model="sourceInput"
                         placeholder="URL or HTML from coursehunter.net"
                         spellcheck="false"
                         @keypress.enter="sourceInput && onParseOrFetchHtmlClick()"
                     >
-                    <button 
+                    <button
                         class="btn transition-transform rounded-l-none active:rounded-sm active:border"
                         :class="[sourceInput ? '-ml-4' : 'px-0 w-0 border-none transform -translate-x-6']"
                         @click="onParseOrFetchHtmlClick"
@@ -69,9 +83,9 @@
                     </div>
                     <!-- Parse player items -->
                     <div class="flex">
-                        <input 
-                            class="flex-1 input" 
-                            v-model="playerItemsJson" 
+                        <input
+                            class="flex-1 input"
+                            v-model="playerItemsJson"
                             placeholder="Copy and paste items from url above"
                             @keypress.enter="onParsePlayerItemsClick"
                         >
@@ -126,6 +140,7 @@
             const isSourceInputUrl = computed(() => !!sourceInput.value.match(/^https?:\/\//));
             const fetchBtnName = computed(() => !sourceInput.value ? '' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
+            const showRawInfo = ref(false);
 
             const storedToLocalStorage = ref(false);
 
@@ -160,7 +175,7 @@
                     let s = sourceInput.value;
                     if (s) {
                         let html = '';
-                        
+
                         if (isSourceInputUrl.value) {
                             let res = await fetch(s);
                             html = await res.text();
@@ -244,6 +259,7 @@
 
                 storedToLocalStorage,
                 errorMsg,
+                showRawInfo,
 
                 fetchBtnName,
                 onParseOrFetchHtmlClick,
