@@ -11,45 +11,48 @@ export function pad2(n: number): string {
 }
 
 export interface Item {
-    dispname: string;    // display name
-    duration: string;    // video duration
-    subtitle?: boolean;  // if true the srt file has the same name
-    url: string;         // video URL
+    dispname: string;       // display name
+    duration: string;       // video duration
+    subtitle?: boolean;     // if true the srt file has the same name
+    url: string;            // video URL
 }
 
 export interface ParseResult {
-    items: Item[];      // Items on the page
-    title: string;      // Title in Russian
-    desc: string;       // Description in English
+    items: Item[];          // Items on the page
+    title?: string;         // Course title
+    desc?: string;          // Course Description
     producerUrl?: string;   // Course producer URL
-    producerName?: string; // Course producer name
-    preview?: string;   // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
-    site?: string;      // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
+    producerName?: string;  // Course producer name
+    preview?: string;       // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
+    site?: string;          // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
     let $ = cheerio.load(html) as unknown as cheerio.Root;
 
-    const title = $('.hero-title').text();
-    const desc = $('.hero-description').text();
-    const producerUrl = $('.hero-source').children('a').attr('href');   // if not found: undefined
-    const producerName = $('.hero-source').children('a').text();        // if not found: empty string
-    const preview = $('meta[property="og:image"]').attr('content');
-    const site = $('meta[property="og:url"]').attr('content');
+    let rv: ParseResult = {
+        items: [],
+        title: $('.hero-title').text(),
+        desc: $('.hero-description').text(),
+        producerUrl: $('.hero-source').children('a').attr('href'),   // if not found: undefine
+        producerName: $('.hero-source').children('a').text(),        // if not found: empty strin
+        preview: $('meta[property="og:image"]').attr('content'),
+        site: $('meta[property="og:url"]').attr('content'),
+    };
 
-    let courseInfo = getDescriptionJson(); // if not found: empty string
+    let courseInfo = getDescriptionJson($); // if not found: empty string
     let courseDuration = $($('.course-box-value').get(0)).text();
 
     console.log('courseInfo:', JSON.stringify(courseInfo, null, 4));
     console.log('courseDuration:', courseDuration); // '10:17:09'
 
     let items: Item[] = scanForOldDefinitions($);
-    
+
     if (!items) {
         let scripts = $('script').toArray() as unknown as cheerio.TagElement[];
         for (let script of scripts) {
-            let isBuildinScript = !Object.keys(script.attribs).length; // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
-            if (isBuildinScript) {
+            let isInlineScript = !Object.keys(script.attribs).length; // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
+            if (isInlineScript) {
                 let scriptText = script.children?.[0]?.data; // Note: script wo/ children[0].data is scr=URL.
                 if ((items = handleScriptWithPlayerItems(scriptText))) {
                     break;
@@ -58,17 +61,10 @@ export function parseHtmlToItems(html: string): ParseResult {
         }
     }
 
-    return {
-        items: items || [],
-        title,
-        desc,
-        producerUrl,
-        producerName,
-        preview,
-        site,
-    };
+    items && (rv.items = items);
+    return rv;
 
-    function getDescriptionJson(): CourseInfo.Description | undefined {
+    function getDescriptionJson($: cheerio.Root): CourseInfo.Description | undefined {
         let descriptionScript = $('script[type="application/ld+json"]').get(0) as cheerio.TagElement;
         let data = descriptionScript?.childNodes?.[0]?.data;
         if (data) {
@@ -82,7 +78,6 @@ export function parseHtmlToItems(html: string): ParseResult {
 
     function scanForOldDefinitions($: cheerio.Root): Item[] | undefined {
         let items: Item[] = [];
-    
         $('.lessons-item').each((index, el) => {
             let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
             if (!mediaUrl) { // website updated on 08.23.20
@@ -98,7 +93,6 @@ export function parseHtmlToItems(html: string): ParseResult {
                 url: mediaUrl,
             });
         });
-
         return items.length ? items : undefined;
     }
 
@@ -185,7 +179,7 @@ export async function downloadFile(blob: Blob, filename: string) {
 }
 
 export function generatePersistentFileContent(allItems: string, allSource: string) {
-    let persistent = 
+    let persistent =
 `--------------------------------- 1 - player list ---------------------------------
 ${(allItems || '').trim()}
 --------------------------------- 2 - source html ---------------------------------
@@ -212,7 +206,7 @@ function generateHtml(templateHtml: string, items: Item[]) {
     // List items
     let newText = '';
     items.forEach((item, index) => {
-        newText += 
+        newText +=
         `
         <li>
             <input type="text" value="${itemName(index, item.dispname)}" />
