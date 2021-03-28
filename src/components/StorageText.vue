@@ -1,17 +1,20 @@
 <template>
     <button  class="btn" @click="myStoredVariable.counter++">count is: {{ myStoredVariable.counter }}</button>
     <button class="btn" @click="myStoredVariable.counter = 0">reset count</button>
-    <button class="btn" @click="myStoredVariable.counter2 = myStoredVariable.counter2 + '-'">Text: {{myStoredVariable.counter2}}</button>
-    <button class="btn" @click="myStoredVariable.counter2 = ''">reset text</button>
+
+    <input class="text-gray-100 bg-purple-600" v-model="myStoredVariable.text">
+
+    <button class="btn" @click="myStoredVariable.text = myStoredVariable.text + '-'">Text: {{myStoredVariable.text}}</button>
+    <button class="btn" @click="myStoredVariable.text = ''">reset text</button>
 </template>
 
 <script lang="ts">
     import { useLocalStorage } from '@vueuse/core';
     export default {
         setup() {
-            const myStoredVariable = useLocalStorage('bop', { counter: 0, counter2: 'abc' });
+            const myStoredVar = useLocalStorage('bop', { counter: 0, text: '' });
 
-            return { myStoredVariable };
+            return { myStoredVariable: myStoredVar };
         },
     };
 </script>
