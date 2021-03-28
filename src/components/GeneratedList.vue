@@ -1,12 +1,22 @@
 <template>
-    <div v-if="items.length" class="relative">
-        <div v-if="title" class="main-title pb-2 min-h-[4rem] flex items-end justify-center font-bold text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]">
+    <!-- <div v-if="items.length" class="relative"> -->
+    <div class="relative">
+        <!-- <div v-if="title" class="main-title pb-2 min-h-[4rem] flex items-end justify-center font-bold text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]"> -->
+        <div 
+            class="
+                main-title pb-2 min-h-[4rem] flex items-end justify-center font-bold relative
+                text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]"
+        >
             <!-- linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%) -->
             <div v-if="!desc">
                 {{title}}
             </div>
             <div :title="title">
                 {{desc}}
+            </div>
+
+            <div class="w-4 h-4 absolute bottom-1 right-1">
+                <IconLock :locked="false" />
             </div>
         </div>
 
@@ -56,6 +66,7 @@
     import { Item } from '../core/engine';
     import DownloadButton from './DownloadButton.vue';
     import CookieSetter from './CookieSetter.vue';
+    import IconLock from './IconLock.vue';
 
     function numberLength(n: number): number {
         return n < 10 ? 1 : n < 100 ? 2 : 3;
@@ -87,7 +98,7 @@
             title: String,
             desc: String
         },
-        components: { DownloadButton, CookieSetter },
+        components: { DownloadButton, CookieSetter, IconLock },
         emits: ['save-files'],
         setup(props, { emit }) {
             const allTogetherTextFile = computed(() => {

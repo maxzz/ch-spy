@@ -84,6 +84,7 @@
                             class="flex-1 input text-xs"
                             v-model="playerItemsJson"
                             placeholder="Copy and paste items from url above"
+                            spellcheck="false"
                             @keypress.enter="onParsePlayerItemsClick"
                         >
                         <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
