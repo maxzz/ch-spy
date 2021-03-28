@@ -15,7 +15,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
                     </svg>
                     <div class="absolute top-8 -right-32 border rounded-sm bg-gray-800 text-gray-100 text-xs font-mono z-20 cursor-default" v-if="showRawInfo">
-                        <div class="max-w-xs max-h-96 overflow-auto">
+                        <div class="max-w-xs max-h-96 overflow-auto smallscroll">
                             <pre>{{JSON.stringify(parsed.info.raw, null, 2)}}</pre>
                         </div>
                     </div>
