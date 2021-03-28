@@ -48,7 +48,10 @@ export function parseHtmlToItems(html: string): ParseResult {
         },
     };
 
-    console.log('date', convertTimeRuToUTC(rv.info.raw.dateModified));
+    rv.info.raw.datePublished = convertTimeRuToLocal(rv.info.raw.datePublished);
+    rv.info.raw.dateModified = convertTimeRuToLocal(rv.info.raw.dateModified);
+
+    console.log('date', convertTimeRuToLocal(rv.info.raw.dateModified));
     //console.log('courseInfo:', JSON.stringify(rv.info.raw, null, 4));
 
     let items: Item[] = scanForOldDefinitions($);
@@ -82,7 +85,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         }
     }
 
-    function convertTimeRuToUTC(dateStr: string | undefined): string {
+    function convertTimeRuToLocal(dateStr: string | undefined): string {
         if (!dateStr) {
             return '';
         }
@@ -90,8 +93,8 @@ export function parseHtmlToItems(html: string): ParseResult {
         if (a.length !== 3) {
             return '';
         }
-        let date = Date.UTC(+a[0], +a[1] - 1, +a[2]); // y-m-d
-        return new Intl.DateTimeFormat('en-US', { year: '2-digit', day: '2-digit', month: '2-digit' }).format(date);
+        let date = new Date(Date.UTC(+a[0], +a[1] - 1, +a[2])); // y-m-d
+        return date.toLocaleDateString('en-US', { year: '2-digit', day: '2-digit', month: '2-digit' }).replace(/\//g, '.');
     }
 
     function scanForOldDefinitions($: cheerio.Root): Item[] | undefined {
