@@ -30,6 +30,8 @@ export interface ParseResult {
 export function parseHtmlToItems(html: string): ParseResult {
     let $ = cheerio.load(html);
 
+
+
     const title = $('.hero-title').text();
     const desc = $('.hero-description').text();
     const producerUrl = $('.hero-source').children('a').attr('href');   // if not found: undefined
@@ -43,25 +45,9 @@ export function parseHtmlToItems(html: string): ParseResult {
     console.log('courseInfo:', JSON.stringify(courseInfo, null, 4));
     console.log('courseDuration:', courseDuration); // '10:17:09'
 
-    let items: Item[] = [];
+    let items: Item[] = scanForOldDefinitions($);
     
-    $('.lessons-item').each((index, el) => {
-        let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
-        if (!mediaUrl) { // website updated on 08.23.20
-            let script = ($('script', el)[0].children[0] as any/*node.DataNode*/).data;
-            let m = /"contentUrl":\s*"(https:\/\/[^"]+\.mp4)"/.exec(script);
-            if (m) {
-                mediaUrl = m[1];
-            }
-        }
-        items.push({
-            dispname: $('.lessons-name', el).text(),
-            duration: $('.lessons-duration', el).text(),
-            url: mediaUrl,
-        });
-    });
-
-    if (!items.length) {
+    if (!items) {
         let scripts = $('script').toArray() as unknown as cheerio.TagElement[];
         for (let script of scripts) {
             if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
@@ -96,6 +82,28 @@ export function parseHtmlToItems(html: string): ParseResult {
                 console.log('Tm: Invalid Description Script:', error);
             }
         }
+    }
+
+    function scanForOldDefinitions($: cheerio.Root): Item[] | undefined {
+        let items: Item[] = [];
+    
+        $('.lessons-item').each((index, el) => {
+            let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
+            if (!mediaUrl) { // website updated on 08.23.20
+                let script = (($('script', el) as unknown as cheerio.TagElement)?.[0]?.children[0] as any/*node.DataNode*/).data;
+                let m = /"contentUrl":\s*"(https:\/\/[^"]+\.mp4)"/.exec(script);
+                if (m) {
+                    mediaUrl = m[1];
+                }
+            }
+            items.push({
+                dispname: $('.lessons-name', el).text(),
+                duration: $('.lessons-duration', el).text(),
+                url: mediaUrl,
+            });
+        });
+
+        return items.length ? items : undefined;
     }
 
     function handleScriptWithPlayerItems(scriptText: string): Item[] | undefined {
