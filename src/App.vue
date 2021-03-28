@@ -14,7 +14,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
                     </svg>
-                    <div class="absolute top-8 -right-32 border rounded-sm bg-gray-800 text-gray-100 text-xs font-mono z-20 cursor-default" v-if="showRawInfo">
+                    <div class="absolute top-8 -right-32 border rounded-sm bg-gray-800 text-gray-400 text-xs font-mono z-20 cursor-default" v-if="showRawInfo">
                         <div class="max-w-xs max-h-96 overflow-auto smallscroll">
                             <pre>{{JSON.stringify(parsed.info.raw, null, 2)}}</pre>
                         </div>
@@ -77,9 +77,6 @@
                         <a class="flex text-xs items-center underline" :href="playerItemsUrl" target="_blank">
                             {{playerItemsUrl}}
                         </a>
-                        <!-- <a :href="playerItemsUrl" target="_blank">
-                            <input class="flex-1 px-2 text-xs bg-gray-300 underline" readonly tabIndex="-1" v-model="playerItemsUrl">
-                        </a> -->
                     </div>
                     <!-- Parse player items -->
                     <div class="flex">
