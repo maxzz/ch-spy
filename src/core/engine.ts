@@ -25,6 +25,8 @@ export interface ParseResult {
     producerName?: string;  // Course producer name
     preview?: string;       // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
     site?: string;          // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
+    rawInfo: CourseInfo.Description;
+    duration?: string;       // Course duration
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
@@ -34,17 +36,16 @@ export function parseHtmlToItems(html: string): ParseResult {
         items: [],
         title: $('.hero-title').text(),
         desc: $('.hero-description').text(),
-        producerUrl: $('.hero-source').children('a').attr('href'),   // if not found: undefine
-        producerName: $('.hero-source').children('a').text(),        // if not found: empty strin
+        producerUrl: $('.hero-source').children('a').attr('href'),   // if not found: undefined
+        producerName: $('.hero-source').children('a').text(),        // if not found: empty string
         preview: $('meta[property="og:image"]').attr('content'),
         site: $('meta[property="og:url"]').attr('content'),
+        rawInfo: getDescriptionJson($) || {} as CourseInfo.Description,
+        duration: $($('.course-box-value').get(0)).text(),
     };
 
-    let courseInfo = getDescriptionJson($); // if not found: empty string
-    let courseDuration = $($('.course-box-value').get(0)).text();
-
-    console.log('courseInfo:', JSON.stringify(courseInfo, null, 4));
-    console.log('courseDuration:', courseDuration); // '10:17:09'
+    // console.log('courseInfo:', JSON.stringify(rv.rawInfo, null, 4));
+    // console.log('courseDuration:', rv.duration); // '10:17:09'
 
     let items: Item[] = scanForOldDefinitions($);
 
