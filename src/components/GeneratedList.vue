@@ -16,7 +16,7 @@
             </div>
 
             <div class="w-5 h-5 absolute bottom-1 right-1">
-                <IconLock :locked="false" />
+                <IconLock :locked="true" />
             </div>
         </div>
 
