@@ -15,7 +15,7 @@
                 {{desc}}
             </div>
 
-            <div class="w-4 h-4 absolute bottom-1 right-1">
+            <div class="w-5 h-5 absolute bottom-1 right-1">
                 <IconLock :locked="false" />
             </div>
         </div>
