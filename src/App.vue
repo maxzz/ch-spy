@@ -42,7 +42,7 @@
                 <!-- HTML input -->
                 <div class="flex flex-1 overflow-hidden rounded-sm focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200">
                     <input
-                        class="flex-1 input border border-gray-600 outline-none"
+                        class="flex-1 input border border-gray-600 outline-none text-xs"
                         :class="[sourceInput ? 'border-r-0' : 'border']"
                         v-model="sourceInput"
                         placeholder="URL or HTML from coursehunter.net"
@@ -81,7 +81,7 @@
                     <!-- Parse player items -->
                     <div class="flex">
                         <input
-                            class="flex-1 input"
+                            class="flex-1 input text-xs"
                             v-model="playerItemsJson"
                             placeholder="Copy and paste items from url above"
                             @keypress.enter="onParsePlayerItemsClick"
