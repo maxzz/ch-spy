@@ -26,7 +26,7 @@ export interface ParseResult {
         producerName?: string;  // Course producer name
         preview?: string;       // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
         site?: string;          // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
-        duration?: string;       // Course duration
+        duration?: string;       // Course duration: '10:17:09'
         raw: Partial<CourseInfo.Description>; // Raw information from embedded script
     };
 }
@@ -48,8 +48,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         },
     };
 
-    // console.log('courseInfo:', JSON.stringify(rv.rawInfo, null, 4));
-    // console.log('courseDuration:', rv.duration); // '10:17:09'
+    console.log('courseInfo:', JSON.stringify(rv.info.raw, null, 4));
 
     let items: Item[] = scanForOldDefinitions($);
 
@@ -74,7 +73,8 @@ export function parseHtmlToItems(html: string): ParseResult {
         let data = descriptionScript?.childNodes?.[0]?.data;
         if (data) {
             try {
-                return JSON.parse(data) as CourseInfo.Description;
+                let raw = JSON.parse(data) as CourseInfo.Description[];
+                return raw?.[0];
             } catch (error) {
                 console.log('Tm: Invalid Description Script:', error);
             }

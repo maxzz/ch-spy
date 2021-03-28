@@ -8,7 +8,17 @@
                     <span class="text-[#944fff]">hunter</span>
                 </a>
             </div>
-            <span><a v-if="parsed.info.preview" :href="parsed.info.site" target="_blank"><img class="max-h-14 mr-2" :src="parsed.info.preview" alt="course logo"></a></span>
+            <div class="flex items-center">
+                <div class="flex-1 column text-gray-300 text-xs">
+                    <!-- <pre>{{parsed.info.raw}}</pre> -->
+                    <ul>
+                        <li>{{parsed.info.raw.datePublished}}</li>
+                        <li>{{parsed.info.raw.dateModified}}</li>
+                        <li>{{parsed.info.duration}}</li>
+                    </ul>
+                </div>
+                <span><a v-if="parsed.info.preview" :href="parsed.info.site" target="_blank"><img class="max-h-14 mr-2" :src="parsed.info.preview" alt="course logo"></a></span>
+            </div>
         </div>
 
         <!-- <button class="btn" @click="onDownloadFilesClcik">Download</button> -->
