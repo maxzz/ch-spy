@@ -1,14 +1,16 @@
 <template>
-    <button  class="btn" @click="myStoredVariable++">count is: {{ myStoredVariable }}</button>
-    <button class="btn" @click="myStoredVariable = 0">reset count</button>
+    <button  class="btn" @click="myStoredVariable.counter++">count is: {{ myStoredVariable.counter }}</button>
+    <button class="btn" @click="myStoredVariable.counter = 0">reset count</button>
+    <button class="btn" @click="myStoredVariable.counter2 = myStoredVariable.counter2 + '-'">Text: {{myStoredVariable.counter2}}</button>
+    <button class="btn" @click="myStoredVariable.counter2 = ''">reset text</button>
 </template>
 
 <script lang="ts">
-    import { ref } from 'vue';
     import { useLocalStorage } from '@vueuse/core';
     export default {
-        setup(props) {
-            const myStoredVariable = useLocalStorage('bop', 0);
+        setup() {
+            const myStoredVariable = useLocalStorage('bop', { counter: 0, counter2: 'abc' });
+
             return { myStoredVariable };
         },
     };
