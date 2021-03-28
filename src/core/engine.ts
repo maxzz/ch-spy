@@ -19,14 +19,16 @@ export interface Item {
 
 export interface ParseResult {
     items: Item[];          // Items on the page
-    title?: string;         // Course title
-    desc?: string;          // Course Description
-    producerUrl?: string;   // Course producer URL
-    producerName?: string;  // Course producer name
-    preview?: string;       // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
-    site?: string;          // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
-    rawInfo: CourseInfo.Description;
-    duration?: string;       // Course duration
+    info: {                     // Collected information
+        title?: string;         // Course title
+        desc?: string;          // Course Description
+        producerUrl?: string;   // Course producer URL
+        producerName?: string;  // Course producer name
+        preview?: string;       // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
+        site?: string;          // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
+        duration?: string;       // Course duration
+    };
+    rawInfo: Partial<CourseInfo.Description>;
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
@@ -34,14 +36,17 @@ export function parseHtmlToItems(html: string): ParseResult {
 
     let rv: ParseResult = {
         items: [],
-        title: $('.hero-title').text(),
-        desc: $('.hero-description').text(),
-        producerUrl: $('.hero-source').children('a').attr('href'),   // if not found: undefined
-        producerName: $('.hero-source').children('a').text(),        // if not found: empty string
-        preview: $('meta[property="og:image"]').attr('content'),
-        site: $('meta[property="og:url"]').attr('content'),
+        info: {
+            title: $('.hero-title').text(),
+            desc: $('.hero-description').text(),
+            producerUrl: $('.hero-source').children('a').attr('href'),   // if not found: undefined
+            producerName: $('.hero-source').children('a').text(),        // if not found: empty string
+            preview: $('meta[property="og:image"]').attr('content'),
+            site: $('meta[property="og:url"]').attr('content'),
+            duration: $($('.course-box-value').get(0)).text(),
+    
+        },
         rawInfo: getDescriptionJson($) || {} as CourseInfo.Description,
-        duration: $($('.course-box-value').get(0)).text(),
     };
 
     // console.log('courseInfo:', JSON.stringify(rv.rawInfo, null, 4));

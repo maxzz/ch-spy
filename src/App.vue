@@ -8,7 +8,7 @@
                     <span class="text-[#944fff]">hunter</span>
                 </a>
             </div>
-            <span><a v-if="parsed.preview" :href="parsed.site" target="_blank"><img class="max-h-14 mr-2" :src="parsed.preview" alt="course logo"></a></span>
+            <span><a v-if="parsed.info.preview" :href="parsed.info.site" target="_blank"><img class="max-h-14 mr-2" :src="parsed.info.preview" alt="course logo"></a></span>
         </div>
 
         <!-- <button class="btn" @click="onDownloadFilesClcik">Download</button> -->
@@ -74,7 +74,7 @@
             </div>
 
             <!-- Row 3 -->
-            <GeneratedList :items="parsed.items" :title="parsed.title" :desc="parsed.desc" @save-files="onSavePersistentFileClick"/>
+            <GeneratedList :items="parsed.items" :title="parsed.info.title" :desc="parsed.info.desc" @save-files="onSavePersistentFileClick"/>
 
             <!-- Row 4 -->
             <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
@@ -105,9 +105,8 @@
             const source = reactive<{parsed: ParseResult}>({
                 parsed: {
                     items: [],
-                    title: '', 
-                    desc: '',
-                    producerUrl: '',
+                    info: {},
+                    rawInfo: {},
                 }
             });
 
@@ -138,7 +137,7 @@
             const onClearStorageClick = () => {
                 sourceInput.value = '';
                 source.parsed.items = [];
-                source.parsed.title = '';
+                source.parsed.info.title = '';
             };
 
             const onClearHTMLClick = () => {
