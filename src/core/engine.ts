@@ -48,7 +48,8 @@ export function parseHtmlToItems(html: string): ParseResult {
         },
     };
 
-    console.log('courseInfo:', JSON.stringify(rv.info.raw, null, 4));
+    console.log('date', convertTimeRuToUTC(rv.info.raw.dateModified));
+    //console.log('courseInfo:', JSON.stringify(rv.info.raw, null, 4));
 
     let items: Item[] = scanForOldDefinitions($);
 
@@ -79,6 +80,18 @@ export function parseHtmlToItems(html: string): ParseResult {
                 console.log('Tm: Invalid Description Script:', error);
             }
         }
+    }
+
+    function convertTimeRuToUTC(dateStr: string | undefined): string {
+        if (!dateStr) {
+            return '';
+        }
+        let a = dateStr.split('-'); // yyyy-mm-dd
+        if (a.length !== 3) {
+            return '';
+        }
+        let date = Date.UTC(+a[0], +a[1] - 1, +a[2]); // y-m-d
+        return new Intl.DateTimeFormat('en-US', { year: '2-digit', day: '2-digit', month: '2-digit' }).format(date);
     }
 
     function scanForOldDefinitions($: cheerio.Root): Item[] | undefined {

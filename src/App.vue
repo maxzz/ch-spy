@@ -9,8 +9,7 @@
                 </a>
             </div>
             <div class="flex items-center">
-                <div class="flex-1 column text-gray-300 text-xs">
-                    <!-- <pre>{{parsed.info.raw}}</pre> -->
+                <div class="flex-1 column px-4 text-gray-300 text-xs">
                     <ul>
                         <li>{{parsed.info.raw.datePublished}}</li>
                         <li>{{parsed.info.raw.dateModified}}</li>
