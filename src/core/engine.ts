@@ -28,9 +28,7 @@ export interface ParseResult {
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
-    let $ = cheerio.load(html);
-
-
+    let $ = cheerio.load(html) as unknown as cheerio.Root;
 
     const title = $('.hero-title').text();
     const desc = $('.hero-description').text();
