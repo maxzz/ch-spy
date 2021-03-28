@@ -27,8 +27,8 @@ export interface ParseResult {
         preview?: string;       // Preview URL: "https://cdn.coursehunter.net/course/glubokie-osnovy-javascript-v2.jpg"
         site?: string;          // Course Hunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
         duration?: string;       // Course duration
+        raw: Partial<CourseInfo.Description>; // Raw information from embedded script
     };
-    rawInfo: Partial<CourseInfo.Description>;
 }
 
 export function parseHtmlToItems(html: string): ParseResult {
@@ -44,9 +44,8 @@ export function parseHtmlToItems(html: string): ParseResult {
             preview: $('meta[property="og:image"]').attr('content'),
             site: $('meta[property="og:url"]').attr('content'),
             duration: $($('.course-box-value').get(0)).text(),
-    
+            raw: getDescriptionJson($) || {},
         },
-        rawInfo: getDescriptionJson($) || {} as CourseInfo.Description,
     };
 
     // console.log('courseInfo:', JSON.stringify(rv.rawInfo, null, 4));

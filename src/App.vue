@@ -105,8 +105,9 @@
             const source = reactive<{parsed: ParseResult}>({
                 parsed: {
                     items: [],
-                    info: {},
-                    rawInfo: {},
+                    info: {
+                        raw: {}
+                    },
                 }
             });
 
