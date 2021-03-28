@@ -48,13 +48,11 @@ export function parseHtmlToItems(html: string): ParseResult {
     if (!items) {
         let scripts = $('script').toArray() as unknown as cheerio.TagElement[];
         for (let script of scripts) {
-            if (!Object.keys(script.attribs).length) { // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
+            let isBuildinScript = !Object.keys(script.attribs).length; // i.e. just <script> wo/ attributes, or we can check there is no attribute 'src'.
+            if (isBuildinScript) {
                 let scriptText = script.children?.[0]?.data; // Note: script wo/ children[0].data is scr=URL.
-                if (scriptText) {
-                    items = handleScriptWithPlayerItems(scriptText);
-                    if (items) {
-                        break;
-                    }
+                if ((items = handleScriptWithPlayerItems(scriptText))) {
+                    break;
                 }
             }
         }
@@ -104,8 +102,8 @@ export function parseHtmlToItems(html: string): ParseResult {
         return items.length ? items : undefined;
     }
 
-    function handleScriptWithPlayerItems(scriptText: string): Item[] | undefined {
-        let matches = [...scriptText.matchAll(reFileItem)];
+    function handleScriptWithPlayerItems(scriptText: string | undefined): Item[] | undefined {
+        let matches = [...(scriptText || '').matchAll(reFileItem)];
         if (matches.length) {
             let items = matches.map((m: RegExpMatchArray) => ({dispname: m[1], duration: '', url: m[2]}));
             items = items.filter((_: Item) => !/sample.mp4/.test(_.url)); // Remove two commentes items.
