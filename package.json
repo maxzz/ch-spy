@@ -12,6 +12,7 @@
         "deploy": "gh-pages -d dist"
     },
     "dependencies": {
+        "@vueuse/core": "^4.6.2",
         "cheerio": "^1.0.0-rc.5",
         "downloadjs": "^1.4.7",
         "js-file-downloader": "1.1.4",

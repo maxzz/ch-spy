@@ -1,5 +1,9 @@
 <template>
     <div class="bg-[#201c2b] min-h-screen">
+        <div class="text-gray-100">
+            <StorageText />
+            aa
+        </div>
         <!-- Row Logo -->
         <div class="flex justify-between items-center">
             <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b]">
@@ -112,14 +116,16 @@
     import { defineComponent, onMounted, ref, computed, watch, reactive, toRefs } from 'vue';
     import GeneratedList, { EventSaveFiles } from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
+    import StorageText from './components/StorageText.vue';
     import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent, ParseResult } from './core/engine';
+
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
 
     export default defineComponent({
         name: "App",
-        components: { GeneratedList, ErrorMessage, },
+        components: { GeneratedList, ErrorMessage, StorageText, },
         setup() {
             const sourceInput = ref('');
 
