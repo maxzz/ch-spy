@@ -202,13 +202,15 @@ export async function downloadFile(blob: Blob, filename: string) {
     return { success: true };
 }
 
-export function generatePersistentFileContent(allItems: string, allSource: string) {
+export function generatePersistentFileContent(allItems: string, allSource: string, playerItems: string) {
     let persistent =
 `--------------------------------- 1 - player list ---------------------------------
 ${(allItems || '').trim()}
 --------------------------------- 2 - source html ---------------------------------
 ${(allSource || '').trim()}
---------------------------------- 3 - end -----------------------------------------
+--------------------------------- 3 - source player items -------------------------
+${(playerItems || '').trim()}
+--------------------------------- 4 - end -----------------------------------------
 `;
     return persistent;
 }

@@ -1,6 +1,5 @@
 <template>
-    <!-- <div v-if="items.length" class="relative"> -->
-    <div class="relative">
+    <div v-if="items.length" class="relative">
         <!-- <div v-if="title" class="main-title pb-2 min-h-[4rem] flex items-end justify-center font-bold text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]"> -->
         <div 
             class="
@@ -8,10 +7,7 @@
                 text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]"
         >
             <!-- linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%) -->
-            <div v-if="!desc">
-                {{title}}
-            </div>
-            <div :title="title">
+            <div :title="desc">
                 {{desc}}
             </div>
 

@@ -116,9 +116,6 @@
     import ErrorMessage from './components/ErrorMessage.vue';
     import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent, ParseResult } from './core/engine';
 
-    const SAVED_HTML = 'coursehunters-items';
-    const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
-
     const LOCALSTORAGE_HTML = 'ch-spy-html';
     const LOCALSTORAGE_PLAYERITEMS = 'ch-spy-playeritems';
 
@@ -155,16 +152,6 @@
                 }
             }
 
-            const onClearErrorMsg = (newValue) => {
-                errorMsg.value = newValue;
-            }
-
-            const onClearStorageClick = () => {
-                sourceInput.value = '';
-                source.parsed.items = [];
-                source.parsed.info.title = '';
-            };
-
             const onParseOrFetchHtmlClick = async () => {
                 try {
                     let s = sourceInput.value;
@@ -198,11 +185,21 @@
             };
 
             async function onSavePersistentFileClick(payload: EventSaveFiles) {
-                let persistent = generatePersistentFileContent(payload.itemsList, sourceInput.value);
+                let persistent = generatePersistentFileContent(payload.itemsList, sourceInput.value, playerItemsJson.value);
                 await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
-                await downloadFile(new Blob([persistent], {type : 'text/plain'}), 'page-sourse.txt');
+                await downloadFile(new Blob([persistent], {type : 'text/plain'}), 'page-source.txt');
                 // TODO: show error; implement downloadFiles([])
             }
+
+            const onClearErrorMsg = (newValue) => {
+                errorMsg.value = newValue;
+            };
+
+            const onClearStorageClick = () => {
+                sourceInput.value = '';
+                source.parsed.items = [];
+                source.parsed.info.title = '';
+            };
 
             onMounted(() => {
                 if (sourceInput.value) {
@@ -226,9 +223,9 @@
 
                 onParseOrFetchHtmlClick,
                 onParsePlayerItemsClick,
+                onSavePersistentFileClick,
                 onClearStorageClick,
                 onClearErrorMsg,
-                onSavePersistentFileClick,
             }
         } //setup()
     });
