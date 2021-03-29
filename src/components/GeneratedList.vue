@@ -7,7 +7,7 @@
         >
             <!-- linear-gradient(90deg, #88b0ff 2.83%, rgba(188, 148, 254, 0.51) 100%) -->
             <div :title="desc">
-                {{desc}}
+                {{title}}
             </div>
 
             <div 
@@ -25,7 +25,7 @@
             </button>
         </div>
 
-        <div class="container">
+        <div class="container bg-[#f1f1f1] border-1 border-dotted border-[#cecece]">
             <ul>
                 <!-- #90ff74 -->
                 <li v-for="(item, index) of items" :key="index" class="">
@@ -163,15 +163,15 @@
     // }
 
     .container {
-        border: 1px dotted #cecece;
-        background-color: #f1f1f1;
+        //border: 3px dotted #cecece;
+        //background-color: #f1f1f1;
         // background-color: #7c3aed;
         // background-color: #944fff;
 
-        ul {
-            margin: 0;
-            padding: 0;
-        }
+        // ul {
+        //     margin: 0;
+        //     padding: 0;
+        // }
 
         li {
             list-style: none;
