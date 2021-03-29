@@ -62,9 +62,10 @@
                         {{fetchBtnName}}
                     </button>
                 </div>
-                <!-- Clear buttons -->
-                <button class="btn ml-2" @click="onClearStorageClick" title="Clear fetched data">Clear</button>
-                <button class="btn ml-1" @click="onClearHTMLClick" v-if="storedToLocalStorage" title="Clear local storage">Clear HTML</button>
+                <!-- Clear button -->
+                <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">
+                    Clear
+                </button>
             </div>
 
             <!-- Row 2 -->
@@ -114,12 +115,11 @@
 
 <script lang="ts">
     import { defineComponent, onMounted, ref, computed, watch, reactive, toRefs } from 'vue';
+    import { useLocalStorage } from '@vueuse/core';
     import GeneratedList, { EventSaveFiles } from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
-    import StorageText from './components/StorageText.vue';
     import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent, ParseResult } from './core/engine';
-    import { useLocalStorage } from '@vueuse/core';
-
+    import StorageText from './components/StorageText.vue';
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
@@ -131,8 +131,9 @@
         name: "App",
         components: { GeneratedList, ErrorMessage, StorageText, },
         setup() {
-//            const sourceInput = ref('');
             const sourceInput = useLocalStorage(LOCALSTORAGE_HTML, '');
+            const playerItemsJson = useLocalStorage(LOCALSTORAGE_PLAYERITEMS, '');
+            const playerItemsUrl = ref('');
 
             const source = reactive<{parsed: ParseResult}>({
                 parsed: {
@@ -143,16 +144,10 @@
                 }
             });
 
-            const playerItemsUrl = ref('');
-            // const playerItemsJson = ref('');
-            const playerItemsJson = useLocalStorage(LOCALSTORAGE_PLAYERITEMS, '');
-
             const isSourceInputUrl = computed(() => !!sourceInput.value.match(/^https?:\/\//));
             const fetchBtnName = computed(() => !sourceInput.value ? '' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
             const showRawInfo = ref(false);
-
-            const storedToLocalStorage = ref(false);
 
             function parseAndApplyNewHtml(html: string): void {
                 source.parsed = parseHtmlToItems(html);
@@ -175,11 +170,6 @@
                 source.parsed.info.title = '';
             };
 
-            const onClearHTMLClick = () => {
-                storedToLocalStorage.value = false;
-//                localStorage.removeItem(SAVED_HTML);
-            }
-
             const onParseOrFetchHtmlClick = async () => {
                 try {
                     let s = sourceInput.value;
@@ -189,14 +179,8 @@
                         if (isSourceInputUrl.value) {
                             let res = await fetch(s);
                             html = await res.text();
-
-//                            localStorage.setItem(SAVED_HTML, html);
-                            storedToLocalStorage.value = true;
                         } else {
                             html = s;
-
-//                            localStorage.setItem(SAVED_HTML, html);
-                            storedToLocalStorage.value = true;
                         }
 
                         parseAndApplyNewHtml(html);
@@ -210,7 +194,6 @@
 
             const onParsePlayerItemsClick = () => {
                 let res = parsePlayerItems(playerItemsJson.value);
-                //console.log(res);
                 if (res.error) {
                     errorMsg.value = `${res.error}`;
                     source.parsed.items = [];
@@ -219,9 +202,6 @@
                 }
             };
 
-            // async function onDownloadFilesClcik() {
-            // }
-
             async function onSavePersistentFileClick(payload: EventSaveFiles) {
                 let persistent = generatePersistentFileContent(payload.itemsList, sourceInput.value);
                 await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
@@ -229,20 +209,7 @@
                 // TODO: show error; implement downloadFiles([])
             }
 
-            watch(() => sourceInput.value, () => {
-                errorMsg.value = '';
-
-                if (isSourceInputUrl.value) {
-                    if (sourceInput.value) {
-//                        localStorage.setItem(SAVED_SOURCE, sourceInput.value);
-                    } else {
-//                        localStorage.removeItem(SAVED_SOURCE);
-                    }
-                }
-            });
-
             onMounted(() => {
-//                console.log('localStorage', sourceInput);
                 if (sourceInput.value) {
                     parseAndApplyNewHtml(sourceInput.value);
                 }
@@ -250,43 +217,22 @@
                 if (playerItemsJson.value) {
                     onParsePlayerItemsClick();
                 }
-
-                const checkStorage = () => {
-                    let data = localStorage.getItem(SAVED_SOURCE);
-                    if (data) {
-                        sourceInput.value = data;
-                    }
-
-                    let html = localStorage.getItem(SAVED_HTML);
-                    if (html) {
-                        sourceInput.value = html;
-                        storedToLocalStorage.value = true;
-                        parseAndApplyNewHtml(html);
-                    }
-                };
-
-//                checkStorage();
             });
 
             return {
                 sourceInput,
-
                 playerItemsUrl,
                 playerItemsJson,
-
                 ...toRefs(source),
 
-                storedToLocalStorage,
                 errorMsg,
                 showRawInfo,
-
                 fetchBtnName,
+
                 onParseOrFetchHtmlClick,
                 onParsePlayerItemsClick,
                 onClearStorageClick,
-                onClearHTMLClick,
                 onClearErrorMsg,
-                // onDownloadFilesClcik,
                 onSavePersistentFileClick,
             }
         } //setup()
