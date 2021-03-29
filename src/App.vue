@@ -118,16 +118,21 @@
     import ErrorMessage from './components/ErrorMessage.vue';
     import StorageText from './components/StorageText.vue';
     import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent, ParseResult } from './core/engine';
+    import { useLocalStorage } from '@vueuse/core';
 
 
     const SAVED_HTML = 'coursehunters-items';
     const SAVED_SOURCE = 'coursehunters-source'; // url / html document / empty
 
+    const LOCALSTORAGE_HTML = 'ch-spy-html';
+    const LOCALSTORAGE_PLAYERITEMS = 'ch-spy-playeritems';
+
     export default defineComponent({
         name: "App",
         components: { GeneratedList, ErrorMessage, StorageText, },
         setup() {
-            const sourceInput = ref('');
+//            const sourceInput = ref('');
+            const sourceInput = useLocalStorage(LOCALSTORAGE_HTML, '');
 
             const source = reactive<{parsed: ParseResult}>({
                 parsed: {
@@ -139,7 +144,8 @@
             });
 
             const playerItemsUrl = ref('');
-            const playerItemsJson = ref('');
+            // const playerItemsJson = ref('');
+            const playerItemsJson = useLocalStorage(LOCALSTORAGE_PLAYERITEMS, '');
 
             const isSourceInputUrl = computed(() => !!sourceInput.value.match(/^https?:\/\//));
             const fetchBtnName = computed(() => !sourceInput.value ? '' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
@@ -171,7 +177,7 @@
 
             const onClearHTMLClick = () => {
                 storedToLocalStorage.value = false;
-                localStorage.removeItem(SAVED_HTML);
+//                localStorage.removeItem(SAVED_HTML);
             }
 
             const onParseOrFetchHtmlClick = async () => {
@@ -184,12 +190,12 @@
                             let res = await fetch(s);
                             html = await res.text();
 
-                            localStorage.setItem(SAVED_HTML, html);
+//                            localStorage.setItem(SAVED_HTML, html);
                             storedToLocalStorage.value = true;
                         } else {
                             html = s;
 
-                            localStorage.setItem(SAVED_HTML, html);
+//                            localStorage.setItem(SAVED_HTML, html);
                             storedToLocalStorage.value = true;
                         }
 
@@ -228,14 +234,23 @@
 
                 if (isSourceInputUrl.value) {
                     if (sourceInput.value) {
-                        localStorage.setItem(SAVED_SOURCE, sourceInput.value);
+//                        localStorage.setItem(SAVED_SOURCE, sourceInput.value);
                     } else {
-                        localStorage.removeItem(SAVED_SOURCE);
+//                        localStorage.removeItem(SAVED_SOURCE);
                     }
                 }
             });
 
             onMounted(() => {
+//                console.log('localStorage', sourceInput);
+                if (sourceInput.value) {
+                    parseAndApplyNewHtml(sourceInput.value);
+                }
+
+                if (playerItemsJson.value) {
+                    onParsePlayerItemsClick();
+                }
+
                 const checkStorage = () => {
                     let data = localStorage.getItem(SAVED_SOURCE);
                     if (data) {
@@ -250,7 +265,7 @@
                     }
                 };
 
-                checkStorage();
+//                checkStorage();
             });
 
             return {
