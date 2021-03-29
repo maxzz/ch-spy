@@ -1,8 +1,7 @@
 <template>
     <div v-if="items.length" class="relative">
         <!-- <div v-if="title" class="main-title pb-2 min-h-[4rem] flex items-end justify-center font-bold text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]"> -->
-        <div 
-            class="
+        <div class="
                 main-title pb-2 min-h-[4rem] flex items-end justify-center font-bold relative
                 text-[#5d0083] bg-gradient-to-r from-[#88b0ff] to-[#bc94fe82]"
         >
@@ -12,7 +11,7 @@
             </div>
 
             <div 
-                class="w-5 h-5 absolute bottom-1 right-1 text-purple-500 stroke-2"
+                class="w-5 h-5 absolute bottom-1 right-1 text-purple-500 stroke-1"
                 @click="editableTitles = !editableTitles"
                 title="List items editable/non-editable"
             >
@@ -32,12 +31,13 @@
                 <li v-for="(item, index) of items" :key="index" class="">
                     <input v-if="editableTitles" class="text-sm" :value="itemName(index, item, items)">
                     <div v-else class="pl-2 py-2 text-sm leading-tight hover:bg-[#ffffff80]">{{itemName(index, item, items)}}</div>
-                    <DownloadButton :url="item.url" />
+                    <DownloadButton :selectable="!editableTitles" :url="item.url" />
                     <a 
+                        class="select-none"
                         :class="{ nolink: !item.url }"
                         :href="item.url"
                         :title="itemIndex(index)"
-                        tabIndex="-1" 
+                        tabIndex="-1"
                         target="blank"
                     >
                         <span>{{item.duration}}</span> mp4

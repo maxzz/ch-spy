@@ -3,7 +3,10 @@
         <button
             class="btn py-0 text-sm h-6"
             :disabled="disabledBtn" @click="onDownloadFileClick(url)"
-        >Get</button>
+            :tabIndex="selectable ? '' : '-1'"
+        >
+            Get
+        </button>
 
         <div v-if="progressPersent !== 0" class="progress">{{progressPersent}}</div>
         <div v-if="tryed" class="meter">
@@ -23,7 +26,8 @@
 
     export default defineComponent({
         props: {
-            url: String
+            url: String,
+            selectable: Boolean,
         },
         setup() {
             const progressPersent = ref(0);
