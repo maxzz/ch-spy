@@ -43,3 +43,7 @@
         background-color: #666b7a;
     }
 }
+
+.cutom-cursor {
+    cursor: url(./src/assets/custom-cursor.png), auto
+}
