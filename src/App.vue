@@ -103,7 +103,9 @@
             </div>
 
             <!-- Row 3: Parse items and show list -->
-            <GeneratedList :items="parsed.items" :title="parsed.info.title" :desc="parsed.info.desc" @save-files="onSavePersistentFileClick"/>
+            <div :class="[playerItemsUrl && parsed.items.length ? '-mt-8' : '']">
+                <GeneratedList :items="parsed.items" :title="parsed.info.title" :desc="parsed.info.desc" @save-files="onSavePersistentFileClick"/>
+            </div>
 
             <!-- Row 4 -->
             <ErrorMessage :value="errorMsg" @input="onClearErrorMsg" />
