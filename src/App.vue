@@ -39,6 +39,10 @@
         <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
             <!-- Row 1 -->
             <div class="flex">
+                <!-- Clear button flex-direction: row-reverse;-->
+                <button v-if="sourceInput" class="btn mr-0.5" @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well">
+                    Clear
+                </button>
                 <!-- HTML input -->
                 <div class="flex flex-1 overflow-hidden rounded-sm focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200">
                     <input
@@ -49,6 +53,7 @@
                         spellcheck="false"
                         @keypress.enter="sourceInput && onParseOrFetchHtmlClick()"
                     >
+                    <!-- Parse / Fetch button -->
                     <button
                         class="btn transition-transform rounded-l-none active:rounded-sm active:border"
                         :class="[sourceInput ? '-ml-4' : 'px-0 w-0 border-none transform -translate-x-6']"
@@ -58,10 +63,6 @@
                         {{fetchBtnName}}
                     </button>
                 </div>
-                <!-- Clear button flex-direction: row-reverse;-->
-                <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well">
-                    Clear
-                </button>
             </div>
 
             <!-- Row 2: Get items -->
@@ -202,8 +203,9 @@
 
                 if (event.ctrlKey) {
                     playerItemsUrl.value = '';
-                    //playerItemsJson.value = '';
                 }
+
+                errorMsg.value = '';
             };
 
             onMounted(() => {
