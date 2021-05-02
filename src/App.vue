@@ -40,7 +40,13 @@
             <!-- Row 1 -->
             <div class="flex">
                 <!-- Clear button flex-direction: row-reverse;-->
-                <button v-if="sourceInput" class="btn mr-2" @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well">
+                <!-- v-if="sourceInput"  -->
+                <button 
+                    class="btn mr-2 transition-transform transform"
+                    :class="[sourceInput ? '' : 'scale-x-0']"
+                    
+                    @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well"
+                >
                     Clear
                 </button>
                 <!-- HTML input -->
