@@ -40,7 +40,7 @@
             <!-- Row 1 -->
             <div class="flex">
                 <!-- Clear button flex-direction: row-reverse;-->
-                <button v-if="sourceInput" class="btn mr-0.5" @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well">
+                <button v-if="sourceInput" class="btn mr-2" @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well">
                     Clear
                 </button>
                 <!-- HTML input -->
@@ -55,7 +55,7 @@
                     >
                     <!-- Parse / Fetch button -->
                     <button
-                        class="btn transition-transform rounded-l-none active:rounded-sm active:border"
+                        class="btn transition-transform rounded-l-none active:rounded-sm active:border focus:ring-0 focus:shadow-none"
                         :class="[sourceInput ? '-ml-4' : 'px-0 w-0 border-none transform -translate-x-6']"
                         @click="onParseOrFetchHtmlClick"
                         :tabindex="-1"
