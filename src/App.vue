@@ -58,8 +58,8 @@
                         {{fetchBtnName}}
                     </button>
                 </div>
-                <!-- Clear button -->
-                <button class="btn ml-1" @click="onClearStorageClick" @keydown="onClearStorageKey" title="Clear fetched data">
+                <!-- Clear button flex-direction: row-reverse;-->
+                <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well">
                     Clear
                 </button>
             </div>
@@ -195,19 +195,16 @@
                 errorMsg.value = newValue;
             };
 
-            const onClearStorageKey = (event: KeyboardEvent) => {
-                console.log(event);
-            }
-
             const onClearStorageClick = (event: MouseEvent) => {
-                console.log(event);
-            };
+                sourceInput.value = '';
+                source.parsed.items = [];
+                source.parsed.info.title = '';
 
-            // const onClearStorageClick = () => {
-            //     sourceInput.value = '';
-            //     source.parsed.items = [];
-            //     source.parsed.info.title = '';
-            // };
+                if (event.ctrlKey) {
+                    playerItemsUrl.value = '';
+                    //playerItemsJson.value = '';
+                }
+            };
 
             onMounted(() => {
                 if (sourceInput.value) {
@@ -232,7 +229,6 @@
                 onParseOrFetchHtmlClick,
                 onParsePlayerItemsClick,
                 onSavePersistentFileClick,
-                onClearStorageKey,
                 onClearStorageClick,
                 onClearErrorMsg,
             }
