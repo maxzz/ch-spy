@@ -77,7 +77,7 @@
                     :class="[!parsed.items.length ? '' : 'transform -translate-x-28 -translate-y-6 scale-50' ]"
                 >
                     <!-- Get player items URL -->
-                    <div class="flex text-sm mt-4 mb-1">
+                    <div class="flex text-sm mt-4 mb-2">
                         <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
                             Get items from:
                         </a>
@@ -89,13 +89,13 @@
                     <!-- Parse player items -->
                     <div class="flex">
                         <input
-                            class="flex-1 input text-xs"
+                            class="flex-1 input text-xs outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 focus:ring-offset-gray-200"
                             v-model="playerItemsJson"
                             placeholder="Copy and paste items from url above"
                             spellcheck="false"
                             @keypress.enter="onParsePlayerItemsClick"
                         >
-                        <button class="btn" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
+                        <button class="btn ml-1.5" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
                             Parse
                         </button> <!-- TODO: clear, copy -->
                     </div>
