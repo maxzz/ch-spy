@@ -59,12 +59,12 @@
                     </button>
                 </div>
                 <!-- Clear button -->
-                <button class="btn ml-1" @click="onClearStorageClick" title="Clear fetched data">
+                <button class="btn ml-1" @click="onClearStorageClick" @keydown="onClearStorageKey" title="Clear fetched data">
                     Clear
                 </button>
             </div>
 
-            <!-- Row 2 -->
+            <!-- Row 2: Get items -->
             <div v-if="playerItemsUrl !== ''">
                 <div
                     class="transition-transform duration-1000"
@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <!-- Row 3 -->
+            <!-- Row 3: Parse items and show list -->
             <GeneratedList :items="parsed.items" :title="parsed.info.title" :desc="parsed.info.desc" @save-files="onSavePersistentFileClick"/>
 
             <!-- Row 4 -->
@@ -195,11 +195,19 @@
                 errorMsg.value = newValue;
             };
 
-            const onClearStorageClick = () => {
-                sourceInput.value = '';
-                source.parsed.items = [];
-                source.parsed.info.title = '';
+            const onClearStorageKey = (event: KeyboardEvent) => {
+                console.log(event);
+            }
+
+            const onClearStorageClick = (event: MouseEvent) => {
+                console.log(event);
             };
+
+            // const onClearStorageClick = () => {
+            //     sourceInput.value = '';
+            //     source.parsed.items = [];
+            //     source.parsed.info.title = '';
+            // };
 
             onMounted(() => {
                 if (sourceInput.value) {
@@ -224,6 +232,7 @@
                 onParseOrFetchHtmlClick,
                 onParsePlayerItemsClick,
                 onSavePersistentFileClick,
+                onClearStorageKey,
                 onClearStorageClick,
                 onClearErrorMsg,
             }
