@@ -82,6 +82,7 @@
                         <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
                             Get items from:
                         </a>
+                        <button class="btn text-xs mr-1" @click="onClearPlayItemsClick">Clear</button>
                         <a class="flex text-xs items-center underline" :href="playerItemsUrl" target="_blank">
                             {{playerItemsUrl}}
                         </a>
@@ -214,6 +215,11 @@
                 errorMsg.value = '';
             };
 
+            const onClearPlayItemsClick = () => {
+                playerItemsUrl.value = '';
+                source.parsed.items = [];
+            };
+
             onMounted(() => {
                 if (sourceInput.value) {
                     parseAndApplyNewHtml(sourceInput.value);
@@ -238,6 +244,7 @@
                 onParsePlayerItemsClick,
                 onSavePersistentFileClick,
                 onClearStorageClick,
+                onClearPlayItemsClick,
                 onClearErrorMsg,
             }
         } //setup()
