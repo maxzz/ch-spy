@@ -43,7 +43,7 @@
                 <!-- v-if="sourceInput"  -->
                 <button 
                     class="btn mr-2 transition-transform transform"
-                    :class="[sourceInput ? '' : 'scale-x-0']"
+                    :class="[sourceInput || parsed.items.length ? '' : 'scale-x-0']"
                     
                     @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well"
                 >
@@ -207,7 +207,7 @@
                 source.parsed.items = [];
                 source.parsed.info.title = '';
 
-                if (event.ctrlKey) {
+                if (event.ctrlKey || (!sourceInput && source.parsed.items.length)) {
                     playerItemsUrl.value = '';
                 }
 
