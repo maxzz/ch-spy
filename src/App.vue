@@ -95,7 +95,7 @@
                             spellcheck="false"
                             @keypress.enter="onParsePlayerItemsClick"
                         >
-                        <button class="btn ml-1.5" v-if="playerItemsJson" @click="onParsePlayerItemsClick">
+                        <button class="btn ml-1.5" v-if="playerItemsJson" @click="onParsePlayerItemsClick" :tabindex="-1">
                             Parse
                         </button> <!-- TODO: clear, copy -->
                     </div>
