@@ -38,13 +38,12 @@
 
         <div class="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
             <!-- Row 1 -->
-            <div class="flex">
+            <div class="flex" :class="[!playerItemsUrl && parsed.items.length ? 'mb-1' : '']">
                 <!-- Clear button flex-direction: row-reverse;-->
                 <!-- v-if="sourceInput"  -->
                 <button 
                     class="btn mr-2 transition-transform transform"
                     :class="[sourceInput || parsed.items.length ? '' : 'scale-x-0']"
-                    
                     @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well"
                 >
                     Clear
