@@ -81,7 +81,7 @@
                         <a class="btn text-xs mr-1" :href="playerItemsUrl" target="_blank">
                             Get items from:
                         </a>
-                        <button class="btn text-xs mr-1" @click="onClearPlayItemsClick">Clear</button>
+                        <button class="btn text-xs ml-0.5 mr-1.5" @click="onClearPlayItemsClick">Clear</button>
                         <a class="flex text-xs items-center underline" :href="playerItemsUrl" target="_blank">
                             {{playerItemsUrl}}
                         </a>
