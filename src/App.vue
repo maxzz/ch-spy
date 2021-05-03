@@ -210,6 +210,7 @@
                 source.parsed.info.title = '';
 
                 if (event.ctrlKey || (!sourceInput && source.parsed.items.length)) {
+                    playerItemsJson.value = '';
                     playerItemsUrl.value = '';
                 }
 
