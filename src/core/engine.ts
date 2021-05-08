@@ -152,7 +152,7 @@ export function parseHtmlToItems(html: string): ParseResult {
 
 export function getPlayerItemsUrl(html: string): string {
     const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/g;
-    let m: RegExpExecArray = reAxiosItemsQuery.exec(html);
+    let m: RegExpExecArray | null = reAxiosItemsQuery.exec(html);
     return m ? `https://coursehunter.net${m[0]}` : '';
 }
 

@@ -128,6 +128,14 @@
     const LOCALSTORAGE_HTML = 'ch-spy-html';
     const LOCALSTORAGE_PLAYERITEMS = 'ch-spy-playeritems';
 
+    type CopiedState = {
+        a: 'tm';            // marker
+        docurl: string;
+        itemsurl: string;
+        doc: string;        // document.documentElement.outerHTML
+        items: string;      // fetched items
+    }
+
     export default defineComponent({
         name: "App",
         components: { GeneratedList, ErrorMessage, },
@@ -166,6 +174,19 @@
                     let s = sourceInput.value;
                     if (s) {
                         let html = '';
+
+                        if (sourceInput.value.match(/^{"a":"tm","docurl":"/)) {
+                            try {
+                                let data = JSON.parse(sourceInput.value) as CopiedState;
+                                html = data.doc;
+                                playerItemsUrl.value = data.itemsurl;
+                                playerItemsJson.value = data.items;
+                                onParsePlayerItemsClick();
+                                return;
+                            } catch (error) {
+                                console.error('Cannot parse pasted input.');
+                            }
+                        }
 
                         if (isSourceInputUrl.value) {
                             let res = await fetch(s);
