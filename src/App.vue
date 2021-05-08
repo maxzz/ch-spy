@@ -45,6 +45,7 @@
                     class="btn mr-2 transition-transform transform"
                     :class="[sourceInput || parsed.items.length ? '' : 'scale-x-0']"
                     @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well"
+                    ref="clearBtnElement"
                 >
                     Clear
                 </button>
@@ -157,6 +158,7 @@
             const fetchBtnName = computed(() => !sourceInput.value ? '' : isSourceInputUrl.value ? 'Fetch' : 'Parse');
             const errorMsg = ref('');
             const showRawInfo = ref(false);
+            const clearBtnElement = ref<HTMLElement>();
 
             function parseAndApplyNewHtml(html: string): void {
                 source.parsed = parseHtmlToItems(html);
@@ -179,9 +181,11 @@
                             try {
                                 let data = JSON.parse(sourceInput.value) as CopiedState;
                                 html = data.doc;
+                                source.parsed = parseHtmlToItems(html);
                                 playerItemsUrl.value = data.itemsurl;
                                 playerItemsJson.value = data.items;
                                 onParsePlayerItemsClick();
+                                clearBtnElement.value.focus();
                                 return;
                             } catch (error) {
                                 console.error('Cannot parse pasted input.');
@@ -262,6 +266,7 @@
                 errorMsg,
                 showRawInfo,
                 fetchBtnName,
+                clearBtnElement,
 
                 onParseOrFetchHtmlClick,
                 onParsePlayerItemsClick,
