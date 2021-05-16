@@ -119,7 +119,7 @@
                     newFname && subtitles.push(`ren "${orgWoExt}.srt" "${newFname}.srt"`);
                     acc += newFname ? `ren "${orgFname}" "${newFname}${orgExt}" \n` : '\n';
                     return acc;
-                }, 'chcp 1251\n');
+                }, 'chcp 1251\n'); // TODO: If filename is utf8 encoded then it is a problem. see https://coursehunter.net/course/ci-cd-na-primere-gitlab-ci
                 if (subtitles.length) {
                     s = `${s}\n${subtitles.join('\n')}\n`;
                 }
