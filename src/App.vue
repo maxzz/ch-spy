@@ -124,8 +124,8 @@
     import { useLocalStorage } from '@vueuse/core';
     import GeneratedList, { EventSaveFiles } from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
-    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent, ParseResult, parsePersistentFileContent } from './core/engine';
-    import { textFileReader } from './utils/utils';
+    import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, generatePersistentFileContent, ParseResult, parsePersistentFileContent } from './core/engine';
+    import { downloadFile, textFileReader } from './utils/utils';
 
     const LOCALSTORAGE_HTML = 'ch-spy-html';
     const LOCALSTORAGE_PLAYERITEMS = 'ch-spy-playeritems';
@@ -284,10 +284,14 @@
                         try {
                             const fileCnt = await textFileReader(fileHandle);
                             const res = parsePersistentFileContent(fileCnt);
-                            playerItemsUrl.value = 'dropped';
-                            playerItemsJson.value = res.playerItems;
-                            onParsePlayerItemsClick();
-                            //console.log('on_drop fileCnt', fileCnt);
+                            if (res?.playerItems) {
+                                playerItemsUrl.value = 'dropped';
+                                playerItemsJson.value = res.playerItems;
+                                onParsePlayerItemsClick();
+                            } else {
+                                errorMsg.value = `Cannot parse file`;
+                                console.log('File content ------\n', fileCnt, '\n------');
+                            }
                         } catch (error) {
                             errorMsg.value = `Failed to read file ${fileName}`;
                             console.log('Failed to read file. error:', error);
