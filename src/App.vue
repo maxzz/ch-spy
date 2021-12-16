@@ -2,10 +2,10 @@
     <div class="bg-[#201c2b] min-h-screen" @dragenter="on_dragenter" @dragleave="on_dragleave" @dragover="on_dragover" @drop="on_drop">
         <!-- Row Logo -->
         <div class="flex justify-between items-center">
-            <div :class="`pl-2 py-4 font-bold text-2xl cutom-cursor ${dragActive ? 'bg-red-200' : 'bg-[#201c2b]'}`">
+            <div :class="`pl-2 py-4 font-bold text-2xl bg-[#201c2b] cutom-cursor`">
                 <a href="https://coursehunter.net" target="_blank">
-                    <span class="text-gray-100">course</span>
-                    <span class="text-[#944fff]">hunter</span>
+                    <span :class="` ${dragActive ? 'text-green-400' : 'text-gray-100'}`">course</span>
+                    <span :class="` ${dragActive ? 'text-green-400' : 'text-[#944fff]'}`">hunter</span>
                 </a>
             </div>
             <div class="flex">
