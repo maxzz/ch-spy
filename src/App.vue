@@ -279,12 +279,16 @@
                 const dt = event.dataTransfer;
                 if (dt.files.length) {
                     const fileHandle: File = dt.files[0];
+                    const fileName = fileHandle.name; // after async op dt.files will be empty.
                     let fileCnt: string | undefined;
                     try {
-                        fileCnt = await textFileReader(fileHandle)
-                        console.log('on_drop fileCnt', fileCnt);
+                        fileCnt = await textFileReader(fileHandle);
+                        //console.log('dt.files[0]', fileName);
+                        errorMsg.value = `Failed to read file ${fileName}`;
+                        //console.log('on_drop fileCnt', fileCnt);
                     } catch (error) {
-                        console.log('Failed to read file', dt.files[0].name);
+                        errorMsg.value = `Failed to read file ${fileName}`;
+                        console.log('Failed to read file', fileName);
                     }
                 }
                 console.log('on_drop', event);
