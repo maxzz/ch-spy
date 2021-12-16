@@ -215,11 +215,26 @@ ${(playerItems || '').trim()}
     return persistent;
 }
 
-export function parsePersistentFileContent(fileCnt: string): string[] | undefined {
+export function parsePersistentFileContent(fileCnt: string): { all: string; source: string; playerItems: string; } {
+    /*
+    Regex: -{33} \d - [^-]* -{10,}\r?\n(.*)
+    Test:
+        --------------------------------- 1 - player list ---------------------------------
+        aaa
+        --------------------------------- 2 - source html ---------------------------------
+        bbb
+        --------------------------------- 3 - source player items -------------------------
+        cccc
+        --------------------------------- 4 - end -----------------------------------------
+    */
     const re = /-{33} \d - [^-]* -{10,}\r?\n/g;
-    const m = fileCnt.split(re);
-    if (m?.length === 5) {
-        return m.filter(Boolean); // 1 and 5 elements are empty
+    let m = fileCnt.split(re);
+    if (m?.length === 5) { // 0 and 4 elements are empty because we use split
+        return {
+            all: m[1],
+            source: m[2],
+            playerItems: m[3],
+        }
     }
 }
 
