@@ -1,14 +1,7 @@
 import cheerio from '../cheerio/cheerio'; //import Cheerio from 'cheerio';
 import path from 'path-browserify'; //import path from 'path';
+import { pad2 } from '../utils/utils';
 import { CourseInfo, reFileItem } from './content-match-regexes';
-import jsDownloader from 'js-file-downloader';
-
-export function pad2(n: number): string {
-    if (n < 10) {
-        return `0${n}`;
-    }
-    return `${n}`;
-}
 
 export interface Item {
     dispname: string;       // display name
@@ -187,21 +180,6 @@ export function parsePlayerItems(items: string) {
     }
 }
 
-export async function downloadFile(blob: Blob, filename: string) {
-    const url = URL.createObjectURL(blob);
-    try {
-        await new jsDownloader({ url, filename });
-    } catch (error) {
-        //console.log('error', error);
-        return { error };
-    } finally {
-        //console.log('clean');
-        URL.revokeObjectURL(url);
-    }
-    //console.log('done');
-    return { success: true };
-}
-
 export type PersistentContent = {
     all: string;
     source: string;
@@ -221,7 +199,7 @@ ${(playerItems || '').trim()}
     return persistent;
 }
 
-export function parsePersistentFileContent(fileCnt: string): PersistentContent {
+export function parsePersistentFileContent(fileCnt: string): PersistentContent | undefined {
     /*
     Regex: -{33} \d - [^-]* -{10,}\r?\n(.*)
     Test:
