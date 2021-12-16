@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#201c2b] min-h-screen">
+    <div class="bg-[#201c2b] min-h-screen" @drop="on_drop" @dragenter="on_dragenter" @dragover="on_dragover">
         <!-- Row Logo -->
         <div class="flex justify-between items-center">
             <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b] cutom-cursor">
@@ -41,7 +41,7 @@
             <div class="flex" :class="[!playerItemsUrl && parsed.items.length ? 'mb-1' : '']">
                 <!-- Clear button flex-direction: row-reverse;-->
                 <!-- v-if="sourceInput"  -->
-                <button 
+                <button
                     class="btn mr-2 transition-transform transform"
                     :class="[sourceInput || parsed.items.length ? '' : 'scale-x-0']"
                     @click="onClearStorageClick" title="Clear fetched data. Ctrl+Click clear player items as well"
@@ -257,6 +257,16 @@
                 }
             });
 
+            function on_drop(...args) {
+                console.log('on_drop', args);
+            }
+            function on_dragenter(...args) {
+                console.log('on_dragenter', args);
+            }
+            function on_dragover(...args) {
+                console.log('on_dragover', args);
+            }
+
             return {
                 sourceInput,
                 playerItemsUrl,
@@ -274,6 +284,10 @@
                 onClearStorageClick,
                 onClearPlayItemsClick,
                 onClearErrorMsg,
+
+                on_drop,
+                on_dragenter,
+                on_dragover,
             }
         } //setup()
     });
