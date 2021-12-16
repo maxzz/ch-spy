@@ -235,7 +235,7 @@ export function parsePersistentFileContent(fileCnt: string): PersistentContent {
     */
     const re = /-{33} \d - [^-]* -{10,}\r?\n/g;
     let m = fileCnt.split(re);
-    if (m?.length === 5) { // 0 and 4 elements are empty because we use split
+    if (m?.length >= 5) { // 0 and 4 elements are empty because we use split
         return {
             all: m[1],
             source: m[2],

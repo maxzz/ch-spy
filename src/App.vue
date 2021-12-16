@@ -283,7 +283,10 @@
                         const fileName = fileHandle.name; // after async op dt.files will be empty.
                         try {
                             const fileCnt = await textFileReader(fileHandle);
-                            parsePersistentFileContent(fileCnt);
+                            const res = parsePersistentFileContent(fileCnt);
+                            playerItemsUrl.value = 'dropped';
+                            playerItemsJson.value = res.playerItems;
+                            onParsePlayerItemsClick();
                             //console.log('on_drop fileCnt', fileCnt);
                         } catch (error) {
                             errorMsg.value = `Failed to read file ${fileName}`;
