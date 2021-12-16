@@ -1060,10 +1060,10 @@ is-regex@^1.0.3:
     call-bind "^1.0.2"
     has-tostringtag "^1.0.0"
 
-js-file-downloader@1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/js-file-downloader/-/js-file-downloader-1.1.4.tgz#b1e45d852ed8b5325f7178eafaa3b9311fb25db2"
-  integrity sha512-O6apXOrSVv/HFjui6T4NTZddzYwV7Rd0f9FrZczbjQPI0fNn8xuMPqpHuOTnzzck6KIx3ax8RemCRo6x5t7lwQ==
+js-file-downloader@1.1.24:
+  version "1.1.24"
+  resolved "https://registry.yarnpkg.com/js-file-downloader/-/js-file-downloader-1.1.24.tgz#58102debfd86174462b650b0c251a223fa4b291a"
+  integrity sha512-DbOKEtofflVV8DfdFEkkykJQW1jWXT56+G2dC6dn1tLGRHjoVsdMpYKKyxQb/jJv2CGNxuTvMTpPmqYEf+LTGA==
 
 js-stringify@^1.0.2:
   version "1.0.2"
