@@ -202,12 +202,18 @@ export async function downloadFile(blob: Blob, filename: string) {
     return { success: true };
 }
 
-export function generatePersistentFileContent(allItems: string, allSource: string, playerItems: string) {
+export type PersistentContent = {
+    all: string;
+    source: string;
+    playerItems: string;
+};
+
+export function generatePersistentFileContent({all, source, playerItems}: PersistentContent) {
     let persistent =
 `--------------------------------- 1 - player list ---------------------------------
-${(allItems || '').trim()}
+${(all || '').trim()}
 --------------------------------- 2 - source html ---------------------------------
-${(allSource || '').trim()}
+${(source || '').trim()}
 --------------------------------- 3 - source player items -------------------------
 ${(playerItems || '').trim()}
 --------------------------------- 4 - end -----------------------------------------
@@ -215,7 +221,7 @@ ${(playerItems || '').trim()}
     return persistent;
 }
 
-export function parsePersistentFileContent(fileCnt: string): { all: string; source: string; playerItems: string; } {
+export function parsePersistentFileContent(fileCnt: string): PersistentContent {
     /*
     Regex: -{33} \d - [^-]* -{10,}\r?\n(.*)
     Test:

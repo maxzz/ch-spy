@@ -220,7 +220,7 @@
             };
 
             async function onSavePersistentFileClick(payload: EventSaveFiles) {
-                let persistent = generatePersistentFileContent(payload.itemsList, sourceInput.value, playerItemsJson.value);
+                let persistent = generatePersistentFileContent({all: payload.itemsList, source: sourceInput.value, playerItems: playerItemsJson.value});
                 await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
                 await downloadFile(new Blob([persistent], {type : 'text/plain'}), 'page-source.txt');
                 // TODO: show error; implement downloadFiles([])
