@@ -258,41 +258,41 @@
                 }
             });
 
-            const dragActive = ref(false);
+            //#region drag and drop
 
-            function on_dragenter(event: DragEvent) {
-                dragActive.value = true;
-            }
-            function on_dragleave(event: DragEvent) {
-                dragActive.value = false;
-            }
-            function on_dragover(event: DragEvent) {
-                event.stopPropagation();
-                event.preventDefault();
-                //console.log('on_dragover', event);
-            }
-            async function on_drop(event: DragEvent) {
-                event.stopPropagation();
-                event.preventDefault();
-                dragActive.value = false;
+                const dragActive = ref(false);
 
-                const dt = event.dataTransfer;
-                if (dt.files.length) {
-                    const fileHandle: File = dt.files[0];
-                    const fileName = fileHandle.name; // after async op dt.files will be empty.
-                    let fileCnt: string | undefined;
-                    try {
-                        fileCnt = await textFileReader(fileHandle);
-                        //console.log('dt.files[0]', fileName);
-                        errorMsg.value = `Failed to read file ${fileName}`;
-                        //console.log('on_drop fileCnt', fileCnt);
-                    } catch (error) {
-                        errorMsg.value = `Failed to read file ${fileName}`;
-                        console.log('Failed to read file', fileName);
+                function on_dragenter(event: DragEvent) {
+                    dragActive.value = true;
+                }
+                function on_dragleave(event: DragEvent) {
+                    dragActive.value = false;
+                }
+                function on_dragover(event: DragEvent) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+                async function on_drop(event: DragEvent) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    dragActive.value = false;
+
+                    const dt = event.dataTransfer;
+                    if (dt.files.length) {
+                        const fileHandle: File = dt.files[0];
+                        const fileName = fileHandle.name; // after async op dt.files will be empty.
+                        let fileCnt: string | undefined;
+                        try {
+                            fileCnt = await textFileReader(fileHandle);
+                            //console.log('on_drop fileCnt', fileCnt);
+                        } catch (error) {
+                            errorMsg.value = `Failed to read file ${fileName}`;
+                            console.log('Failed to read file. error:', error);
+                        }
                     }
                 }
-                console.log('on_drop', event);
-            }
+
+            //#endregion drag and drop
 
             return {
                 sourceInput,
