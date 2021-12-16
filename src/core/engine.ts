@@ -215,16 +215,13 @@ ${(playerItems || '').trim()}
     return persistent;
 }
 
-export function parsePersistentFileContent(fileCnt: string) {
+export function parsePersistentFileContent(fileCnt: string): string[] | undefined {
     const re = /-{33} \d - [^-]* -{10,}\r?\n/g;
     const m = fileCnt.split(re);
     if (m?.length === 5) {
-        //debugger
-        //console.log('m', m.map((item) => item[1]));
-        console.log('split', m[3]);
+        return m.filter(Boolean); // 1 and 5 elements are empty
     }
 }
-
 
 function generateHtml(templateHtml: string, items: Item[]) {
     let $ = cheerio.load(templateHtml);
