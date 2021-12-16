@@ -220,7 +220,11 @@
             };
 
             async function onSavePersistentFileClick(payload: EventSaveFiles) {
-                let persistent = generatePersistentFileContent({all: payload.itemsList, source: sourceInput.value, playerItems: playerItemsJson.value});
+                let persistent = generatePersistentFileContent({
+                    all: payload.itemsList,
+                    source: sourceInput.value,
+                    playerItems: playerItemsJson.value
+                });
                 await downloadFile(new Blob([payload.rename], {type : 'application/json'}), 'rename.cmd.txt');
                 await downloadFile(new Blob([persistent], {type : 'text/plain'}), 'page-source.txt');
                 // TODO: show error; implement downloadFiles([])
@@ -284,8 +288,14 @@
                         try {
                             const fileCnt = await textFileReader(fileHandle);
                             const res = parsePersistentFileContent(fileCnt);
+                            if (res?.source) {
+                                sourceInput.value = res.source;
+                                onParseOrFetchHtmlClick();
+                            }
                             if (res?.playerItems) {
-                                playerItemsUrl.value = 'dropped';
+                                if (!playerItemsUrl.value) {
+                                    playerItemsUrl.value = 'dropped';
+                                }
                                 playerItemsJson.value = res.playerItems;
                                 onParsePlayerItemsClick();
                             } else {
