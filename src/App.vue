@@ -125,6 +125,7 @@
     import GeneratedList, { EventSaveFiles } from './components/GeneratedList.vue';
     import ErrorMessage from './components/ErrorMessage.vue';
     import { parseHtmlToItems, getPlayerItemsUrl, parsePlayerItems, downloadFile, generatePersistentFileContent, ParseResult } from './core/engine';
+    import { textFileReader } from './utils/utils';
 
     const LOCALSTORAGE_HTML = 'ch-spy-html';
     const LOCALSTORAGE_PLAYERITEMS = 'ch-spy-playeritems';
@@ -257,14 +258,30 @@
                 }
             });
 
-            function on_drop(...args) {
-                console.log('on_drop', args);
+            function on_dragenter(event: DragEvent) {
+                //console.log('on_dragenter', event);
             }
-            function on_dragenter(...args) {
-                console.log('on_dragenter', args);
+            function on_dragover(event: DragEvent) {
+                event.stopPropagation();
+                event.preventDefault();
+                //console.log('on_dragover', event);
             }
-            function on_dragover(...args) {
-                console.log('on_dragover', args);
+            async function on_drop(event: DragEvent) {
+                event.stopPropagation();
+                event.preventDefault();
+
+                const dt = event.dataTransfer;
+                if (dt.files.length) {
+                    const fileHandle: File = dt.files[0];
+                    let fileCnt: string | undefined;
+                    try {
+                        fileCnt = await textFileReader(fileHandle)
+                        console.log('on_drop fileCnt', fileCnt);
+                    } catch (error) {
+                        console.log('Failed to read file', dt.files[0].name);
+                    }
+                }
+                console.log('on_drop', event);
             }
 
             return {
