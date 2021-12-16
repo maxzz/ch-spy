@@ -1,8 +1,8 @@
 <template>
-    <div class="bg-[#201c2b] min-h-screen" @drop="on_drop" @dragenter="on_dragenter" @dragover="on_dragover">
+    <div class="bg-[#201c2b] min-h-screen" @dragenter="on_dragenter" @dragleave="on_dragleave" @dragover="on_dragover" @drop="on_drop">
         <!-- Row Logo -->
         <div class="flex justify-between items-center">
-            <div class="pl-2 py-4 font-bold text-2xl bg-[#201c2b] cutom-cursor">
+            <div :class="`pl-2 py-4 font-bold text-2xl cutom-cursor ${dragActive ? 'bg-red-200' : 'bg-[#201c2b]'}`">
                 <a href="https://coursehunter.net" target="_blank">
                     <span class="text-gray-100">course</span>
                     <span class="text-[#944fff]">hunter</span>
@@ -258,8 +258,13 @@
                 }
             });
 
+            const dragActive = ref(false);
+
             function on_dragenter(event: DragEvent) {
-                //console.log('on_dragenter', event);
+                dragActive.value = true;
+            }
+            function on_dragleave(event: DragEvent) {
+                dragActive.value = false;
             }
             function on_dragover(event: DragEvent) {
                 event.stopPropagation();
@@ -269,6 +274,7 @@
             async function on_drop(event: DragEvent) {
                 event.stopPropagation();
                 event.preventDefault();
+                dragActive.value = false;
 
                 const dt = event.dataTransfer;
                 if (dt.files.length) {
@@ -302,9 +308,11 @@
                 onClearPlayItemsClick,
                 onClearErrorMsg,
 
-                on_drop,
+                dragActive,
                 on_dragenter,
+                on_dragleave,
                 on_dragover,
+                on_drop,
             }
         } //setup()
     });
