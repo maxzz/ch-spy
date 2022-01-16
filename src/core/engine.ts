@@ -98,7 +98,7 @@ export function parseHtmlToItems(html: string): ParseResult {
         $('.lessons-item').each((index, el) => {
             let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
             if (!mediaUrl) { // website updated on 08.23.20
-                let script = (($('script', el) as unknown as cheerio.TagElement)?.[0]?.children[0] as any/*node.DataNode*/).data;
+                let script = (($('script', el) as unknown as cheerio.TagElement)?.[0]?.children[0] as any/*node.DataNode*/)?.data;
                 let m = /"contentUrl":\s*"(https:\/\/[^"]+\.mp4)"/.exec(script);
                 if (m) {
                     mediaUrl = m[1];
