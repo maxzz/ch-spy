@@ -1,6 +1,6 @@
 import { forwardRef, type ElementRef, type ComponentPropsWithoutRef, type ComponentProps } from "react"; //01.17.26
 import { ScrollArea as Prim } from "radix-ui"
-import { cn } from "@/utils";
+import { cn } from "@/utils/classnames";
 
 export type ScrollAreaProps = ComponentProps<typeof Prim.Root> & {
     horizontal?: boolean;           // adds horizontal scrollbar

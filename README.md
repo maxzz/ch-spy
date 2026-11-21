@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# coursehunters-course-list-browser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Browse the lessons of a course on [coursehunter.net](https://coursehunter.net), download the videos, and export a Windows `rename.cmd` file that renames them with the lesson numbers.
 
-Currently, two official plugins are available:
+The app is a React + Vite + Tailwind CSS + Jotai project. It was migrated from an earlier Vue app; the behavior and the saved-session format are the same.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Usage
 
-## React Compiler
+Paste the course page URL (the app fetches it) or the page HTML into the input, then press **Fetch** / **Parse**.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- If the page has no lesson list, the app shows a player items URL. Open it, copy the JSON, and paste it into the second input (**Parse**).
+- **Get** downloads one video with a progress meter.
+- **Download rename.cmd** saves `rename.cmd.txt` (the batch rename) and `page-source.txt` (the saved session). Drop `page-source.txt` onto the page to restore it.
+- **Clear** clears the fetched course. **Ctrl+Click** on Clear also clears the player items.
 
-## Expanding the ESLint configuration
+## Scripts
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm dev      # dev server on port 3000
+pnpm build    # type-check and build to dist/
+pnpm preview  # serve the build
+pnpm test     # unit tests (parsing, rename files, session restore)
+pnpm check:tw # check Tailwind class order (see .cursor/rules/tailwind-class-order.mdc)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Code layout
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+All of the course browser lives in `src/course-hunter/`:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `core/`: pure logic without React or Jotai. HTML and player-items parsing (`engine.ts`), rename-file generation (`rename.ts`), and session patches (`session.ts`). Unit tests and two saved course pages are in `core/`.
+- `store/`: Jotai atoms. `source.ts` (persisted inputs), `state.ts` (session state), `derived.ts` (computed values), `actions.ts` (write-only actions), `downloads.ts` (per-video download state).
+- `components/`: React components. They read and write atoms directly and do not use `useState`, `useEffect`, or `useCallback`.
+- `lib/`: browser helpers (file download with progress, localStorage adapter, cookies).
+- `dev-tools/`: the cookie setter and localStorage test from the previous app. They are shown only in the dev server (`import.meta.env.DEV`) and are not in the production build.
+
+`src/app.tsx` only renders `CourseHunterApp`. The shadcn/ui components are in `src/ui/shadcn/` (configured by `components.json`, theme in `src/index.css`); the course page does not use them yet.
+
+## Saved data
+
+The session is stored in `localStorage` under the same keys as the previous app: `ch-spy-html` (the pasted URL or HTML) and `ch-spy-playeritems` (the player items JSON).
