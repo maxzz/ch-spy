@@ -45,8 +45,3 @@ export interface CourseProvider {
  * {"title": "1) 1.1. AE Basics | 00:31:36", "file": "https://vss4.coursehunter.net/.../lesson1.mp4", "subtitle": "", "id": "c3315l1"}
  */
 export const reFileItem = /{"title"[ :]+"([\s\S]*?)"\s*,\s*"file"[ :]+"([^"]*?)"[^}]*},{0,1}/g;
-
-/**
- * Lesson list URL the site uses to load items with axios: axios.get('/course/3787/lessons')
- */
-export const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/;

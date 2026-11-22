@@ -8,7 +8,7 @@ import {
     parsePersistentFileContent,
     parsePlayerItems,
 } from './2-engine';
-import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './3-rename';
+import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './3-build-names';
 import { isSourceUrl, parseCopiedState, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './1-session';
 
 //---------------------------------------------------------------------------

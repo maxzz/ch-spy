@@ -1,5 +1,5 @@
 import { type CheerioAPI, load } from 'cheerio';
-import { type CourseDescription, reAxiosItemsQuery, reFileItem } from './9-content-match-regexes';
+import { type CourseDescription, reFileItem } from './9-content-match-regexes';
 
 //---------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ export interface Item {
     url: string;            // video URL
 }
 
-export interface CourseInfo {
+export type CourseInfo = {
     title?: string;         // course title
     desc?: string;          // course description
     producerUrl?: string;   // course producer URL
@@ -19,12 +19,12 @@ export interface CourseInfo {
     site?: string;          // coursehunter URL: "https://coursehunter.net/course/nodejs-polnoe-rukovodstvo"
     duration?: string;      // course duration: '10:17:09'
     raw: Partial<CourseDescription>; // raw information from the embedded script
-}
+};
 
-export interface ParseResult {
+export type ParseResult = {
     items: Item[];          // items on the page
     info: CourseInfo;       // collected information
-}
+};
 
 export function parseHtmlToItems(html: string): ParseResult {
     const $ = load(html);
@@ -71,14 +71,16 @@ export function getPlayerItemsUrl(html: string): string {
     return m ? `https://coursehunter.net${m[0]}` : '';
 }
 
+const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/; // Lesson list URL the site uses to load items with axios: axios.get('/course/3787/lessons')
+
 //---------------------------------------------------------------------------
 
-interface PlayerItem {          // items for build-in video player on the webpage
+type PlayerItem = {             // items for build-in video player on the webpage
     id: string;                 // id: "c37871"
     file: string;               // remote file: "https://vss5.coursehunter.net/s/8f91140b938014446b02c00615768193/udemy-vueinfluencer/lesson1.mp4"
     subtitle: string;           // subtitle: "[English]https://vss5.coursehunter.net/udemy-vueinfluencer/lesson1.srt"
     title: string;              // title: "1 Introduction | 00:03:45"
-}
+};
 
 export type PlayerItemsResult =
     | { ok: true; items: Item[]; }
@@ -103,11 +105,11 @@ export function parsePlayerItems(itemsJson: string): PlayerItemsResult {
     }
 }
 
-export interface PersistentContent {
+export type PersistentContent = {
     all: string;            // batch rename list
     source: string;         // source html or URL
     playerItems: string;    // player items JSON
-}
+};
 
 //---------------------------------------------------------------------------
 

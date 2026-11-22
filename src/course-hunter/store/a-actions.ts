@@ -7,26 +7,7 @@ import { allTogetherTextAtom, batchRenameFileAtom } from './a-derived';
 import { playerItemsJsonAtom, sourceInputAtom } from './a-local-storage-atoms';
 import { courseInfoAtom, itemsAtom, playerItemsUrlAtom, setErrorAtom } from './a-local-storage-state';
 
-/** Id of the Clear button; it gets focus after a copied state is pasted. */
-export const CLEAR_BUTTON_ID = 'ch-clear-button';
-
-function applyPatch(set: Setter, patch: SessionPatch): void {
-    if (patch.info) {
-        set(courseInfoAtom, patch.info);
-    }
-    if (patch.items) {
-        set(itemsAtom, patch.items);
-    }
-    if (patch.playerItemsUrl !== undefined) {
-        set(playerItemsUrlAtom, patch.playerItemsUrl);
-    }
-    if (patch.playerItemsJson !== undefined) {
-        set(playerItemsJsonAtom, patch.playerItemsJson);
-    }
-    if (patch.error !== undefined) {
-        set(setErrorAtom, patch.error);
-    }
-}
+//---------------------------------------------------------------------------
 
 /** "Fetch" (URL) or "Parse" (HTML, or text copied from this app). */
 export const parseOrFetchAtom = atom(
@@ -54,6 +35,9 @@ export const parseOrFetchAtom = atom(
     }
 );
 
+/** Id of the Clear button; it gets focus after a copied state is pasted. */
+export const CLEAR_BUTTON_ID = 'ch-clear-button';
+
 /** Parses the player items JSON into the item list. */
 export const parsePlayerItemsAtom = atom(
     null,
@@ -61,6 +45,26 @@ export const parsePlayerItemsAtom = atom(
         applyPatch(set, patchFromPlayerItems(get(playerItemsJsonAtom)));
     }
 );
+
+function applyPatch(set: Setter, patch: SessionPatch): void {
+    if (patch.info) {
+        set(courseInfoAtom, patch.info);
+    }
+    if (patch.items) {
+        set(itemsAtom, patch.items);
+    }
+    if (patch.playerItemsUrl !== undefined) {
+        set(playerItemsUrlAtom, patch.playerItemsUrl);
+    }
+    if (patch.playerItemsJson !== undefined) {
+        set(playerItemsJsonAtom, patch.playerItemsJson);
+    }
+    if (patch.error !== undefined) {
+        set(setErrorAtom, patch.error);
+    }
+}
+
+//---------------------------------------------------------------------------
 
 /** Clears the fetched course. Ctrl+Click also clears the player items. */
 export const clearSourceAtom = atom(

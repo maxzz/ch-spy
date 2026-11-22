@@ -7,24 +7,20 @@ import { type CourseInfo, type Item, getPlayerItemsUrl, parseHtmlToItems, parseP
 //---------------------------------------------------------------------------
 
 /** Text copied from the "Copy" action of the Clear/Parse row (JSON with the page and its player items). */
-export interface CopiedState {
-    a: 'tm';                // marker
-    docurl: string;
-    itemsurl: string;
-    doc: string;            // document.documentElement.outerHTML
-    items: string;          // fetched items
-}
-
-export const NOTHING_DETECTED = 'Nothing detected';
-
-export function isSourceUrl(text: string): boolean {
-    return /^https?:\/\//.test(text);
-}
+export type CopiedState = {
+    a: 'tm';                      // magic string to identify the result
+    docurl: string;               // document url
+    itemsurl: string | undefined; // player items url; if undefined then cannot get url from document
+    doc: string;                  // document html
+    items: string | undefined;    // player items json; if undefined then cannot fetch items from url
+};
 
 export function parseCopiedState(text: string): CopiedState | undefined {
-    if (!/^\{"a":"tm","docurl":"/.test(text)) {
+    const isOurFormat = /^\{"a":"tm","docurl":"/.test(text);
+    if (!isOurFormat) {
         return undefined;
     }
+
     try {
         return JSON.parse(text) as CopiedState;
     } catch {
@@ -36,13 +32,13 @@ export function parseCopiedState(text: string): CopiedState | undefined {
 //---------------------------------------------------------------------------
 
 /** Partial state update. A missing key means "leave unchanged". */
-export interface SessionPatch {
+export type SessionPatch = {
     info?: CourseInfo;
     items?: Item[];
     playerItemsUrl?: string;
     playerItemsJson?: string;
     error?: string;
-}
+};
 
 /** Page HTML: course info and lesson items from the page, or the player-items URL when the page has no items. */
 export function patchFromHtml(html: string): SessionPatch {
@@ -60,29 +56,7 @@ export function patchFromHtml(html: string): SessionPatch {
     };
 }
 
-//---------------------------------------------------------------------------
-
-/** Player items JSON (copied from the player items URL). */
-export function patchFromPlayerItems(itemsJson: string): SessionPatch {
-    const res = parsePlayerItems(itemsJson);
-    if (!res.ok) {
-        return { items: [], error: `${res.error}` };
-    }
-    return { items: res.items };
-}
-
-//---------------------------------------------------------------------------
-
-/** Copied state: page info plus the player items from the copy. */
-export function patchFromCopiedState(data: CopiedState): SessionPatch {
-    const { info } = parseHtmlToItems(data.doc);
-    return {
-        info,
-        playerItemsUrl: data.itemsurl ?? '',
-        playerItemsJson: data.items,
-        ...patchFromPlayerItems(data.items),
-    };
-}
+export const NOTHING_DETECTED = 'Nothing detected';
 
 //---------------------------------------------------------------------------
 
@@ -103,3 +77,32 @@ export function patchFromStorage(htmlText: string, playerItemsJson: string): Ses
     }
     return patch;
 }
+
+export function isSourceUrl(text: string): boolean {
+    return /^https?:\/\//.test(text);
+}
+
+//---------------------------------------------------------------------------
+
+/** Copied state: page info plus the player items from the copy. */
+export function patchFromCopiedState(data: CopiedState): SessionPatch {
+    const { info } = parseHtmlToItems(data.doc);
+    return {
+        info,
+        playerItemsUrl: data.itemsurl ?? '',
+        playerItemsJson: data.items,
+        ...patchFromPlayerItems(data.items),
+    };
+}
+
+//---------------------------------------------------------------------------
+
+/** Player items JSON (copied from the player items URL). */
+export function patchFromPlayerItems(itemsJson: string | undefined): SessionPatch {
+    const res = parsePlayerItems(itemsJson ?? '');
+    if (!res.ok) {
+        return { items: [], error: `${res.error}` };
+    }
+    return { items: res.items };
+}
+
