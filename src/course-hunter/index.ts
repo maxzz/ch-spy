@@ -1,1 +1,1 @@
-export { CourseHunterApp } from './components/2-main/course-hunter-app';
+export { CourseHunterApp } from './components/0-all/0-all-main';

@@ -1,21 +1,15 @@
-import '../styles.css';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { DevPanels } from '../../dev-tools/dev-panels';
+import { useSetAtom } from 'jotai';
 import { dropFileAtom } from '../../store/actions';
-import { dragActiveAtom, itemsAtom, playerItemsUrlAtom } from '../../store/state';
-import { cx } from '../../lib/classnames';
-import { ErrorMessage } from '../error-message';
-import { GeneratedList } from '../generated-list';
-import { Header } from '../header';
-import { PlayerItemsRow } from '../player-items-row';
-import { SourceRow } from '../source-row';
+import { dragActiveAtom } from '../../store/state';
+import { Header } from '../1-header/header';
+import { MainContent } from '../2-main/0-main-content';
+
+import './styles.css';
 
 /** Course list browser: paste or drop a course page, then download the videos. */
 export function CourseHunterApp() {
     const setDragActive = useSetAtom(dragActiveAtom);
     const dropFile = useSetAtom(dropFileAtom);
-    const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
-    const items = useAtomValue(itemsAtom);
 
     return (
         <div
@@ -39,19 +33,7 @@ export function CourseHunterApp() {
         >
             <Header />
 
-            <div className="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
-                <SourceRow />
-
-                <PlayerItemsRow />
-
-                <div className={cx(playerItemsUrl && items.length > 0 && '-mt-8')}>
-                    <GeneratedList />
-                </div>
-
-                <ErrorMessage />
-
-                <DevPanels />
-            </div>
+            <MainContent />
         </div>
     );
 }
