@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<!-- // test for 11.20.26 -->
+<!-- view-source:https://coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue -->
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vue 3 и Nuxt.js: Разные Способы Создания Приложений Vue | udemy</title>
+    <meta name="description"
+        content="Узнайте, как создать приложение админки с помощью Vue 3. В этом курсе: Vue 3, Nuxt.js, Composition API, Options API, Vuex, Typescript, Docker, c3.js charts, Загрузка Изображений, Экспорт CSV, Stripe.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="robots" content="index, follow">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preconnect" href="https://cdn.coursehunter.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.coursehunter.net">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-VSY2JHLP56'); window.addEventListener('load', function () { setTimeout(function () { var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VSY2JHLP56'; document.head.appendChild(s); }, 3000); }); </script>
+    <script defer src="https://coursehunter.net/scripts/i18n/header.en.js?ver=2d83a7cf"></script>
+    <script defer src="https://coursehunter.net/build/6b7bcfbaba.js"></script>
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://cdn.coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue.jpg">
+    <meta property="og:image:alt" content="Vue 3 и Nuxt.js: Разные Способы Создания Приложений Vue">
+    <meta property="og:site_name" content="CourseHunter">
+    <meta property="og:title" content="Vue 3 и Nuxt.js: Разные Способы Создания Приложений Vue">
+    <meta property="og:description"
+        content="Узнайте, как создать приложение админки с помощью Vue 3. В этом курсе: Vue 3, Nuxt.js, Composition API, Options API, Vuex, Typescript, Docker, c3.js charts, Загрузка Изображений, Экспорт CSV, Stripe.">
+    <meta property="og:site" content="CourseHunter">
+    <meta property="og:url" content="https://coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue">
+    <link rel="canonical" href="https://coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue">
+    <meta property="og:price:amount" content="13.00">
+    <meta property="og:price:currency" content="USD">
+    <meta property="product:price:amount" content="13.00">
+    <meta property="product:price:currency" content="USD">
+    <link rel="alternate" type="application/rss+xml" title="CourseHunter RSS" href="https://coursehunter.net/rss.xml">
+    <link rel="alternate" type="application/rss+xml" title="News RSS" href="https://coursehunter.net/news/feed">
+    <link rel="stylesheet" href="https://coursehunter.net/build/ea98a4842d.css">
+    <script
+        type="application/ld+json"> { "@context": "https://schema.org", "@type": "Course", "publisher": { "@type": "Organization", "name": "CourseHunter", "sameAs": "https://coursehunter.net/" }, "creator": [ { "@id": "https://coursehunter.net/source/udemy", "@type": "Organization", "name": "udemy", "sameAs": [ "https:\/\/www.instagram.com\/udemy\/", "https:\/\/www.linkedin.com\/company\/udemy", "https:\/\/x.com\/udemy"] } ], "provider": { "@type": "Organization", "name": "CourseHunter", "sameAs": "https://coursehunter.net/", "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "url": "https://coursehunter.net/contacts" } }, "@id": "https://coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue", "name": "Vue 3 и Nuxt.js: Разные Способы Создания Приложений Vue", "description": "Этот курс поможет вам на практике освоить современные подходы к разработке на Vue 3 и Nuxt.js. От базовой архитектуры проекта до интеграции сложных функций — вы шаг за шагом создадите полноценную админ-панель с маршрутизацией, загрузкой файлов, графиками, оплатой и многим другим.\n\nЧто вы изучите в этом курсе\nМатериал охватывает ключевые технологии экосистемы Vue, а также инструменты, которые используются в реальных коммерческих проектах.\n\n Vue 3 с Options API и Composition API\n Nuxt.js для серверного рендера и удобной структуры проекта\n Vuex для управления состоянием\n Typescript для типобезопасной разработки\n Работа с API, маршрутами и middleware\n Docker для упрощённого деплоя\n Графики на c3.js\n Загрузка изображений и экспорт CSV\n Интеграция платёжной системы Stripe\n\n\nПрактическая часть обучения\nКурс полностью ориентирован на практику: вы создадите реальный проект админки, постепенно внедряя новые функции и технологии.\n\nПостроение структуры проекта\nВы узнаете, как организовать архитектуру приложения, разделить логику по модулям, настроить маршруты и реализовать защищённые страницы.\n\nРабота с состоянием и API\nПодробно рассматриваются техники управления состоянием и взаимодействие с сервером, включая авторизацию, проверку токенов и хранение данных.\n\nИнтеграция сторонних инструментов\n\n Добавление графиков с помощью c3.js\n Подключение Stripe для оплаты\n Реализация загру", "isAccessibleForFree": false, "image": "https://cdn.coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue.jpg", "inLanguage": "en", "datePublished": "2021-02-15", "dateModified": "2026-04-29", "hasCourseInstance": { "@type": "CourseInstance", "courseMode": "Online", "courseWorkload": "PT4H59M"}, "offers": [ { "@type": "Offer", "category": "Paid", "price": 13, "priceCurrency": "USD" } ], "about": { "name": "nuxt" } ,"aggregateRating": { "@type": "AggregateRating", "ratingValue": 2.2, "ratingCount": 11, "bestRating": 5, "worstRating": 1 } ,"comment": [ { "@type": "Comment", "@id": "https://coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue#com-id-4822", "dateCreated": "2021-04-26", "text": "Every time I trying to make the register request getting 400 'A non well formed numeric value encountered' ", "author": { "@type": "Person", "name": "Anonymous" } , "interactionStatistic": [ { "@type": "InteractionCounter", "interactionType": { "@type": "DislikeAction" }, "userInteractionCount": 1 } ] } ] } </script>
+</head>
+
+<body class="theme_dark " data-logged-in="1" data-infinite-scroll="1" data-course-id="3787">
+    <header class="hdr" data-hdr data-cdn="https://cdn.coursehunter.net">
+        <div class="container hdr__bar"><button class="hdr__icon hdr__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="hdr-nav"
+                data-hdr-burger><svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-toggle"></use>
+                </svg></button>
+            <a href="https://coursehunter.net/" title="CourseHunter" aria-label="CourseHunter" class="hdr__logo main-header-logo"><span
+                    hidden>CourseHunter</span><svg class="logo-t logo-t-desktop prim" width="130" height="21">
+                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-logo-compact"></use>
+                </svg><svg class="logo-t-mobile icon">
+                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-logo"></use>
+                </svg>
+            </a>
+            <nav class="hdr__nav" id="hdr-nav" aria-label="Main menu" data-level="0">
+                <ul class="hdr__list">
+                    <li class="hdr__item"><input class="hdr__filter hdr__top-search" type="search" placeholder="" aria-label="" data-hdr-top-search></li>
+                    <li class="hdr__item"><button class="hdr__link hdr__catalog" type="button" aria-expanded="false" aria-controls="hdr-mega"
+                            data-hdr-catalog><svg class="hdr__glyph" viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+                                <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+                                <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+                                <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+                            </svg> Catalog <svg class="hdr__chevron hdr__mobile-only" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m10 6 6 6-6 6" />
+                            </svg></button>
+                        <div class="hdr__mega" id="hdr-mega" hidden data-hdr-mega></div>
+                    </li>
+                    <li class="hdr__item"><a class="hdr__link" href="/source">Channels</a></li>
+                    <li class="hdr__item hdr__item--sub"><a class="hdr__link" href="/course">Courses</a><button class="hdr__sub-toggle" type="button"
+                            aria-expanded="false" aria-controls="hdr-nav-3" aria-label="Courses" data-dd-toggle><svg class="hdr__chevron" viewBox="0 0 24 24"
+                                aria-hidden="true">
+                                <path d="m6 9 6 6 6-6" />
+                            </svg></button>
+                        <ul class="hdr__sub hdr__panel" id="hdr-nav-3" hidden>
+                            <li><a href="/popular">Popular </a></li>
+                            <li><a href="/course-free">Free (2999+)</a></li>
+                        </ul>
+                    </li>
+                    <li class="hdr__item hdr__item--sub"><a class="hdr__link" href="/book">Books</a><button class="hdr__sub-toggle" type="button"
+                            aria-expanded="false" aria-controls="hdr-nav-9" aria-label="Books" data-dd-toggle><svg class="hdr__chevron" viewBox="0 0 24 24"
+                                aria-hidden="true">
+                                <path d="m6 9 6 6 6-6" />
+                            </svg></button>
+                        <ul class="hdr__sub hdr__panel" id="hdr-nav-9" hidden>
+                            <li><a href="/book-free">Free</a></li>
+                            <li><a href="/book-popular">Popular</a></li>
+                        </ul>
+                    </li>
+                    <li class="hdr__item"><a class="hdr__link" href="/category/kraudfanding">Crowdfunding</a></li>
+                </ul>
+            </nav>
+            <button class="hdr__icon hdr__search" type="button" aria-label="Search" title="Search (Ctrl K)">
+                <svg class="hdr__search-icon" aria-hidden="true">
+                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-search"></use>
+                </svg></button>
+            <div class="hdr__actions">
+                <div class="hdr__dd"><button class="hdr__icon hdr__lang" type="button" aria-expanded="false" aria-controls="hdr-lang" aria-label="Language"
+                        data-dd-toggle> EN <svg class="hdr__chevron" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m6 9 6 6 6-6" />
+                        </svg></button>
+                    <div class="hdr__menu hdr__panel" id="hdr-lang" hidden><button type="button" class="hdr__menu-item" data-type="language-item"
+                            data-title="ru" aria-pressed="false"><svg class="hdr__flag" aria-hidden="true">
+                                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-flag-ru"></use>
+                            </svg> Русский </button><button type="button" class="hdr__menu-item" data-type="language-item" data-title="uk"
+                            aria-pressed="false"><svg class="hdr__flag" aria-hidden="true">
+                                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-flag-ua"></use>
+                            </svg> Українська </button><button type="button" class="hdr__menu-item hdr__menu-item--active" data-type="language-item"
+                            data-title="en" aria-pressed="true"><svg class="hdr__flag" aria-hidden="true">
+                                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-flag-us"></use>
+                            </svg> English </button></div>
+                </div>
+                <div class="hdr__dd"><button class="hdr__icon" type="button" aria-expanded="false" aria-controls="hdr-theme" aria-label="Theme" title="Theme"
+                        data-dd-toggle><svg class="icon" aria-hidden="true">
+                            <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-moon"></use>
+                        </svg></button>
+                    <div class="hdr__menu hdr__panel hdr__menu--themes" id="hdr-theme" hidden>
+                        <div class="hdr-themes__list" role="group" aria-label="Theme"><button type="button" class="hdr-theme hdr-theme--light"
+                                data-type="theme-item" data-title="light" aria-pressed="false"><span class="hdr-theme__swatch" aria-hidden="true"></span>Dark
+                                blue
+                            </button><button type="button" class="hdr-theme hdr-theme--dark hdr-theme--active" data-type="theme-item" data-title="dark"
+                                aria-pressed="true"><span class="hdr-theme__swatch" aria-hidden="true"></span>Purple
+                            </button><button type="button" class="hdr-theme hdr-theme--orange" data-type="theme-item" data-title="orange"
+                                aria-pressed="false"><span class="hdr-theme__swatch" aria-hidden="true"></span>Light </button><button type="button"
+                                class="hdr-theme hdr-theme--orange_dark" data-type="theme-item" data-title="orange_dark" aria-pressed="false"><span
+                                    class="hdr-theme__swatch" aria-hidden="true"></span>Orange
+                            </button><button type="button" class="hdr-theme hdr-theme--terminal" data-type="theme-item" data-title="terminal"
+                                aria-pressed="false"><span class="hdr-theme__swatch" aria-hidden="true"></span>Terminal </button><button type="button"
+                                class="hdr-theme hdr-theme--far" data-type="theme-item" data-title="far" aria-pressed="false"><span class="hdr-theme__swatch"
+                                    aria-hidden="true"></span>Norton
+                                Commander </button></div>
+                    </div>
+                </div>
+                <div class="notification-box hdr__notifications"><button class="notification-toggle" aria-label="Toggle Notifications" data-api="true"
+                        data-action="notifications-unread">
+                        <div class="notification-badge">Notification</div><svg class="icon">
+                            <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-bell"></use>
+                        </svg>
+                    </button>
+                    <div class="notification-list">
+                        <div class="notification-header">
+                            <div class="notification-title">Recent notifications</div><button class="notification-close" aria-label="Close Notifications"><svg
+                                    class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-close"></use>
+                                </svg></button>
+                        </div>
+                        <div class="notification-list-content">
+                            <div class="notification-no"><svg class="icon notification-no-icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-bell"></use>
+                                </svg>
+                                <div class="notification-no-text">No notifications</div>
+                            </div>
+                        </div><a class="notification-all" href="https://coursehunter.net/notifications" title="All messages">All
+                            messages</a>
+                    </div>
+                </div><a href="https://coursetrain.net" title="CourseTrain" class="hdr__signin hdr__train" target="_blank"
+                    rel="noopener noreferrer">CourseTrain</a>
+                <div class="drop hdr__user"><button class="drop-target main-header-profile hdr__avatar" aria-label="User menu">
+                        <div class="user-avatar-box"><img src="https://cdn.coursehunter.net/profiles/40x40/34422.webp"
+                                srcset="https://cdn.coursehunter.net/profiles/80x80/34422.webp 2x" width="40" height="40" alt="maxzz logo" loading="lazy"
+                                decoding="async" class="user-avatar" data-type="profile"></div><span class="vh">Profile</span>
+                    </button>
+                    <ul class="drop-menu drop-menu_user">
+                        <li class="drop-head"><span class="drop-head__avatar" aria-hidden="true">M</span><span class="drop-head__info"><span
+                                    class="drop-head__name">maxzz</span><span class="drop-head__plan">Subscribed until
+                                    27.11.2027</span></span><a class="btn btn-s drop-head__cta" href="https://coursehunter.net/pricing">Renew</a></li>
+                        <li class="drop-divider" role="presentation"></li>
+                        <li class="drop-tiles"><a class="drop-tile" href="https://coursehunter.net/user/34422/crowdfunding"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-play"></use>
+                                </svg>My courses </a><a class="drop-tile" href="https://coursehunter.net/cabinet?tab=playlist"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-source"></use>
+                                </svg>Playlists </a><a class="drop-tile" href="https://coursehunter.net/bookmarks"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-heart"></use>
+                                </svg>Bookmarks </a><a class="drop-tile" href="https://coursehunter.net/liked-courses"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-like"></use>
+                                </svg>Liked Courses </a><a class="drop-tile" href="https://coursehunter.net/history"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-time"></use>
+                                </svg>History </a><a class="drop-tile" href="https://coursehunter.net/achievements"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-star"></use>
+                                </svg>Achievements </a></li>
+                        <li class="drop-divider" role="presentation"></li>
+                        <li class="drop-label" role="presentation">Account</li>
+                        <li class="drop-item"><a class="drop-a" title="Cabinet" href="https://coursehunter.net/cabinet"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-user"></use>
+                                </svg> Cabinet </a></li>
+                        <li class="drop-item drop-item_highlight"><a class="drop-a" title="Order desc" href="https://coursehunter.net/order-desc"><svg
+                                    class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-calendar">
+                                    </use>
+                                </svg> Order desc </a></li>
+                        <li class="drop-item"><a class="drop-a" title="Support" href="https://coursehunter.net/cabinet?tab=support"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-user"></use>
+                                </svg> Support </a></li>
+                        <li class="drop-item drop-item_highlight"><a class="drop-a" title="Android app" href="https://coursehunter.net/app"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-phone"></use>
+                                </svg> Android app </a></li>
+                        <li class="drop-label" role="presentation">Services</li>
+                        <li class="drop-item drop-item_vpn"><a class="drop-a" title="VPN" href="https://coursehunter.net/vpn"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-vpn"></use>
+                                </svg> VPN </a></li>
+                        <li class="drop-divider" role="presentation"></li>
+                        <li class="drop-item drop-item_danger"><a class="drop-a" title="Log out" href="https://coursehunter.net/logout"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-arrow"></use>
+                                </svg> Log out </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main id="main-content" tabindex="-1">
+        <div class="gradient raw">
+            <div class="container">
+                <div class="breadcrumbs pt-20" itemscope itemtype="https://schema.org/BreadcrumbList"><span class="breadcrumbs__span" itemprop="itemListElement"
+                        itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumbs__a" itemprop="item" href="https://coursehunter.net/"><span
+                                itemprop="name">Home</span></a>
+                        <meta itemprop="position" content="1">
+                    </span><span class="breadcrumbs__span" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumbs__a"
+                            itemprop="item" href="https://coursehunter.net/category/nuxt"><span itemprop="name">Сategory nuxt</span></a>
+                        <meta itemprop="position" content="2">
+                    </span><span class="breadcrumbs__span" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span
+                            class="breadcrumbs__a breadcrumbs__a_active" itemprop="name">Vue 3 and Nuxt.js: Different Ways of Creating Vue
+                            Apps</span>
+                        <meta itemprop="item" content="https://coursehunter.net/course/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue">
+                        <meta itemprop="position" content="3">
+                    </span></div>
+                <div class="raw-box">
+                    <h1 class="raw-title">Vue 3 and Nuxt.js: Different Ways of Creating Vue Apps</h1>
+                    <div class="raw-source"><a class="raw-source-item" href="#udemy" title="udemy">
+                            <div class="it-picture"><img src="https://cdn.coursehunter.net/sources/30x30/udemy.webp"
+                                    srcset="https://cdn.coursehunter.net/sources/60x60/udemy.webp 2x" width="30" height="30" alt="udemy logo" loading="lazy"
+                                    decoding="async" class="it-icon" data-type="source"></div><span class="it-name">udemy</span>
+                        </a></div>
+                    <div class="raw-rating">
+                        <div class="raw-rating-on" style="--rating-width: 45%;" data-text="+5/-6"></div>
+                    </div>
+                    <div class="raw-schemarate mt-5"><span class="raw-schemarate-star">&#9733;</span><strong>2.2</strong> (<i>Total
+                            ratings</i> -
+                        <strong>11</strong>)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="book-wrap">
+            <div class="container">
+                <div class="book-wrap-flex">
+                    <aside class="book-wrap-poster course-page-poster ">
+                        <div class="book-wrap-poster-inner">
+                            <div class="book-wrap-figure"><img
+                                    src="https://cdn.coursehunter.net/courses/270x160/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue.webp"
+                                    srcset="https://cdn.coursehunter.net/courses/540x320/vue-3-i-nuxt-js-raznye-sposoby-sozdaniya-prilozheniy-vue.webp 2x"
+                                    width="270" height="160" alt="Vue 3 и Nuxt.js: Разные Способы Создания Приложений Vue" fetchpriority="high"
+                                    class="book-wrap-img" data-type="course"></div>
+                        </div>
+                        <div class="book-wrap-share"><button class="btn book-wrap-btn" data-api="true" data-action="copy-url"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-share"></use>
+                                </svg><span>Share link</span></button></div>
+                        <form class="book-wrap-form"><input type="checkbox" name="sub" hidden id="subToCourseUpdate" data-on="Tracking" data-off="Track"><label
+                                for="subToCourseUpdate" class="btn book-wrap-btn" title="After subscribing, you will be receive an email after an updated."><svg
+                                    class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-eye"></use>
+                                </svg><span>Track</span><span class="sub-count">(3) </span></label>
+                        </form>
+                        <button class="btn book-wrap-btn" id="add_to_playlist" data-id="3787"><svg class="icon">
+                                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-source"></use>
+                            </svg><span>Add to playlist</span>
+                        </button>
+
+
+
+                        <dialog id="playlist-dialog" class="dialog playlist-dialog">
+                            <div class="playlist-header">
+                                <h3 class="playlist-title">Add to playlist</h3>
+                            </div>
+                            <ul class="playlist-list">
+                                <li class="playlist-item" data-id="2780"> Security 🔒 </li>
+                                <li class="playlist-item" data-id="2990"> Games, Unity, Telegram bots 🔒 </li>
+                                <li class="playlist-item" data-id="3131"> Interview, foreing languages 🔒 </li>
+                                <li class="playlist-item" data-id="3815"> Go, Rust, other languages 🔒 </li>
+                                <li class="playlist-item" data-id="3914"> React 🔒 </li>
+                                <li class="playlist-item" data-id="3915"> Javascript, Node 🔒 </li>
+                                <li class="playlist-item" data-id="3916"> AI coding 🔒 </li>
+                                <li class="playlist-item" data-id="4290"> Mobile dev, Vue 🔒 </li>
+                                <li class="playlist-item" data-id="4291"> UX, Testing, QA 🔒 </li>
+                                <li class="playlist-item" data-id="4568"> Git, GitHub, GitLab 🔒 </li>
+                                <li class="playlist-item" data-id="5339"> AWS, Asure, Netlify, Deployment 🔒 </li>
+                                <li class="playlist-item" data-id="5394"> Aniamtions, framer-motion 🔒 </li>
+                                <li class="playlist-item" data-id="6469"> Angular 🔒 </li>
+                                <li class="playlist-item" data-id="8261"> Networking, SEO, Microservices 🔒 </li>
+                                <li class="playlist-item" data-id="8272"> Database 🔒 </li>
+                            </ul>
+                            <form class="playlist-add" id="playlist-add">
+                                <div class="c-group"><label for="playlist-add-input" class="c-label">Create
+                                        playlist</label><input type="text" class="c-input" id="playlist-add-input" placeholder="Playlist name" required
+                                        name="title" minlength="5" maxlength="50">
+                                </div>
+                                <div class="c-group"><label for="playlist-add-checkbox" class="playlist-add-label">Public</label><select
+                                        class="playlist-add-checkbox" id="playlist-add-checkbox" name="privacy">
+                                        <option value="private">Private</option>
+                                        <option value="public">Public</option>
+                                    </select></div><button type="submit" class="btn playlist-add-btn">Create</button>
+                            </form>
+                        </dialog>
+
+
+
+                        <button class="btn book-wrap-btn" data-api="true" data-action="bookmark-add" data-id="3787" data-add-text="Add to bookmarks"
+                            data-remove-text="Remove from bookmarks">
+                            <svg class="icon">
+                                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-heart"></use>
+                            </svg>
+                            <span>Add to bookmarks</span>
+                        </button>
+                        <a href="#" rel="nofollow" title="Download" class="btn book-wrap-btn" data-api="true" data-action="archive" data-course-id="3787">
+                            <svg class="icon">
+                                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-download"></use>
+                            </svg> Download course archive
+                        </a>
+                        <a href="#" rel="nofollow" title="Download" class="btn book-wrap-btn" data-api="true" data-action="materials" data-course-id="3787">
+                            <svg class="icon">
+                                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-download"></use>
+                            </svg>Download course materials
+                        </a>
+                        <a class="course-app" id="course-app" href="https://coursehunter.net/app" hidden>
+                            <span class="course-app__icon" aria-hidden="true">
+                                <svg width="24" height="24">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-android"></use>
+                                </svg>
+                            </span>
+                            <span class="course-app__text"><strong>Watch this course offline in the
+                                    app</strong><span>Download lessons to your phone and pick up where you stopped, even
+                                    offline.</span></span><span class="course-app__go" aria-hidden="true">&rsaquo;
+                            </span>
+                        </a>
+
+
+
+                        <script> (function () { var ua = navigator.userAgent; if (/Android/i.test(ua) && !/; wv\)/.test(ua)) document.getElementById('course-app').hidden = false; })(); </script>
+
+
+
+                        <div class="book-wrap-actions">
+                            <span class="mr-15 rang">
+                                <button class="rang-btn" id="positive-rank" data-course-id="3787" data-user-id="34422" data-vote="up" role="button"
+                                    aria-label="like">
+                                    <svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-like">
+                                        </use>
+                                    </svg>
+                                </button>
+                                <span class="rang-text good">5</span>
+                                <button class="rang-btn" id="negative-rank" data-course-id="3787" data-user-id="34422" data-vote="down" role="button"
+                                    aria-label="dislike">
+                                    <svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-dislike">
+                                        </use>
+                                    </svg>
+                                </button>
+                                <span class="rang-text bad">6</span>
+                            </span>
+                        </div>
+                    </aside>
+
+
+
+                    <div class="book-wrap-content">
+                        <div class="book-wrap-info">
+
+                            <div class="course-box-item">
+                                <div class="course-box-left">
+                                    <svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-time">
+                                        </use>
+                                    </svg>
+                                </div>
+                                <div class="course-box-right">
+                                    <div class="course-box-title">Duration</div>
+                                    <div class="course-box-value"> 4 h 59 min </div>
+                                </div>
+                            </div>
+
+                            <div class="course-box-item">
+                                <div class="course-box-left">
+                                    <svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-star">
+                                        </use>
+                                    </svg>
+                                </div>
+                                <div class="course-box-right">
+                                    <div class="course-box-title">Сategory</div>
+                                    <a class="course-box-value" href="https://coursehunter.net/category/nuxt" title="Nuxt">Nuxt
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="course-box-item">
+                                <div class="course-box-left"><svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-calendar">
+                                        </use>
+                                    </svg></div>
+                                <div class="course-box-right">
+                                    <div class="course-box-title">Lessons</div>
+                                    <div class="course-box-value">62 Videos</div>
+                                </div>
+                            </div>
+
+                            <div class="course-box-item">
+                                <div class="course-box-left"><svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-calendar">
+                                        </use>
+                                    </svg></div>
+                                <div class="course-box-right">
+                                    <div class="course-box-title">Added date</div>
+                                    <div class="course-box-value">Feb 15, 2021, 11:23 PM</div>
+                                </div>
+                            </div>
+
+                            <div class="course-box-item">
+                                <div class="course-box-left"><svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-language">
+                                        </use>
+                                    </svg></div>
+                                <div class="course-box-right">
+                                    <div class="course-box-title">Language</div>
+                                    <div class="course-box-value">English</div>
+                                </div>
+                            </div>
+
+                            <div class="course-box-item">
+                                <div class="course-box-left"><svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-calendar">
+                                        </use>
+                                    </svg></div>
+                                <div class="course-box-right">
+                                    <div class="course-box-title">Release date</div>
+                                    <div class="course-box-value">Feb 12, 2021, 2:00 AM</div>
+                                </div>
+                            </div>
+
+                            <div class="course-box-item">
+                                <div class="course-box-left"><svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-calendar">
+                                        </use>
+                                    </svg></div>
+                                <div class="course-box-right">
+                                    <div class="course-box-title">Update date</div>
+                                    <div class="course-box-value">Apr 29, 2026, 9:29 AM</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="book-wrap-description ">
+                            <div data-purpose="lead-headline">Learn how to create an Admin App using Vue 3. Vue 3,
+                                Nuxt.js, Composition API, Options API, Vuex, Typescript, Docker, c3.js charts, Upload
+                                Images, Export CSV, Stripe.</div>
+                            <div data-component-props='{"rating":4.185562,"num_reviews":27,"hasDarkBackground":true}'>
+                                <div data-purpose="rating"><br></div>
+                            </div><br>
+                            <p><strong>In this tutorial you will learn:&nbsp;</strong></p>
+
+                            <ul>
+                                <li>
+                                    <p>Use Vue with Typescript</p>
+                                </li>
+                                <li>
+                                    <p>Use Nuxt.js</p>
+                                </li>
+                                <li>
+                                    <p>Use Vuex</p>
+                                </li>
+                                <li>
+                                    <p>How to use Composition API and Options API</p>
+                                </li>
+                                <li>
+                                    <p>Create classes, interfaces</p>
+                                </li>
+                                <li>
+                                    <p>Create public and private routes</p>
+                                </li>
+                                <li>
+                                    <p>Restrict routes for unauthorized users</p>
+                                </li>
+                                <li>
+                                    <p>Upload Images</p>
+                                </li>
+                                <li>
+                                    <p>Export CSV&#39;s</p>
+                                </li>
+                                <li>
+                                    <p>Build a chart with c3.js (part of d3.js)</p>
+                                </li>
+                                <li>
+                                    <p>Pay with Stripe</p>
+                                </li>
+                            </ul>
+
+                            <p>If these are what you are looking for then this course is for you.</p>
+                            <div class="book-wrap-more">Show more <svg width="14" height="8" viewBox="0 0 14 8" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M7.0003 6.79988L0.978751 0.778328C0.830657 0.630234 0.593148 0.630234 0.445054 0.778328C0.296961 0.926422 0.296961 1.16393 0.445054 1.31202L6.73485 7.60182C6.88294 7.74991 7.12045 7.74991 7.26855 7.60182L13.5555 1.31202C13.6282 1.23937 13.6673 1.14158 13.6673 1.04657C13.6673 0.951568 13.631 0.853771 13.5555 0.781121C13.4075 0.633027 13.1699 0.633027 13.0219 0.781121L7.0003 6.79988Z"
+                                        fill="currentColor" />
+                                </svg></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="main-content relative">
+                <div class="container" data-player data-course-id="3787" data-locale="en" data-tag="2d83a7cf">
+                    <div class="player">
+                        <div class="player-box">
+                            <div class="player-left bb">
+                                <div id="player" class="ar-6-8"><svg class="player-play">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-play">
+                                        </use>
+                                    </svg></div>
+                            </div>
+                            <div class="player-right">
+                                <form autocomplete="off" class="mb-10"><label for="lessonSearch" class="vh">Search</label><input type="search"
+                                        class="c-input c-input-size-m" placeholder="Search by lessons" name="q" id="lessonSearch">
+                                </form>
+
+
+
+
+                                <ol id="lessons-list" class="lessons-list">
+                                    <li class="lessons-item lessons-item-video" data-index="1">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 1.</span>
+                                            <span class="lessons-duration">00:03:45</span>
+                                        </div>
+                                        <div class="lessons-name">Introduction</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="2">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 2.</span>
+                                            <span class="lessons-duration">00:02:02</span>
+                                        </div>
+                                        <div class="lessons-name">Installation</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="3">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 3.</span>
+                                            <span class="lessons-duration">00:05:05</span>
+                                        </div>
+                                        <div class="lessons-name">Docker</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="4">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 4.</span>
+                                            <span class="lessons-duration">00:06:52</span>
+                                        </div>
+                                        <div class="lessons-name">Template</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="5">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 5.</span>
+                                            <span class="lessons-duration">00:06:17</span>
+                                        </div>
+                                        <div class="lessons-name">Router</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="6">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 6.</span>
+                                            <span class="lessons-duration">00:07:29</span>
+                                        </div>
+                                        <div class="lessons-name">Form Submit</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="7">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 7.</span>
+                                            <span class="lessons-duration">00:04:43</span>
+                                        </div>
+                                        <div class="lessons-name">Register</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="8">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 8.</span>
+                                            <span class="lessons-duration">00:07:00</span>
+                                        </div>
+                                        <div class="lessons-name">Login</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="9">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 9.</span>
+                                            <span class="lessons-duration">00:04:17</span>
+                                        </div>
+                                        <div class="lessons-name">Child Routes</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="10">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 10.</span>
+                                            <span class="lessons-duration">00:04:28</span>
+                                        </div>
+                                        <div class="lessons-name">Logout</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="11">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 11.</span>
+                                            <span class="lessons-duration">00:04:29</span>
+                                        </div>
+                                        <div class="lessons-name">Component Props</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="12">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 12.</span>
+                                            <span class="lessons-duration">00:06:09</span>
+                                        </div>
+                                        <div class="lessons-name">Users</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="13">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 13.</span>
+                                            <span class="lessons-duration">00:03:21</span>
+                                        </div>
+                                        <div class="lessons-name">Router Link Active</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="14">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 14.</span>
+                                            <span class="lessons-duration">00:05:20</span>
+                                        </div>
+                                        <div class="lessons-name">Pagination</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="15">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 15.</span>
+                                            <span class="lessons-duration">00:03:49</span>
+                                        </div>
+                                        <div class="lessons-name">Deleting Users</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="16">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 16.</span>
+                                            <span class="lessons-duration">00:06:56</span>
+                                        </div>
+                                        <div class="lessons-name">Classes and Interfaces</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="17">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 17.</span>
+                                            <span class="lessons-duration">00:06:45</span>
+                                        </div>
+                                        <div class="lessons-name">Creating Users</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="18">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 18.</span>
+                                            <span class="lessons-duration">00:05:06</span>
+                                        </div>
+                                        <div class="lessons-name">Updating Users</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="19">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 19.</span>
+                                            <span class="lessons-duration">00:05:09</span>
+                                        </div>
+                                        <div class="lessons-name">Roles</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="20">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 20.</span>
+                                            <span class="lessons-duration">00:09:08</span>
+                                        </div>
+                                        <div class="lessons-name">Creating Roles</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="21">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 21.</span>
+                                            <span class="lessons-duration">00:04:50</span>
+                                        </div>
+                                        <div class="lessons-name">Updating Roles</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="22">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 22.</span>
+                                            <span class="lessons-duration">00:05:28</span>
+                                        </div>
+                                        <div class="lessons-name">Products</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="23">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 23.</span>
+                                            <span class="lessons-duration">00:08:50</span>
+                                        </div>
+                                        <div class="lessons-name">Paginator Component</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="24">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 24.</span>
+                                            <span class="lessons-duration">00:04:49</span>
+                                        </div>
+                                        <div class="lessons-name">Creating Products</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="25">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 25.</span>
+                                            <span class="lessons-duration">00:04:11</span>
+                                        </div>
+                                        <div class="lessons-name">Uploading Images</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="26">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 26.</span>
+                                            <span class="lessons-duration">00:03:19</span>
+                                        </div>
+                                        <div class="lessons-name">Image Component</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="27">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 27.</span>
+                                            <span class="lessons-duration">00:05:27</span>
+                                        </div>
+                                        <div class="lessons-name">Updating Products</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="28">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 28.</span>
+                                            <span class="lessons-duration">00:05:53</span>
+                                        </div>
+                                        <div class="lessons-name">Orders</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="29">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 29.</span>
+                                            <span class="lessons-duration">00:05:39</span>
+                                        </div>
+                                        <div class="lessons-name">Order Items</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="30">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 30.</span>
+                                            <span class="lessons-duration">00:03:53</span>
+                                        </div>
+                                        <div class="lessons-name">Export CSV files</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="31">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 31.</span>
+                                            <span class="lessons-duration">00:07:26</span>
+                                        </div>
+                                        <div class="lessons-name">Chart</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="32">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 32.</span>
+                                            <span class="lessons-duration">00:07:36</span>
+                                        </div>
+                                        <div class="lessons-name">Profile</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="33">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 33.</span>
+                                            <span class="lessons-duration">00:07:56</span>
+                                        </div>
+                                        <div class="lessons-name">Vuex</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="34">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 34.</span>
+                                            <span class="lessons-duration">00:02:15</span>
+                                        </div>
+                                        <div class="lessons-name">Dispatch Events with Vuex</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="35">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 35.</span>
+                                            <span class="lessons-duration">00:04:17</span>
+                                        </div>
+                                        <div class="lessons-name">Vuex Modules</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="36">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 36.</span>
+                                            <span class="lessons-duration">00:05:06</span>
+                                        </div>
+                                        <div class="lessons-name">Typescript Getters</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="37">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 37.</span>
+                                            <span class="lessons-duration">00:06:39</span>
+                                        </div>
+                                        <div class="lessons-name">Permissions</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="38">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 38.</span>
+                                            <span class="lessons-duration">00:02:08</span>
+                                        </div>
+                                        <div class="lessons-name">Login with HttpOnly Cookies</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="39">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 39.</span>
+                                            <span class="lessons-duration">00:01:56</span>
+                                        </div>
+                                        <div class="lessons-name">Changing the Database</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="40">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 40.</span>
+                                            <span class="lessons-duration">00:00:30</span>
+                                        </div>
+                                        <div class="lessons-name">Admin Changes</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="41">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 41.</span>
+                                            <span class="lessons-duration">00:01:12</span>
+                                        </div>
+                                        <div class="lessons-name">Installation</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="42">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 42.</span>
+                                            <span class="lessons-duration">00:04:15</span>
+                                        </div>
+                                        <div class="lessons-name">Template</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="43">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 43.</span>
+                                            <span class="lessons-duration">00:07:01</span>
+                                        </div>
+                                        <div class="lessons-name">Child Components</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="44">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 44.</span>
+                                            <span class="lessons-duration">00:06:02</span>
+                                        </div>
+                                        <div class="lessons-name">Register</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="45">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 45.</span>
+                                            <span class="lessons-duration">00:03:32</span>
+                                        </div>
+                                        <div class="lessons-name">Login</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="46">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 46.</span>
+                                            <span class="lessons-duration">00:03:32</span>
+                                        </div>
+                                        <div class="lessons-name">Logout</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="47">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 47.</span>
+                                            <span class="lessons-duration">00:10:07</span>
+                                        </div>
+                                        <div class="lessons-name">Vuex</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="48">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 48.</span>
+                                            <span class="lessons-duration">00:03:26</span>
+                                        </div>
+                                        <div class="lessons-name">Products</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="49">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 49.</span>
+                                            <span class="lessons-duration">00:03:39</span>
+                                        </div>
+                                        <div class="lessons-name">Rankings</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="50">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 50.</span>
+                                            <span class="lessons-duration">00:05:10</span>
+                                        </div>
+                                        <div class="lessons-name">Stats</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="51">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 51.</span>
+                                            <span class="lessons-duration">00:02:42</span>
+                                        </div>
+                                        <div class="lessons-name">Searching Products</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="52">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 52.</span>
+                                            <span class="lessons-duration">00:04:42</span>
+                                        </div>
+                                        <div class="lessons-name">Selecting Products</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="53">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 53.</span>
+                                            <span class="lessons-duration">00:04:19</span>
+                                        </div>
+                                        <div class="lessons-name">Generating Links</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="54">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 54.</span>
+                                            <span class="lessons-duration">00:01:45</span>
+                                        </div>
+                                        <div class="lessons-name">Installation</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="55">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 55.</span>
+                                            <span class="lessons-duration">00:05:49</span>
+                                        </div>
+                                        <div class="lessons-name">Template</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="56">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 56.</span>
+                                            <span class="lessons-duration">00:03:03</span>
+                                        </div>
+                                        <div class="lessons-name">Routing</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="57">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 57.</span>
+                                            <span class="lessons-duration">00:03:14</span>
+                                        </div>
+                                        <div class="lessons-name">asyncData</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="58">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 58.</span>
+                                            <span class="lessons-duration">00:04:23</span>
+                                        </div>
+                                        <div class="lessons-name">Products</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="59">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 59.</span>
+                                            <span class="lessons-duration">00:03:37</span>
+                                        </div>
+                                        <div class="lessons-name">Order Total</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="60">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 60.</span>
+                                            <span class="lessons-duration">00:07:07</span>
+                                        </div>
+                                        <div class="lessons-name">Creating Orders</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="61">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 61.</span>
+                                            <span class="lessons-duration">00:03:22</span>
+                                        </div>
+                                        <div class="lessons-name">Stripe</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                    <li class="lessons-item lessons-item-video" data-index="62">
+                                        <div class="lessons-head">
+                                            <span class="lessons-title">lesson 62.</span>
+                                            <span class="lessons-duration">00:01:31</span>
+                                        </div>
+                                        <div class="lessons-name">Conclusion</div> <progress value="0" max="100"></progress>
+                                    </li>
+                                </ol>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="progress-box"><progress value="0" max="100"></progress></div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="container mb-20">
+            <h2 class="standard-title text-left mb-20">Author - udemy</h2>
+            <div class="posts">
+                <article class="post-card" id="udemy" data-item="true">
+                    <div class="post-picture post-picture-square"><img src="https://cdn.coursehunter.net/sources/220x220/udemy.webp"
+                            srcset="https://cdn.coursehunter.net/sources/440x440/udemy.webp 2x" width="220" height="220" alt="udemy logo" loading="lazy"
+                            data-link="https://coursehunter.net/source/udemy" decoding="async" class="post-picture-img" data-type="source"></div>
+                    <div class="post-info">
+                        <div class="post-main">
+                            <h3 class="post-title"><a href="https://coursehunter.net/source/udemy" class="post-title-link" title="udemy">
+                                    udemy </a></h3>
+                            <p class="post-description"> Udemy is one of the largest platforms in the world, offering
+                                educational content from authors and experts across the globe. The service connects
+                                millions of students and tens of thousands of instructors who create courses on a wide
+                                variety of topics.Main Features of the PlatformWide Range of Topics: from programming
+                                and design to marketing, psychology, and personal effectiveness.Global Community of
+                                Authors: materials are created by specialists fr </p>
+
+                            <div class="social-buttons">
+                                <a href="https://www.udemy.com/" target="_blank" rel="nofollow noopener noreferrer"
+                                    class="social-buttons-item social-buttons-item--website"><svg class="icon" aria-hidden="true">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-website">
+                                        </use>
+                                    </svg><span class="vh">Website</span></a>
+                                <a href="https://www.instagram.com/udemy/" target="_blank" rel="noopener"
+                                    class="social-buttons-item social-buttons-item--instagram"><svg class="icon" aria-hidden="true">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-instagram">
+                                        </use>
+                                    </svg><span class="vh">Instagram</span></a>
+                                <a href="https://www.linkedin.com/company/udemy" target="_blank" rel="noopener"
+                                    class="social-buttons-item social-buttons-item--linkedin"><svg class="icon" aria-hidden="true">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-linkedin">
+                                        </use>
+                                    </svg><span class="vh">LinkedIn</span></a>
+                                <a href="https://x.com/udemy" target="_blank" rel="noopener" class="social-buttons-item social-buttons-item--x"><svg
+                                        class="icon" aria-hidden="true">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-x"></use>
+                                    </svg><span class="vh">X (Twitter)</span></a>
+                            </div>
+                        </div>
+
+                        <div class="post-footer">
+                            <div class="post-tags">
+                                <div class="post-date"><svg class="icon">
+                                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-source">
+                                        </use>
+                                    </svg> Organization </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-rating post-rating-plus">+201</div>
+                </article>
+            </div>
+        </section>
+
+
+        <div class="standard mt-25">
+            <div class="container">
+                <aside class="topnews">
+                    <div class="topnews-head-container">
+                        <h2 class="topnews-head"> Other materials in this category </h2>
+                        <div class="topnews-buttons"><button class="topnews-button topnews-button-prev" data-api="true" data-action="advisory-courses-prev"
+                                aria-label="Previous" title="Previous"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-arrow"></use>
+                                </svg><span class="topnews-button-text">Previous</span></button><button class="topnews-button topnews-button-next"
+                                data-api="true" data-action="advisory-courses-next" aria-label="Next" title="Next"><svg class="icon">
+                                    <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-arrow"></use>
+                                </svg><span class="topnews-button-text">Next</span></button></div>
+                    </div>
+                    <div class="slider">
+                        <article class="slider-item"><a href="https://coursehunter.net/course/vue-3-nuxt-js-i-nestjs-kratkoe-rukovodstvo-prodvinutyy-uroven"
+                                class="topnews-a" title="Vue 3, Nuxt.js and NestJS: A Rapid Guide - Advanced">
+                                <div class="topnews-picture"><img
+                                        src="https://cdn.coursehunter.net/courses/260x159/vue-3-nuxt-js-i-nestjs-kratkoe-rukovodstvo-prodvinutyy-uroven.webp"
+                                        srcset="https://cdn.coursehunter.net/courses/520x318/vue-3-nuxt-js-i-nestjs-kratkoe-rukovodstvo-prodvinutyy-uroven.webp 2x"
+                                        width="260" height="159" alt="Vue 3, Nuxt.js и NestJS: Краткое руководство - Продвинутый уровень" loading="lazy"
+                                        decoding="async" class="topnews-img" data-type="course"></div>
+                                <h3 class="topnews-title"> Vue 3, Nuxt.js and NestJS: A Rapid Guide - Advanced </h3>
+                            </a></article>
+                        <article class="slider-item"><a href="https://coursehunter.net/course/nuxt-3-polnoe-rukovodstvo-dlya-razrabotchikov" class="topnews-a"
+                                title="The Nuxt 3 Bootcamp The Complete Developer Guide">
+                                <div class="topnews-picture"><img
+                                        src="https://cdn.coursehunter.net/courses/260x159/nuxt-3-polnoe-rukovodstvo-dlya-razrabotchikov.webp"
+                                        srcset="https://cdn.coursehunter.net/courses/520x318/nuxt-3-polnoe-rukovodstvo-dlya-razrabotchikov.webp 2x" width="260"
+                                        height="159" alt="Nuxt 3 - Полное руководство для разработчиков" loading="lazy" decoding="async" class="topnews-img"
+                                        data-type="course"></div>
+                                <h3 class="topnews-title"> The Nuxt 3 Bootcamp The Complete Developer Guide </h3>
+                            </a></article>
+                        <article class="slider-item"><a href="https://coursehunter.net/course/chto-novogo-v-vue-3" class="topnews-a"
+                                title="What is new in Vue 3">
+                                <div class="topnews-picture"><img src="https://cdn.coursehunter.net/courses/260x159/chto-novogo-v-vue-3.webp"
+                                        srcset="https://cdn.coursehunter.net/courses/520x318/chto-novogo-v-vue-3.webp 2x" width="260" height="159"
+                                        alt="Что нового в Vue 3" loading="lazy" decoding="async" class="topnews-img" data-type="course"></div>
+                                <h3 class="topnews-title"> What is new in Vue 3 </h3>
+                            </a></article>
+                        <article class="slider-item"><a href="https://coursehunter.net/course/vue-razrabotchik-v-2021-godu-s-vuex-composition-api-router"
+                                class="topnews-a" title="Complete Vue Developer 2025: Zero to Mastery (Pinia, Vitest)">
+                                <div class="topnews-picture"><img
+                                        src="https://cdn.coursehunter.net/courses/260x159/vue-razrabotchik-v-2021-godu-s-vuex-composition-api-router.webp"
+                                        srcset="https://cdn.coursehunter.net/courses/520x318/vue-razrabotchik-v-2021-godu-s-vuex-composition-api-router.webp 2x"
+                                        width="260" height="159" alt="Vue Разработчик в 2025 году (Pinia, Vitest)" loading="lazy" decoding="async"
+                                        class="topnews-img" data-type="course"></div>
+                                <h3 class="topnews-title"> Complete Vue Developer 2025: Zero to Mastery (Pinia, Vitest)
+                                </h3>
+                            </a></article>
+                        <article class="slider-item"><a href="https://coursehunter.net/course/osnovy-vue-3-s-typescript" class="topnews-a"
+                                title="Vue 3 Essentials with Typescript: A Practical Guide">
+                                <div class="topnews-picture"><img src="https://cdn.coursehunter.net/courses/260x159/osnovy-vue-3-s-typescript.webp"
+                                        srcset="https://cdn.coursehunter.net/courses/520x318/osnovy-vue-3-s-typescript.webp 2x" width="260" height="159"
+                                        alt="Основы Vue 3 с TypeScript: Практическое Руководство" loading="lazy" decoding="async" class="topnews-img"
+                                        data-type="course"></div>
+                                <h3 class="topnews-title"> Vue 3 Essentials with Typescript: A Practical Guide </h3>
+                            </a></article>
+                        <article class="slider-item"><a href="https://coursehunter.net/course/vue-3-nuxt-js-i-laravel-prakticheskoe-rukovodstvo"
+                                class="topnews-a" title="Vue 3, Nuxt.js and Laravel: A Practical Guide">
+                                <div class="topnews-picture"><img
+                                        src="https://cdn.coursehunter.net/courses/260x159/vue-3-nuxt-js-i-laravel-prakticheskoe-rukovodstvo.webp"
+                                        srcset="https://cdn.coursehunter.net/courses/520x318/vue-3-nuxt-js-i-laravel-prakticheskoe-rukovodstvo.webp 2x"
+                                        width="260" height="159" alt="Vue 3, Nuxt.js и Laravel: Практическое Руководство" loading="lazy" decoding="async"
+                                        class="topnews-img" data-type="course"></div>
+                                <h3 class="topnews-title"> Vue 3, Nuxt.js and Laravel: A Practical Guide </h3>
+                            </a></article>
+                        <article class="slider-item"><a href="https://coursehunter.net/course/vue-js-3-api-kompozicii" class="topnews-a"
+                                title="Vue JS 3: The Composition API">
+                                <div class="topnews-picture"><img src="https://cdn.coursehunter.net/courses/260x159/vue-js-3-api-kompozicii.webp"
+                                        srcset="https://cdn.coursehunter.net/courses/520x318/vue-js-3-api-kompozicii.webp 2x" width="260" height="159"
+                                        alt="Vue JS 3: Composition API" loading="lazy" decoding="async" class="topnews-img" data-type="course"></div>
+                                <h3 class="topnews-title"> Vue JS 3: The Composition API </h3>
+                            </a></article>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+
+        <div data-type="course">
+            <div class="container">
+                <div class="standard-title text-left mb-20">Comments</div>
+                <div class="player">
+                    <div class="player-box">
+                        <div class="player-left player-left-visible">
+                            <form method="post" name="comment-form" class="comment-form" id="comment-form" data-object_id="3787" data-object="course">
+                                <div class="comment-box">
+                                    <div class="comment-avatar comment-avatar-premium "><img src="https://cdn.coursehunter.net/profiles/50x50/34422.webp"
+                                            srcset="https://cdn.coursehunter.net/profiles/100x100/34422.webp 2x" width="50" height="50" alt="maxzz logo"
+                                            loading="lazy" decoding="async" class="comment-avatar-image" data-type="profile"></div>
+                                    <div class="comment">
+                                        <div class="mb-20"><label for="commentText" class="vh">Comment</label><textarea class="c-textarea" id="commentText"
+                                                name="comment" placeholder="Your comment" minlength="5" required></textarea><input type="hidden"
+                                                name="course_id" value="3787"></div><button type="submit" class="comment-submit btn">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <ul class="comment-list" data-object="course" data-object_id="3787" data-user_id="34422"
+                                data-app-link="https://coursehunter.net/app">
+                                <li class="comment-box comment-box-level-0" data-parent="0" data-id="4822"><a href="/user/44403" class="comment-avatar-link"
+                                        title="User Anonymous">
+                                        <div class="comment-avatar "><img src="https://cdn.coursehunter.net/profiles/50x50/44403.webp"
+                                                srcset="https://cdn.coursehunter.net/profiles/100x100/44403.webp 2x" width="50" height="50" alt=" logo"
+                                                loading="lazy" decoding="async" class="comment-avatar-image" data-type="profile"></div>
+                                    </a>
+                                    <div class="comment" id="com-id-4822" data-id="4822">
+                                        <div class="comment-header">
+                                            <div class="comment-left"><span class="comment-name"><a href="/user/44403"
+                                                        title="User Anonymous">Anonymous</a></span></div>
+                                            <div class="comment-right">
+                                                <div class="comment-rating"><button class="comment-rating-like pointer" title="Отлично" role="button"
+                                                        aria-label="like" data-vote="up">+0</button><button class="comment-rating-dislike pointer" title="Плохо"
+                                                        role="button" aria-label="dislike" data-vote="down">-1</button>
+                                                </div><time class="comment-date" datetime="2021-04-26">Apr 26, 2021,
+                                                    12:03 PM</time>
+                                            </div>
+                                        </div>
+                                        <div class="comment-text-box">
+                                            <div id="comm-id-4822" class="comment-text">Every time I trying to make the
+                                                register request getting 400 'A non well formed numeric value
+                                                encountered' </div>
+                                            <div class="comment-replay"><button class="comment-replay-btn" data-act="replay-comment" data-id="4822">💬
+                                                    Reply</button></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="player-right">
+                            <div class="boxq">Our team carefully reads your comments and responds promptly. Feel free to
+                                leave update requests or ask any questions about the course here.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="active-skladchina btn btn-primary" data-api="true" data-action="skladchina-active" aria-controls="skladchinaSheet" aria-expanded="false"
+            aria-label="Active campaigns - Join!"> &#9889; (5)
+            <span class="active-skladchina__label">Active campaigns - Join!</span>
+        </button>
+        <div class="sk-sheet-backdrop"></div>
+
+        <section id="skladchinaSheet" class="sk-sheet" role="dialog" aria-labelledby="skladchinaSheetTitle" tabindex="-1">
+            <div class="sk-sheet__handle"></div>
+            <div class="sk-sheet__head">
+                <div id="skladchinaSheetTitle" class="sk-sheet__title">&#9889; list of active campaigns <span id="skladchinaSheetCount"
+                        class="sk-sheet__count"></span></div>
+                <button class="sk-sheet__close" type="button" aria-label="Close" data-api="true" data-action="close_skladchina_active">
+                    <svg class="icon">
+                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-close"></use>
+                    </svg>
+                </button>
+            </div>
+            <div id="skladchinaSheetList" class="sk-sheet__list"></div>
+        </section>
+    </main>
+
+
+
+
+    <footer class="footer" id="site-footer">
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">
+                    <svg width="166" height="21" class="prim">
+                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-logo-desktop"></use>
+                    </svg>
+                </span>
+                <nav class="footer-nav" aria-label="Links">
+                    <a class="footer-nav-item" href="https://coursehunter.net/contacts" title="Contacts">Contacts</a>
+                    <a class="footer-nav-item" href="https://coursehunter.net/faq" title="Frequently asked questions">Frequently asked questions</a>
+                    <a class="footer-nav-item" href="https://coursehunter.net/playlist" title="Playlists">Playlists</a>
+                    <a class="footer-nav-item" href="https://coursehunter.net/privacy" title="Privacy">Privacy</a>
+                    <a class="footer-nav-item" href="https://coursehunter.net/terms" title="Terms">Terms</a>
+                    <a class="footer-nav-item" href="https://coursehunter.net/app" title="Android app">Android app</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <div class="push-prompt" id="app-promo" role="dialog" aria-label="Android app" hidden>
+        <span class="app-promo-icon" aria-hidden="true">
+            <svg width="30" height="30">
+                <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-android"></use>
+            </svg></span>
+        <p class="push-prompt-text">Watch courses in the Android app: pick up where you left off and listen in the background.</p>
+        <div class="push-prompt-actions"><a class="push-prompt-btn push-prompt-enable" href="https://coursehunter.net/app">Install</a>
+            <button type="button" class="push-prompt-btn push-prompt-later" data-app-promo-close>Not now</button>
+        </div>
+        <button type="button" class="push-prompt-close" data-app-promo-close aria-label="Close">&times;</button>
+    </div>
+
+    <div class="telegram"><a href="https://t.me/+RHW0OwVEJnhFQULs" target="_blank" rel="noopener noreferrer nofollow" title="Visit channel"
+            aria-label="Visit channel" class="telegram-link"><svg class="telegram-icon" aria-hidden="true">
+                <use href="https://coursehunter.net/svg/sprite.svg#icon-telegram"></use>
+            </svg></a>
+    </div>
+
+    <div class="main-search">
+        <div class="main-search-overlay"></div>
+        <div class="main-search-form">
+            <div class="container relative">
+                <form autocomplete="off" action="https://coursehunter.net/search" rel="search">
+                    <label for="mainSearch" class="vh">Search</label><input type="hidden" name="order_by" value="created_at">
+                    <input type="hidden" name="order" value="desc"><input type="search" class="c-input c-input-home" placeholder="Search the site" name="q"
+                        value="" id="mainSearch">
+                </form>
+                <button class="main-search-recognition">
+                    <svg class="icon">
+                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-mic"></use>
+                    </svg>
+                </button>
+                <button class="main-search-close">
+                    <svg class="icon">
+                        <use href="https://coursehunter.net/svg/sprite.svg?ver=2d83a7cf#icon-close"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="main-search-result"></div><button class="btn d-block vh" id="searchBtn">Show all results ⏎</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
