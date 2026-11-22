@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 
 import { buildBatchRenameFile, buildItemNames } from './core/rename';
-import { isSourceUrl } from './core/session';
+import { isSourceUrl } from './core/1-session';
 import { sourceInputAtom } from './a-local-storage-atoms';
 import { itemsAtom } from './a-local-storage-state';
 

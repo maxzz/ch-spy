@@ -1,6 +1,6 @@
 import { type CheerioAPI, load } from 'cheerio';
 // import path from 'path-browserify';
-import { type CourseDescription, reAxiosItemsQuery, reFileItem } from './content-match-regexes';
+import { type CourseDescription, reAxiosItemsQuery, reFileItem } from './9-content-match-regexes';
 
 //---------------------------------------------------------------------------
 

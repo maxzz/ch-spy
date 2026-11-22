@@ -9,7 +9,7 @@ import {
     parsePlayerItems,
 } from './engine';
 import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './rename';
-import { isSourceUrl, parseCopiedState, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './session';
+import { isSourceUrl, parseCopiedState, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './1-session';
 
 //---------------------------------------------------------------------------
 
