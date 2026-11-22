@@ -11,7 +11,7 @@ import {
 import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './rename';
 import { isSourceUrl, parseCopiedState, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './session';
 
-const fixture = (name: string) => fs.readFileSync(path.join(__dirname, 'fixtures', name), 'utf8');
+const fixture = (name: string) => fs.readFileSync(path.join(__dirname, '..', 'assets', 'tests', name), 'utf8');
 
 const lessonsPage = fixture('page-old-lessons.html');   // lessons are listed in the page (.lessons-item)
 const playerUrlPage = fixture('page-player-url.html');  // lessons are loaded from /course/<id>/lessons

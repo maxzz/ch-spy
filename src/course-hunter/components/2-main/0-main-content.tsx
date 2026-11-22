@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai';
-import { cx } from '../../lib/classnames';
+import { cx } from '../../../utils/lib/classnames';
 
-import { DevPanels } from '../../dev-tools/dev-panels';
+import { DevPanels } from './2-dev-tools/dev-panels';
 import { itemsAtom, playerItemsUrlAtom } from '../../store/state';
 import { ErrorMessage } from './3-error-message';
 import { GeneratedList } from './2-0-generated-list';

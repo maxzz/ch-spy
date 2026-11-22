@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { cx } from '../../lib/classnames';
+import { cx } from '../../../utils/lib/classnames';
 import { clearPlayItemsAtom, parsePlayerItemsAtom } from '../../store/actions';
 import { playerItemsJsonAtom } from '../../store/source';
 import { itemsAtom, playerItemsUrlAtom } from '../../store/state';

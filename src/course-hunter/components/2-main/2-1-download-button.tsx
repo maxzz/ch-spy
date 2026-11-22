@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { downloadStateFamily, startDownloadAtom } from '../../store/downloads';
-import { cx } from '../../lib/classnames';
+import { cx } from '../../../utils/lib/classnames';
 
 export function DownloadButton({ url, selectable }: { url: string; selectable: boolean; }) {
     const { tried, busy, progress, succeeded, failed } = useAtomValue(downloadStateFamily(url));

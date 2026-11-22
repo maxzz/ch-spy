@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { cx } from '../../lib/classnames';
+import { cx } from '../../../utils/lib/classnames';
 import { CLEAR_BUTTON_ID, clearSourceAtom, parseOrFetchAtom } from '../../store/actions';
 import { fetchButtonNameAtom } from '../../store/derived';
 import { sourceInputAtom } from '../../store/source';

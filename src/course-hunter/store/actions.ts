@@ -1,7 +1,7 @@
 import { atom, type Setter } from 'jotai';
-import { generatePersistentFileContent, parsePersistentFileContent } from '../core/engine';
-import { type SessionPatch, isSourceUrl, parseCopiedState, patchFromCopiedState, patchFromHtml, patchFromPlayerItems } from '../core/session';
-import { downloadBlob } from '../lib/download';
+import { generatePersistentFileContent, parsePersistentFileContent } from './core/engine';
+import { type SessionPatch, isSourceUrl, parseCopiedState, patchFromCopiedState, patchFromHtml, patchFromPlayerItems } from './core/session';
+import { downloadBlob } from '../../utils/lib/download';
 import { allTogetherTextAtom, batchRenameFileAtom } from './derived';
 import { playerItemsJsonAtom, sourceInputAtom } from './source';
 import { courseInfoAtom, itemsAtom, playerItemsUrlAtom, setErrorAtom } from './state';

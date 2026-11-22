@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomFamily } from 'jotai-family';
 import path from 'path-browserify';
-import { downloadWithProgress } from '../lib/download';
+import { downloadWithProgress } from '../../utils/lib/download';
 
 export interface DownloadState {
     tried: boolean;         // the Get button was pressed at least once
