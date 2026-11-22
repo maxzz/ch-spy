@@ -1,16 +1,11 @@
 {
 	"files": [
 		{
-			"path": "src/course-hunter/core/fixtures/3-page-player-url.html",
+			"path": "src/course-hunter/core/fixtures/2-page-player-url.html",
 			"bookmarks": [
 				{
-					"line": 322,
-					"column": 46,
-					"label": ""
-				},
-				{
-					"line": 530,
-					"column": 75,
+					"line": 541,
+					"column": 0,
 					"label": ""
 				}
 			]
