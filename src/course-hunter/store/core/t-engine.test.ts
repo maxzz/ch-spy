@@ -6,14 +6,13 @@ import {
     getPlayerItemsUrl,
     parseHtmlToItems,
     parsePersistentFileContent,
-    parsePlayerItems,
 } from './2-engine';
 import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './3-build-names';
-import { isSourceUrl, parseCopiedState, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './1-session';
+import { isSourceUrl, parsePlayerItems, parseStateFromCtxScript, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './1-session';
 
 //---------------------------------------------------------------------------
 
-const fixture = (name: string) => fs.readFileSync(path.join(__dirname, '..', 'assets', 'tests', name), 'utf8');
+const fixture = (name: string) => fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'tests', name), 'utf8');
 
 const lessonsPage = fixture('page-old-lessons.html');   // lessons are listed in the page (.lessons-item)
 const playerUrlPage = fixture('page-player-url.html');  // lessons are loaded from /course/<id>/lessons
@@ -162,7 +161,7 @@ describe('session patches', () => {
             items: playerItemsJson,
         });
 
-        expect(parseCopiedState(copied)?.itemsurl).toBe('https://coursehunter.net/course/1/lessons');
+        expect(parseStateFromCtxScript(copied)?.itemsurl).toBe('https://coursehunter.net/course/1/lessons');
 
         const patch = patchFromStorage(copied, playerItemsJson);
         expect(patch.playerItemsUrl).toBe('https://coursehunter.net/course/1/lessons');

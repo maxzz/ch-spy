@@ -1,7 +1,7 @@
 import { atom, type Setter } from 'jotai';
 import { downloadBlob } from '../../utils/lib/download';
 
-import { type SessionPatch, isSourceUrl, parseCopiedState, patchFromCopiedState, patchFromHtml, patchFromPlayerItems } from './core/1-session';
+import { type SessionPatch, isSourceUrl, parseStateFromCtxScript, patchStateFromCtxScript, patchFromHtml, patchFromPlayerItems } from './core/1-session';
 import { generatePersistentFileContent, parsePersistentFileContent } from './core/2-engine';
 import { allTogetherTextAtom, batchRenameFileAtom } from './a-derived';
 import { playerItemsJsonAtom, sourceInputAtom } from './a-local-storage-atoms';
@@ -20,9 +20,9 @@ export const parseOrFetchAtom = atom(
         }
 
         try {
-            const copied = parseCopiedState(text);
-            if (copied) {
-                applyPatch(set, patchFromCopiedState(copied));
+            const stateFromCtxScript = parseStateFromCtxScript(text);
+            if (stateFromCtxScript) {
+                applyPatch(set, patchStateFromCtxScript(stateFromCtxScript));
                 document.getElementById(CLEAR_BUTTON_ID)?.focus();
                 return;
             }

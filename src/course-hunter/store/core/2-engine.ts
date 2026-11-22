@@ -75,43 +75,11 @@ const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/; // Lesson list URL the
 
 //---------------------------------------------------------------------------
 
-type PlayerItem = {             // items for build-in video player on the webpage
-    id: string;                 // id: "c37871"
-    file: string;               // remote file: "https://vss5.coursehunter.net/s/8f91140b938014446b02c00615768193/udemy-vueinfluencer/lesson1.mp4"
-    subtitle: string;           // subtitle: "[English]https://vss5.coursehunter.net/udemy-vueinfluencer/lesson1.srt"
-    title: string;              // title: "1 Introduction | 00:03:45"
-};
-
-export type PlayerItemsResult =
-    | { ok: true; items: Item[]; }
-    | { ok: false; error: unknown; };
-
-export function parsePlayerItems(itemsJson: string): PlayerItemsResult {
-    const titleDuration = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
-    try {
-        const json = JSON.parse(itemsJson) as PlayerItem[];
-        const items = json.map((item): Item => {
-            const m = titleDuration.exec(item.title);   // strip title duration
-            return {
-                dispname: m ? m[1] : item.title,
-                duration: m ? m[2] : '',
-                subtitle: !!item.subtitle?.length,
-                url: item.file,
-            };
-        });
-        return { ok: true, items };
-    } catch (error) {
-        return { ok: false, error };
-    }
-}
-
 export type PersistentContent = {
     all: string;            // batch rename list
     source: string;         // source html or URL
     playerItems: string;    // player items JSON
 };
-
-//---------------------------------------------------------------------------
 
 export function generatePersistentFileContent({ all, source, playerItems }: PersistentContent): string {
     return `--------------------------------- 1 - player list ---------------------------------

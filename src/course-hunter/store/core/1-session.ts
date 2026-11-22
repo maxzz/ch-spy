@@ -2,12 +2,12 @@
  * Pure functions that turn pasted or stored input into state changes.
  * Store actions apply the returned patches; startup uses the same functions to restore the last session.
  */
-import { type CourseInfo, type Item, getPlayerItemsUrl, parseHtmlToItems, parsePlayerItems } from './2-engine';
+import { type CourseInfo, type Item, getPlayerItemsUrl, parseHtmlToItems } from './2-engine';
 
 //---------------------------------------------------------------------------
 
 /** Text copied from the "Copy" action of the Clear/Parse row (JSON with the page and its player items). */
-export type CopiedState = {
+type StateFromCtxScript = {
     a: 'tm';                      // magic string to identify the result
     docurl: string;               // document url
     itemsurl: string | undefined; // player items url; if undefined then cannot get url from document
@@ -15,14 +15,14 @@ export type CopiedState = {
     items: string | undefined;    // player items json; if undefined then cannot fetch items from url
 };
 
-export function parseCopiedState(text: string): CopiedState | undefined {
+export function parseStateFromCtxScript(text: string): StateFromCtxScript | undefined {
     const isOurFormat = /^\{"a":"tm","docurl":"/.test(text);
     if (!isOurFormat) {
         return undefined;
     }
 
     try {
-        return JSON.parse(text) as CopiedState;
+        return JSON.parse(text) as StateFromCtxScript;
     } catch {
         console.error('Cannot parse pasted input.');
         return undefined;
@@ -64,9 +64,9 @@ export const NOTHING_DETECTED = 'Nothing detected';
 export function patchFromStorage(htmlText: string, playerItemsJson: string): SessionPatch {
     let patch: SessionPatch = {};
 
-    const copied = parseCopiedState(htmlText);
+    const copied = parseStateFromCtxScript(htmlText);
     if (copied) {
-        patch = patchFromCopiedState(copied);
+        patch = patchStateFromCtxScript(copied);
     } else if (htmlText && !isSourceUrl(htmlText)) {
         // A stored URL is not re-fetched on startup; only pasted/dropped HTML is re-parsed.
         patch = patchFromHtml(htmlText);
@@ -85,7 +85,7 @@ export function isSourceUrl(text: string): boolean {
 //---------------------------------------------------------------------------
 
 /** Copied state: page info plus the player items from the copy. */
-export function patchFromCopiedState(data: CopiedState): SessionPatch {
+export function patchStateFromCtxScript(data: StateFromCtxScript): SessionPatch {
     const { info } = parseHtmlToItems(data.doc);
     return {
         info,
@@ -106,3 +106,34 @@ export function patchFromPlayerItems(itemsJson: string | undefined): SessionPatc
     return { items: res.items };
 }
 
+//---------------------------------------------------------------------------
+
+type PlayerItem = {             // items for build-in video player on the webpage
+    id: string;                 // id: "c37871"
+    file: string;               // remote file: "https://vss5.coursehunter.net/s/8f91140b938014446b02c00615768193/udemy-vueinfluencer/lesson1.mp4"
+    subtitle: string;           // subtitle: "[English]https://vss5.coursehunter.net/udemy-vueinfluencer/lesson1.srt"
+    title: string;              // title: "1 Introduction | 00:03:45"
+};
+
+export type PlayerItemsResult =
+    | { ok: true; items: Item[]; }
+    | { ok: false; error: unknown; };
+
+export function parsePlayerItems(itemsJson: string): PlayerItemsResult {
+    const titleDuration = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
+    try {
+        const json = JSON.parse(itemsJson) as PlayerItem[];
+        const items = json.map((item): Item => {
+            const m = titleDuration.exec(item.title);   // strip title duration
+            return {
+                dispname: m ? m[1] : item.title,
+                duration: m ? m[2] : '',
+                subtitle: !!item.subtitle?.length,
+                url: item.file,
+            };
+        });
+        return { ok: true, items };
+    } catch (error) {
+        return { ok: false, error };
+    }
+}
