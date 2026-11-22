@@ -2,7 +2,7 @@
  * Pure functions that turn pasted or stored input into state changes.
  * Store actions apply the returned patches; startup uses the same functions to restore the last session.
  */
-import { type CourseInfo, type Item, getPlayerItemsUrl, parseHtmlToItems, parsePlayerItems } from './engine';
+import { type CourseInfo, type Item, getPlayerItemsUrl, parseHtmlToItems, parsePlayerItems } from './2-engine';
 
 //---------------------------------------------------------------------------
 

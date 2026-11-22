@@ -1,6 +1,6 @@
 import { atom, type Setter } from 'jotai';
 
-import { generatePersistentFileContent, parsePersistentFileContent } from './core/engine';
+import { generatePersistentFileContent, parsePersistentFileContent } from './core/2-engine';
 import { type SessionPatch, isSourceUrl, parseCopiedState, patchFromCopiedState, patchFromHtml, patchFromPlayerItems } from './core/1-session';
 import { downloadBlob } from '../../utils/lib/download';
 import { allTogetherTextAtom, batchRenameFileAtom } from './a-derived';

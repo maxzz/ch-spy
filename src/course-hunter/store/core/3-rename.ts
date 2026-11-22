@@ -1,5 +1,5 @@
 import path from 'path-browserify';
-import type { Item } from './engine';
+import type { Item } from './2-engine';
 
 //---------------------------------------------------------------------------
 
