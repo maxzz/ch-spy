@@ -1,14 +1,14 @@
 import '../styles.css';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { DevPanels } from '../dev-tools/dev-panels';
-import { dropFileAtom } from '../store/actions';
-import { dragActiveAtom, itemsAtom, playerItemsUrlAtom } from '../store/state';
-import { cx } from '../lib/classnames';
-import { ErrorMessage } from './error-message';
-import { GeneratedList } from './generated-list';
-import { Header } from './header';
-import { PlayerItemsRow } from './player-items-row';
-import { SourceRow } from './source-row';
+import { DevPanels } from '../../dev-tools/dev-panels';
+import { dropFileAtom } from '../../store/actions';
+import { dragActiveAtom, itemsAtom, playerItemsUrlAtom } from '../../store/state';
+import { cx } from '../../lib/classnames';
+import { ErrorMessage } from '../error-message';
+import { GeneratedList } from '../generated-list';
+import { Header } from '../header';
+import { PlayerItemsRow } from '../player-items-row';
+import { SourceRow } from '../source-row';
 
 /** Course list browser: paste or drop a course page, then download the videos. */
 export function CourseHunterApp() {
