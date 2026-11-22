@@ -1,8 +1,9 @@
 import { atom } from 'jotai';
+import { plainLocalStorage } from '../../utils/lib/local-storage';
+
 import type { CourseInfo, Item } from './core/engine';
 import { patchFromStorage } from './core/session';
-import { plainLocalStorage } from '../../utils/lib/local-storage';
-import { STORAGE_KEY_HTML, STORAGE_KEY_PLAYER_ITEMS } from './a-source';
+import { STORAGE_KEY_HTML, STORAGE_KEY_PLAYER_ITEMS } from './a-local-storage-atoms';
 
 const ERROR_TIMEOUT_MS = 5000;
 
@@ -27,13 +28,16 @@ export const errorMsgAtom = atom<string>('');
 /** Set an error (auto-clears after a few seconds) or clear it with ''. */
 let errorTimer: ReturnType<typeof setTimeout> | undefined;
 
-export const setErrorAtom = atom(null, (_get, set, message: string) => {
-    clearTimeout(errorTimer);
-    set(errorMsgAtom, message);
-    if (message) {
-        errorTimer = setTimeout(() => set(errorMsgAtom, ''), ERROR_TIMEOUT_MS);
+export const setErrorAtom = atom(
+    null,
+    (_get, set, message: string) => {
+        clearTimeout(errorTimer);
+        set(errorMsgAtom, message);
+        if (message) {
+            errorTimer = setTimeout(() => set(errorMsgAtom, ''), ERROR_TIMEOUT_MS);
+        }
     }
-});
+);
 
 /** Whether the raw info block (JSON) is open. */
 export const showRawInfoAtom = atom(false);

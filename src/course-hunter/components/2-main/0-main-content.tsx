@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 import { cx } from '../../../utils/lib/classnames';
 
 import { DevPanels } from './2-dev-tools/dev-panels';
-import { itemsAtom, playerItemsUrlAtom } from '../../store/a-state';
+import { itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
 import { ErrorMessage } from './3-error-message';
 import { GeneratedList } from './2-0-generated-list';
 import { PlayerItemsRow } from './2-3-player-items-row';

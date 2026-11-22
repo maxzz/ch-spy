@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { errorMsgAtom, setErrorAtom } from '../../store/a-state';
+import { errorMsgAtom, setErrorAtom } from '../../store/a-local-storage-state';
 
 export function ErrorMessage() {
     const errorMsg = useAtomValue(errorMsgAtom);

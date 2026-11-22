@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from 'jotai';
-import { courseInfoAtom, dragActiveAtom, showRawInfoAtom } from '../../store/a-state';
+import { courseInfoAtom, dragActiveAtom, showRawInfoAtom } from '../../store/a-local-storage-state';
 
 export function Header() {
     const { raw, duration, preview, site } = useAtomValue(courseInfoAtom);

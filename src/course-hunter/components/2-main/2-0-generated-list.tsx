@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { courseInfoAtom, editableTitlesAtom, itemsAtom } from '../../store/a-state';
+import { courseInfoAtom, editableTitlesAtom, itemsAtom } from '../../store/a-local-storage-state';
 import { allTogetherTextAtom, batchRenameFileAtom, itemNamesAtom } from '../../store/a-derived';
 import { saveFilesAtom } from '../../store/a-actions';
 import { DownloadButton } from './2-1-download-button';
