@@ -1,10 +1,6 @@
 import path from 'path-browserify';
 import type { Item } from './engine';
 
-function numberLength(n: number): number {
-    return n < 10 ? 1 : n < 100 ? 2 : 3;
-}
-
 /**
  * Display name of an item in the list: "01 - Name".
  * A leading index that already equals the item position is removed first, so names are not numbered twice.
@@ -15,6 +11,12 @@ export function itemInputName(index: number, name: string, total: number): strin
     return `${String(index + 1).padStart(numberLength(total), '0')} - ${s.trim()}`;
 }
 
+function numberLength(n: number): number {
+    return n < 10 ? 1 : n < 100 ? 2 : 3;
+}
+
+//---------------------------------------------------------------------------
+
 /** Makes a string safe to use as a Windows file name. */
 export function validateFname(name: string): string {
     let s = (name || '').trim();
@@ -24,9 +26,13 @@ export function validateFname(name: string): string {
     return s;
 }
 
+//---------------------------------------------------------------------------
+
 export function buildItemNames(items: Item[]): string[] {
     return items.map((item, index) => itemInputName(index, item.dispname, items.length));
 }
+
+//---------------------------------------------------------------------------
 
 /** Windows batch file (chcp 1251) with `ren` commands that rename downloaded videos and their .srt subtitles. */
 export function buildBatchRenameFile(items: Item[]): string {

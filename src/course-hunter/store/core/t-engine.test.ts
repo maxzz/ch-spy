@@ -11,6 +11,8 @@ import {
 import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './rename';
 import { isSourceUrl, parseCopiedState, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './session';
 
+//---------------------------------------------------------------------------
+
 const fixture = (name: string) => fs.readFileSync(path.join(__dirname, '..', 'assets', 'tests', name), 'utf8');
 
 const lessonsPage = fixture('page-old-lessons.html');   // lessons are listed in the page (.lessons-item)
@@ -35,6 +37,8 @@ const scriptPage = `<html><head>
   ] });
 </script>
 </body></html>`;
+
+//---------------------------------------------------------------------------
 
 describe('parseHtmlToItems', () => {
     it('reads the lesson list and course info from a page with lessons', () => {

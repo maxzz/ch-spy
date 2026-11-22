@@ -4,14 +4,7 @@
  */
 import { type CourseInfo, type Item, getPlayerItemsUrl, parseHtmlToItems, parsePlayerItems } from './engine';
 
-/** Partial state update. A missing key means "leave unchanged". */
-export interface SessionPatch {
-    info?: CourseInfo;
-    items?: Item[];
-    playerItemsUrl?: string;
-    playerItemsJson?: string;
-    error?: string;
-}
+//---------------------------------------------------------------------------
 
 /** Text copied from the "Copy" action of the Clear/Parse row (JSON with the page and its player items). */
 export interface CopiedState {
@@ -40,6 +33,17 @@ export function parseCopiedState(text: string): CopiedState | undefined {
     }
 }
 
+//---------------------------------------------------------------------------
+
+/** Partial state update. A missing key means "leave unchanged". */
+export interface SessionPatch {
+    info?: CourseInfo;
+    items?: Item[];
+    playerItemsUrl?: string;
+    playerItemsJson?: string;
+    error?: string;
+}
+
 /** Page HTML: course info and lesson items from the page, or the player-items URL when the page has no items. */
 export function patchFromHtml(html: string): SessionPatch {
     const parsed = parseHtmlToItems(html);
@@ -56,6 +60,8 @@ export function patchFromHtml(html: string): SessionPatch {
     };
 }
 
+//---------------------------------------------------------------------------
+
 /** Player items JSON (copied from the player items URL). */
 export function patchFromPlayerItems(itemsJson: string): SessionPatch {
     const res = parsePlayerItems(itemsJson);
@@ -64,6 +70,8 @@ export function patchFromPlayerItems(itemsJson: string): SessionPatch {
     }
     return { items: res.items };
 }
+
+//---------------------------------------------------------------------------
 
 /** Copied state: page info plus the player items from the copy. */
 export function patchFromCopiedState(data: CopiedState): SessionPatch {
@@ -75,6 +83,8 @@ export function patchFromCopiedState(data: CopiedState): SessionPatch {
         ...patchFromPlayerItems(data.items),
     };
 }
+
+//---------------------------------------------------------------------------
 
 /** Restores the session on startup. Errors are not shown: nothing was done by the user yet. */
 export function patchFromStorage(htmlText: string, playerItemsJson: string): SessionPatch {

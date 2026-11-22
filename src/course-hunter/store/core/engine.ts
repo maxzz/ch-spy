@@ -1,7 +1,8 @@
 import { type CheerioAPI, load } from 'cheerio';
-import path from 'path-browserify';
+// import path from 'path-browserify';
 import { type CourseDescription, reAxiosItemsQuery, reFileItem } from './content-match-regexes';
-import { pad2 } from './utils';
+
+//---------------------------------------------------------------------------
 
 export interface Item {
     dispname: string;       // display name
@@ -64,10 +65,14 @@ export function parseHtmlToItems(html: string): ParseResult {
     return rv;
 }
 
+//---------------------------------------------------------------------------
+
 export function getPlayerItemsUrl(html: string): string {
     const m = reAxiosItemsQuery.exec(html);
     return m ? `https://coursehunter.net${m[0]}` : '';
 }
+
+//---------------------------------------------------------------------------
 
 interface PlayerItem {          // items for build-in video player on the webpage
     id: string;                 // id: "c37871"
@@ -105,6 +110,8 @@ export interface PersistentContent {
     playerItems: string;    // player items JSON
 }
 
+//---------------------------------------------------------------------------
+
 export function generatePersistentFileContent({ all, source, playerItems }: PersistentContent): string {
     return `--------------------------------- 1 - player list ---------------------------------
 ${(all || '').trim()}
@@ -115,6 +122,8 @@ ${(playerItems || '').trim()}
 --------------------------------- 4 - end -----------------------------------------
 `;
 }
+
+//---------------------------------------------------------------------------
 
 export function parsePersistentFileContent(fileCnt: string): PersistentContent | undefined {
     // Section separators: -{33} \d - [^-]* -{10,}
@@ -130,6 +139,7 @@ export function parsePersistentFileContent(fileCnt: string): PersistentContent |
     return undefined;
 }
 
+//---------------------------------------------------------------------------
 // Internals
 
 function getDescriptionJson($: CheerioAPI): CourseDescription | undefined {
@@ -208,4 +218,11 @@ function handleScriptWithPlayerItems(scriptText: string | undefined): Item[] | u
         }
     }
     return items;
+}
+
+function pad2(n: number): string {
+    if (n < 10) {
+        return `0${n}`;
+    }
+    return `${n}`;
 }
