@@ -1,8 +1,8 @@
 import { atom } from 'jotai';
 import { buildBatchRenameFile, buildItemNames } from './core/rename';
 import { isSourceUrl } from './core/session';
-import { sourceInputAtom } from './source';
-import { itemsAtom } from './state';
+import { sourceInputAtom } from './a-source';
+import { itemsAtom } from './a-state';
 
 /** The input holds a URL (fetch) rather than HTML (parse). */
 export const isSourceUrlAtom = atom((get) => isSourceUrl(get(sourceInputAtom)));

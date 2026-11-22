@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { courseInfoAtom, editableTitlesAtom, itemsAtom } from '../../store/state';
-import { allTogetherTextAtom, batchRenameFileAtom, itemNamesAtom } from '../../store/derived';
-import { saveFilesAtom } from '../../store/actions';
+import { courseInfoAtom, editableTitlesAtom, itemsAtom } from '../../store/a-state';
+import { allTogetherTextAtom, batchRenameFileAtom, itemNamesAtom } from '../../store/a-derived';
+import { saveFilesAtom } from '../../store/a-actions';
 import { DownloadButton } from './2-1-download-button';
 import { IconLock } from './2-2-icon-lock';
 

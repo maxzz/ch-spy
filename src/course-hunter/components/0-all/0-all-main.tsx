@@ -1,6 +1,6 @@
 import { useSetAtom } from 'jotai';
-import { dropFileAtom } from '../../store/actions';
-import { dragActiveAtom } from '../../store/state';
+import { dropFileAtom } from '../../store/a-actions';
+import { dragActiveAtom } from '../../store/a-state';
 import { Header } from '../1-header/header';
 import { MainContent } from '../2-main/0-main-content';
 

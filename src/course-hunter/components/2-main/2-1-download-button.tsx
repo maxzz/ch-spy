@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { downloadStateFamily, startDownloadAtom } from '../../store/downloads';
+import { downloadStateFamily, startDownloadAtom } from '../../store/a-downloads';
 import { cx } from '../../../utils/lib/classnames';
 
 export function DownloadButton({ url, selectable }: { url: string; selectable: boolean; }) {

@@ -1,9 +1,9 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { cx } from '../../../utils/lib/classnames';
-import { CLEAR_BUTTON_ID, clearSourceAtom, parseOrFetchAtom } from '../../store/actions';
-import { fetchButtonNameAtom } from '../../store/derived';
-import { sourceInputAtom } from '../../store/source';
-import { itemsAtom, playerItemsUrlAtom } from '../../store/state';
+import { CLEAR_BUTTON_ID, clearSourceAtom, parseOrFetchAtom } from '../../store/a-actions';
+import { fetchButtonNameAtom } from '../../store/a-derived';
+import { sourceInputAtom } from '../../store/a-source';
+import { itemsAtom, playerItemsUrlAtom } from '../../store/a-state';
 
 /** Row 1: Clear button, and the URL/HTML input with its Fetch or Parse button. */
 export function SourceRow() {

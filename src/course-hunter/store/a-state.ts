@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import type { CourseInfo, Item } from './core/engine';
 import { patchFromStorage } from './core/session';
 import { plainLocalStorage } from '../../utils/lib/local-storage';
-import { STORAGE_KEY_HTML, STORAGE_KEY_PLAYER_ITEMS } from './source';
+import { STORAGE_KEY_HTML, STORAGE_KEY_PLAYER_ITEMS } from './a-source';
 
 const ERROR_TIMEOUT_MS = 5000;
 

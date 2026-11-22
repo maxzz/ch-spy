@@ -2,9 +2,9 @@ import { atom, type Setter } from 'jotai';
 import { generatePersistentFileContent, parsePersistentFileContent } from './core/engine';
 import { type SessionPatch, isSourceUrl, parseCopiedState, patchFromCopiedState, patchFromHtml, patchFromPlayerItems } from './core/session';
 import { downloadBlob } from '../../utils/lib/download';
-import { allTogetherTextAtom, batchRenameFileAtom } from './derived';
-import { playerItemsJsonAtom, sourceInputAtom } from './source';
-import { courseInfoAtom, itemsAtom, playerItemsUrlAtom, setErrorAtom } from './state';
+import { allTogetherTextAtom, batchRenameFileAtom } from './a-derived';
+import { playerItemsJsonAtom, sourceInputAtom } from './a-source';
+import { courseInfoAtom, itemsAtom, playerItemsUrlAtom, setErrorAtom } from './a-state';
 
 /** Id of the Clear button; it gets focus after a copied state is pasted. */
 export const CLEAR_BUTTON_ID = 'ch-clear-button';
