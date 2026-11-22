@@ -1,10 +1,10 @@
 import path from 'path-browserify';
 
-import type { Item } from './2-engine';
+import type { OurItem } from './2-engine';
 
 //---------------------------------------------------------------------------
 
-export function buildItemNames(items: Item[]): string[] {
+export function buildItemNames(items: OurItem[]): string[] {
     return items.map(
         (item, index) => itemInputName(index, item.dispname, items.length)
     );
@@ -13,7 +13,7 @@ export function buildItemNames(items: Item[]): string[] {
 //---------------------------------------------------------------------------
 
 /** Windows batch file (chcp 1251) with `ren` commands that rename downloaded videos and their .srt subtitles. */
-export function buildBatchRenameFile(items: Item[]): string {
+export function buildBatchRenameFile(items: OurItem[]): string {
     const subtitles: string[] = [];
     let s = 'chcp 1251\n'; // TODO: If filename is utf8 encoded then it is a problem. see https://coursehunter.net/course/ci-cd-na-primere-gitlab-ci
 

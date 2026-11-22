@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { plainLocalStorage } from '../../utils/lib/local-storage';
 
-import type { CourseInfo, Item } from './core/2-engine';
+import type { CourseInfo, OurItem } from './core/2-engine';
 import { patchFromStorage } from './core/1-session';
 import { STORAGE_KEY_HTML, STORAGE_KEY_PLAYER_ITEMS } from './a-local-storage-atoms';
 
@@ -17,7 +17,7 @@ const restored = patchFromStorage(
 export const courseInfoAtom = atom<CourseInfo>(restored.info ?? { raw: {} });
 
 /** Lesson items of the course list (from the page or from the player items). */
-export const itemsAtom = atom<Item[]>(restored.items ?? []);
+export const itemsAtom = atom<OurItem[]>(restored.items ?? []);
 
 /** URL that serves the player items; empty when there is nothing to fetch. */
 export const playerItemsUrlAtom = atom<string>(restored.playerItemsUrl ?? '');

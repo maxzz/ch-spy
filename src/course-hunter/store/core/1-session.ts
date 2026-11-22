@@ -2,7 +2,7 @@
  * Pure functions that turn pasted or stored input into state changes.
  * Store actions apply the returned patches; startup uses the same functions to restore the last session.
  */
-import { type CourseInfo, type Item, getPlayerItemsUrl, parseHtmlToItems } from './2-engine';
+import { type CourseInfo, type OurItem, getPlayerItemsUrl, parseHtmlToItems } from './2-engine';
 
 //---------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ export function parseStateFromCtxScript(text: string): StateFromCtxScript | unde
 /** Partial state update. A missing key means "leave unchanged". */
 export type SessionPatch = {
     info?: CourseInfo;
-    items?: Item[];
+    items?: OurItem[];
     playerItemsUrl?: string;
     playerItemsJson?: string;
     error?: string;
@@ -106,8 +106,6 @@ export function patchFromPlayerItems(itemsJson: string | undefined): SessionPatc
     return { items: res.items };
 }
 
-//---------------------------------------------------------------------------
-
 type PlayerItem = {             // items for build-in video player on the webpage
     id: string;                 // id: "c37871"
     file: string;               // remote file: "https://vss5.coursehunter.net/s/8f91140b938014446b02c00615768193/udemy-vueinfluencer/lesson1.mp4"
@@ -116,14 +114,14 @@ type PlayerItem = {             // items for build-in video player on the webpag
 };
 
 export type PlayerItemsResult =
-    | { ok: true; items: Item[]; }
+    | { ok: true; items: OurItem[]; }
     | { ok: false; error: unknown; };
 
 export function parsePlayerItems(itemsJson: string): PlayerItemsResult {
     const titleDuration = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
     try {
         const json = JSON.parse(itemsJson) as PlayerItem[];
-        const items = json.map((item): Item => {
+        const items = json.map((item): OurItem => {
             const m = titleDuration.exec(item.title);   // strip title duration
             return {
                 dispname: m ? m[1] : item.title,
@@ -137,3 +135,5 @@ export function parsePlayerItems(itemsJson: string): PlayerItemsResult {
         return { ok: false, error };
     }
 }
+
+//---------------------------------------------------------------------------

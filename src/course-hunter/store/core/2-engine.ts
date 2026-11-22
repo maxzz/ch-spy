@@ -3,13 +3,6 @@ import { type CourseDescription, reFileItem } from './9-content-match-regexes';
 
 //---------------------------------------------------------------------------
 
-export interface Item {
-    dispname: string;       // display name
-    duration: string;       // video duration: '00:04:15'
-    subtitle?: boolean;     // if true the srt file has the same name
-    url: string;            // video URL
-}
-
 export type CourseInfo = {
     title?: string;         // course title
     desc?: string;          // course description
@@ -21,15 +14,24 @@ export type CourseInfo = {
     raw: Partial<CourseDescription>; // raw information from the embedded script
 };
 
-export type ParseResult = {
-    items: Item[];          // items on the page
+//---------------------------------------------------------------------------
+
+export type OurItem = {     // our item for the course
+    dispname: string;       // display name
+    duration: string;       // video duration: '00:04:15'
+    subtitle?: boolean;     // if true the srt file has the same name
+    url: string;            // video URL
+};
+
+type ParseHtmlToItemsResult = {
+    items: OurItem[];       // our items for the course on the page
     info: CourseInfo;       // collected information
 };
 
-export function parseHtmlToItems(html: string): ParseResult {
+export function parseHtmlToItems(html: string): ParseHtmlToItemsResult {
     const $ = load(html);
 
-    const rv: ParseResult = {
+    const rv: ParseHtmlToItemsResult = {
         items: [],
         info: {
             title: $('.hero-title').text(),
@@ -138,8 +140,8 @@ function convertTimeRuToLocal(dateStr: string | undefined): string {
     return date.toLocaleDateString('en-US', { year: '2-digit', day: '2-digit', month: '2-digit' }).replace(/\//g, '.');
 }
 
-function scanForOldDefinitions($: CheerioAPI): Item[] | undefined {
-    const items: Item[] = [];
+function scanForOldDefinitions($: CheerioAPI): OurItem[] | undefined {
+    const items: OurItem[] = [];
     $('.lessons-item').each((_index, el) => {
         let mediaUrl = $('[itemprop=contentUrl]', el).attr('href');
         if (!mediaUrl) { // website updated on 08.23.20
@@ -157,14 +159,14 @@ function scanForOldDefinitions($: CheerioAPI): Item[] | undefined {
     return items.length ? items : undefined;
 }
 
-function handleScriptWithPlayerItems(scriptText: string | undefined): Item[] | undefined {
+function handleScriptWithPlayerItems(scriptText: string | undefined): OurItem[] | undefined {
     const matches = [...(scriptText || '').matchAll(reFileItem)];
     if (!matches.length) {
         return undefined;
     }
 
-    const items: Item[] = matches
-        .map((m): Item => ({ dispname: m[1], duration: '', url: m[2] }))
+    const items: OurItem[] = matches
+        .map((m): OurItem => ({ dispname: m[1], duration: '', url: m[2] }))
         .filter((item) => !/sample.mp4/.test(item.url)); // Remove two commented items.
 
     for (const item of items) {
