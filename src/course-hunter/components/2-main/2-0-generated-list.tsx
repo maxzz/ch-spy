@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import { courseInfoAtom, editableTitlesAtom, itemsAtom } from '../../store/a-local-storage-state';
 import { allTogetherTextAtom, batchRenameFileAtom, itemNamesAtom } from '../../store/a-derived';
 import { saveFilesAtom } from '../../store/a-actions';
-import { type OurItem } from '../../store/core/2-engine';
+import { type OurItem } from '../../store/core/2-html-parse';
 import { DownloadButton } from './2-1-download-button';
 import { IconLock } from './2-2-icon-lock';
 import { classNames } from '@/utils/classnames';

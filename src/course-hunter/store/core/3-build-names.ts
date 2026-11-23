@@ -1,6 +1,6 @@
 import path from 'path-browserify';
 
-import type { OurItem } from './2-engine';
+import type { OurItem } from './2-html-parse';
 
 //---------------------------------------------------------------------------
 
@@ -17,18 +17,20 @@ export function buildBatchRenameFile(items: OurItem[]): string {
     const subtitles: string[] = [];
     let s = 'chcp 1251\n'; // TODO: If filename is utf8 encoded then it is a problem. see https://coursehunter.net/course/ci-cd-na-primere-gitlab-ci
 
-    items.forEach((item, index) => {
-        const orgFname = path.basename(item.url ?? '');
-        const orgExt = path.extname(orgFname);
-        const orgWoExt = orgFname.replace(/\.[^/.]+$/, '');
-        const newFname = validateFname(itemInputName(index, item.dispname, items.length));
-        if (newFname) {
-            subtitles.push(`ren "${orgWoExt}.srt" "${newFname}.srt"`);
-            s += `ren "${orgFname}" "${newFname}${orgExt}" \n`;
-        } else {
-            s += '\n';
+    items.forEach(
+        (item, index) => {
+            const orgFname = path.basename(item.url ?? '');
+            const orgExt = path.extname(orgFname);
+            const orgWoExt = orgFname.replace(/\.[^/.]+$/, '');
+            const newFname = validateFname(itemInputName(index, item.dispname, items.length));
+            if (newFname) {
+                subtitles.push(`ren "${orgWoExt}.srt" "${newFname}.srt"`);
+                s += `ren "${orgFname}" "${newFname}${orgExt}" \n`;
+            } else {
+                s += '\n';
+            }
         }
-    });
+    );
 
     if (subtitles.length) {
         s = `${s}\n${subtitles.join('\n')}\n`;
@@ -37,7 +39,7 @@ export function buildBatchRenameFile(items: OurItem[]): string {
 }
 
 /** Makes a string safe to use as a Windows file name. */
-export function validateFname(name: string): string {
+/*for-test-only*/export function validateFname(name: string): string {
     let s = (name || '').trim();
     s = s.replace(/&#039;/g, "'");
     s = s.replace(/"/g, "'");
@@ -51,7 +53,7 @@ export function validateFname(name: string): string {
  * Display name of an item in the list: "01 - Name".
  * A leading index that already equals the item position is removed first, so names are not numbered twice.
  */
-export function itemInputName(index: number, name: string, total: number): string {
+/*for-test-only*/export function itemInputName(index: number, name: string, total: number): string {
     const m = /^(\d+)\s*-?\s*(.*)/.exec(name);
     const s = m && +m[1] === index + 1 ? m[2] : name;
     return `${String(index + 1).padStart(numberLength(total), '0')} - ${s.trim()}`;

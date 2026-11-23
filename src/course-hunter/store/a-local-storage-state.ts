@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { plainLocalStorage } from '../../utils/lib/local-storage';
 
-import type { CourseInfo, OurItem } from './core/2-engine';
+import type { CourseInfo, OurItem } from './core/2-html-parse';
 import { patchFromStorage } from './core/1-session';
 import { STORAGE_KEY_HTML, STORAGE_KEY_PLAYER_ITEMS } from './a-local-storage-atoms';
 

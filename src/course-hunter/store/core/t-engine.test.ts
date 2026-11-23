@@ -5,7 +5,7 @@ import { generatePersistentFileContent, parsePersistentFileContent } from '../a-
 import {
     getPlayerItemsUrl,
     parseHtmlToItems,
-} from './2-engine';
+} from './2-html-parse';
 import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './3-build-names';
 import { isSourceUrl, parsePlayerItems, parseStateFromCtxScript, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './1-session';
 
