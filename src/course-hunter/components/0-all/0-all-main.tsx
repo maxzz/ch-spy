@@ -3,7 +3,6 @@ import { dropFileAtom } from '../../store/a-actions';
 import { dragActiveAtom } from '../../store/a-local-storage-state';
 import { Header } from '../1-header/header';
 import { MainContent } from '../2-main/0-main-content';
-import './styles.css';
 
 /** Course list browser: paste or drop a course page, then download the videos. */
 export function CourseHunterApp() {

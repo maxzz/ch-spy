@@ -1,8 +1,9 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { classNames } from '@/utils/classnames';
+
+import { itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
 import { clearPlayItemsAtom, parsePlayerItemsAtom } from '../../store/a-actions';
 import { playerItemsJsonAtom } from '../../store/a-local-storage-atoms';
-import { itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
 
 /** Row 2: the player items URL to open, and the input for the JSON copied from it. Hidden when there is no URL. */
 export function PlayerItemsRow() {
