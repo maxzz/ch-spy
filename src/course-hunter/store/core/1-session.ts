@@ -117,7 +117,7 @@ export type PlayerItemsResult =
     | { ok: true; items: OurItem[]; }
     | { ok: false; error: unknown; };
 
-export function parsePlayerItems(itemsJson: string): PlayerItemsResult {
+/*for-test-only*/export function parsePlayerItems(itemsJson: string): PlayerItemsResult {
     const titleDuration = /([\s\S]+)\s*\|\s*(\d\d:\d\d:\d\d)$/;
     try {
         const json = JSON.parse(itemsJson) as PlayerItem[];

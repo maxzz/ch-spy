@@ -48,7 +48,7 @@ export function isAllowedExt(filename: string | undefined, allowedExt: string[])
  * @param filename - The path or filename to extract the filename and extension from
  * @returns An array with the filename and extension
  */
-export function getFilenameAndExt(filename: string): [string, string] {
+/*for-test-only*/export function getFilenameAndExt(filename: string): [string, string] {
     const parts = filename.replace(/[\\\/\s]+$/, '').split('.'); // not good if dot is the folder name and last part is the file name wo/ dot. remove last slashes and whitespaces
     const ext = parts.pop() || '';
     const name = parts.join('.');
@@ -61,7 +61,7 @@ export function getFilenameAndExt(filename: string): [string, string] {
 /**
  * Returns path from WebFileSysItem.path without the filename
  */
-export function pathWithoutFilename(path: string | undefined): string {
+/*for-test-only*/export function pathWithoutFilename(path: string | undefined): string {
     const rv =
         (path || '')
             .replace(/[\\\/\s]+$/, '')          // remove last slashes and whitespaces
@@ -74,7 +74,7 @@ export function pathWithoutFilename(path: string | undefined): string {
 /**
  * Returns the filename from path or last folder name
  */
-export function filenameWithoutPath(path: string | undefined): string {
+/*for-test-only*/export function filenameWithoutPath(path: string | undefined): string {
     const rv =
         (path || '')
             .replace(/[\\\/\s]+$/, '')          // remove last slashes and whitespaces

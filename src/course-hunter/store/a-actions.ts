@@ -108,7 +108,7 @@ export const saveFilesAtom = atom(
     }
 );
 
-/*test-only*/export function generatePersistentFileContent({ all, source, playerItems }: PersistentContent): string {
+/*for-test-only*/export function generatePersistentFileContent({ all, source, playerItems }: PersistentContent): string {
     return `--------------------------------- 1 - player list ---------------------------------
 ${(all || '').trim()}
 --------------------------------- 2 - source html ---------------------------------
