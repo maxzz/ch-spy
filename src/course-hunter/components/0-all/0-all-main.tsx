@@ -3,8 +3,6 @@ import { dropFileAtom } from '../../store/a-actions';
 import { dragActiveAtom } from '../../store/a-local-storage-state';
 import { Header } from '../1-header/header';
 import { MainContent } from '../2-main/0-main-content';
-import { ScrollArea } from '../../../ui/shadcn/scroll-area';
-
 import './styles.css';
 
 /** Course list browser: paste or drop a course page, then download the videos. */
@@ -36,9 +34,7 @@ export function CourseHunterApp() {
                 <Header />
             </div>
 
-            <ScrollArea fullHeight fixedWidth className="flex-1 min-h-0">
-                <MainContent />
-            </ScrollArea>
+            <MainContent />
         </div>
     );
 }

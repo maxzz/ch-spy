@@ -1,5 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { cx } from '../../../utils/lib/classnames';
+import { ScrollArea } from '../../../ui/shadcn/scroll-area';
 
 import { DevPanels } from './2-dev-tools/dev-panels';
 import { itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
@@ -13,18 +14,22 @@ export function MainContent() {
     const items = useAtomValue(itemsAtom);
 
     return (
-        <div className="px-2 py-4 mx-auto max-w-3xl bg-gray-300">
-            <SourceRow />
+        <div className="flex-1 min-h-0 w-full mx-auto max-w-3xl bg-gray-300">
+            <ScrollArea fullHeight fixedWidth className="h-full">
+                <div className="px-2 py-4">
+                    <SourceRow />
 
-            <PlayerItemsRow />
+                    <PlayerItemsRow />
 
-            <div className={cx(playerItemsUrl && items.length > 0 && '-mt-8')}>
-                <GeneratedList />
-            </div>
+                    <div className={cx(playerItemsUrl && items.length > 0 && '-mt-8')}>
+                        <GeneratedList />
+                    </div>
 
-            <ErrorMessage />
+                    <ErrorMessage />
 
-            <DevPanels />
+                    <DevPanels />
+                </div>
+            </ScrollArea>
         </div>
     );
 }
