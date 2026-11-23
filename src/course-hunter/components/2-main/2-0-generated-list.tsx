@@ -1,19 +1,19 @@
+import { type ComponentProps } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { Textarea } from '../../../ui/shadcn/textarea';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../../ui/shadcn/accordion';
+
 import { courseInfoAtom, editableTitlesAtom, itemsAtom } from '../../store/a-local-storage-state';
 import { allTogetherTextAtom, batchRenameFileAtom, itemNamesAtom } from '../../store/a-derived';
 import { saveFilesAtom } from '../../store/a-actions';
 import { type OurItem } from '../../store/core/2-engine';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../../ui/shadcn/accordion';
-import { Textarea } from '../../../ui/shadcn/textarea';
 import { DownloadButton } from './2-1-download-button';
 import { IconLock } from './2-2-icon-lock';
+import { classNames } from '@/utils/classnames';
 
 export function GeneratedList() {
     const items = useAtomValue(itemsAtom);
     const { title, desc } = useAtomValue(courseInfoAtom);
-    const [editable, setEditable] = useAtom(editableTitlesAtom);
-    const saveFiles = useSetAtom(saveFilesAtom);
-
     if (!items.length) {
         return null;
     }
@@ -23,26 +23,17 @@ export function GeneratedList() {
             <div className="relative pb-2 min-h-16 font-bold text-[#5d0083] bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] flex items-end justify-center">
                 <div title={desc}>{title}</div>
 
-                <div
-                    className="absolute bottom-1 right-1 w-5 h-5 text-purple-500 stroke-1"
-                    onClick={() => setEditable((v) => !v)}
-                    title="List items editable/non-editable"
-                >
-                    <IconLock locked={!editable} />
-                </div>
+                <EditableLockToggle className="absolute bottom-1 right-1 w-5 h-5 text-purple-500 stroke-1" />
             </div>
 
             <div className="absolute top-1 right-0 flex justify-end">
-                <button className="btn py-0 h-6 text-sm" onClick={() => saveFiles()} type="button">
-                    Download rename.cmd
-                </button>
+                <DownloadRenameButton />
             </div>
 
             <GeneratedItems />
 
             <Accordion type="multiple">
                 <BatchRenameSection />
-
                 <AllTogetherSection />
             </Accordion>
         </div>
@@ -87,6 +78,31 @@ function AllTogetherSection() {
 }
 
 //---------------------------------------------------------------------------
+
+function EditableLockToggle({ className, ...rest }: ComponentProps<"div">) {
+    const [editable, setEditable] = useAtom(editableTitlesAtom);
+
+    return (
+        <div
+            className={classNames("cursor-pointer", className)}
+            onClick={() => setEditable((v) => !v)}
+            title="List items editable/non-editable"
+            {...rest}
+        >
+            <IconLock locked={!editable} />
+        </div>
+    );
+}
+
+function DownloadRenameButton({ className, ...rest }: ComponentProps<"button">) {
+    const saveFiles = useSetAtom(saveFilesAtom);
+
+    return (
+        <button className={classNames("btn py-0 h-6 text-sm", className)} onClick={() => saveFiles()} type="button" {...rest}>
+            Download rename.cmd
+        </button>
+    );
+}
 
 function GeneratedItems() {
     const items = useAtomValue(itemsAtom);

@@ -3,6 +3,7 @@ import { dropFileAtom } from '../../store/a-actions';
 import { dragActiveAtom } from '../../store/a-local-storage-state';
 import { Header } from '../1-header/header';
 import { MainContent } from '../2-main/0-main-content';
+import { ScrollArea } from '../../../ui/shadcn/scroll-area';
 
 import './styles.css';
 
@@ -13,7 +14,7 @@ export function CourseHunterApp() {
 
     return (
         <div
-            className="min-h-screen bg-[#201c2b]"
+            className="h-screen flex flex-col overflow-hidden bg-[#201c2b]"
             onDragEnter={() => setDragActive(true)}
             onDragLeave={() => setDragActive(false)}
             onDragOver={(event) => {
@@ -31,9 +32,13 @@ export function CourseHunterApp() {
                 }
             }}
         >
-            <Header />
+            <div className="shrink-0">
+                <Header />
+            </div>
 
-            <MainContent />
+            <ScrollArea fullHeight fixedWidth className="flex-1 min-h-0">
+                <MainContent />
+            </ScrollArea>
         </div>
     );
 }
