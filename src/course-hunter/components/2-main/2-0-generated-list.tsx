@@ -3,7 +3,7 @@ import { courseInfoAtom, editableTitlesAtom, itemsAtom } from '../../store/a-loc
 import { allTogetherTextAtom, batchRenameFileAtom, itemNamesAtom } from '../../store/a-derived';
 import { saveFilesAtom } from '../../store/a-actions';
 import { type OurItem } from '../../store/core/2-engine';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../../ui/shadcn/collapsible';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../../ui/shadcn/accordion';
 import { Textarea } from '../../../ui/shadcn/textarea';
 import { DownloadButton } from './2-1-download-button';
 import { IconLock } from './2-2-icon-lock';
@@ -40,12 +40,16 @@ export function GeneratedList() {
 
             <GeneratedItems />
 
-            <BatchRenameSection />
+            <Accordion type="multiple">
+                <BatchRenameSection />
 
-            <AllTogetherSection />
+                <AllTogetherSection />
+            </Accordion>
         </div>
     );
 }
+
+//---------------------------------------------------------------------------
 
 function BatchRenameSection() {
     const items = useAtomValue(itemsAtom);
@@ -53,32 +57,36 @@ function BatchRenameSection() {
     const saveFiles = useSetAtom(saveFilesAtom);
 
     return (
-        <Collapsible>
-            <CollapsibleTrigger className="cursor-pointer">Batch rename file</CollapsibleTrigger>
-            <CollapsibleContent>
+        <AccordionItem value="batch-rename">
+            <AccordionTrigger>Batch rename file</AccordionTrigger>
+            <AccordionContent>
                 <button onClick={() => saveFiles()} type="button">
                     Download rename.cmd
                 </button>
                 <span className="ch-rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
                 <Textarea value={batchRenameFile} readOnly rows={items.length + 2} />
-            </CollapsibleContent>
-        </Collapsible>
+            </AccordionContent>
+        </AccordionItem>
     );
 }
+
+//---------------------------------------------------------------------------
 
 function AllTogetherSection() {
     const items = useAtomValue(itemsAtom);
     const allTogetherText = useAtomValue(allTogetherTextAtom);
 
     return (
-        <Collapsible>
-            <CollapsibleTrigger className="cursor-pointer">All Together</CollapsibleTrigger>
-            <CollapsibleContent>
+        <AccordionItem value="all-together">
+            <AccordionTrigger>All Together</AccordionTrigger>
+            <AccordionContent>
                 <Textarea value={allTogetherText} readOnly rows={items.length + 1} />
-            </CollapsibleContent>
-        </Collapsible>
+            </AccordionContent>
+        </AccordionItem>
     );
 }
+
+//---------------------------------------------------------------------------
 
 function GeneratedItems() {
     const items = useAtomValue(itemsAtom);
