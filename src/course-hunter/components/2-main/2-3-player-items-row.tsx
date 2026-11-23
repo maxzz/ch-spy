@@ -1,5 +1,6 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { classNames } from '@/utils/classnames';
+import { Button } from '@/ui/shadcn/button';
 
 import { itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
 import { clearPlayItemsAtom, parsePlayerItemsAtom } from '../../store/a-actions';
@@ -25,9 +26,9 @@ export function PlayerItemsRow() {
                     Get items from:
                 </a>
 
-                <button className="btn ml-0.5 mr-1.5 text-xs" onClick={() => clearPlayItems()} type="button">
+                <Button variant="outline" className="ml-0.5 mr-1.5 text-xs" onClick={() => clearPlayItems()} type="button">
                     Clear
-                </button>
+                </Button>
 
                 <a className="text-xs flex items-center underline" href={playerItemsUrl} target="_blank" rel="noreferrer">
                     {playerItemsUrl}
@@ -45,9 +46,9 @@ export function PlayerItemsRow() {
                 />
 
                 {playerItemsJson && (
-                    <button className="btn ml-1.5" onClick={() => parsePlayerItems()} type="button">
+                    <Button variant="outline" className="ml-1.5" onClick={() => parsePlayerItems()} type="button">
                         Parse
-                    </button>
+                    </Button>
                 )}
             </div>
 

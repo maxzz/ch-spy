@@ -1,5 +1,6 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { cx } from '../../../utils/lib/classnames';
+import { Button } from '@/ui/shadcn/button';
 import { CLEAR_BUTTON_ID, clearSourceAtom, parseOrFetchAtom } from '../../store/a-actions';
 import { fetchButtonNameAtom } from '../../store/a-derived';
 import { sourceInputAtom } from '../../store/a-local-storage-atoms';
@@ -17,15 +18,16 @@ export function SourceRow() {
 
     return (
         <div className={cx('flex', !playerItemsUrl && items.length > 0 && 'mb-1')}>
-            <button
+            <Button
                 id={CLEAR_BUTTON_ID}
-                className={cx('btn mr-2 transition-transform', !sourceInput && !items.length && 'scale-x-0')}
+                variant="outline"
+                className={cx('mr-2 transition-transform', !sourceInput && !items.length && 'scale-x-0')}
                 onClick={(event) => clearSource(event.ctrlKey)}
                 title="Clear fetched data. Ctrl+Click clear player items as well"
                 type="button"
             >
                 Clear
-            </button>
+            </Button>
 
             <div className="focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded overflow-hidden flex flex-1">
                 <input
@@ -41,9 +43,10 @@ export function SourceRow() {
                     spellCheck={false}
                 />
 
-                <button
+                <Button
+                    variant="outline"
                     className={cx(
-                        'btn rounded-l-none transition-transform active:rounded-sm active:border focus:ring-0 focus:shadow-none',
+                        'rounded-l-none transition-transform active:rounded-sm active:border focus:ring-0 focus:shadow-none',
                         sourceInput ? '-ml-4' : 'px-0 w-0 border-none -translate-x-6',
                     )}
                     onClick={() => parseOrFetch()}
@@ -51,7 +54,7 @@ export function SourceRow() {
                     type="button"
                 >
                     {fetchButtonName}
-                </button>
+                </Button>
             </div>
         </div>
     );

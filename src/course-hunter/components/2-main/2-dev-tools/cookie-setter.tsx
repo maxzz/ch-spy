@@ -1,5 +1,6 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { cookieInputAtom, clearCookiesAtom, setCookiesAtom } from './store';
+import { Button } from '@/ui/shadcn/button';
 
 export function CookieSetter() {
     const [cookieInput, setCookieInput] = useAtom(cookieInputAtom);
@@ -14,8 +15,8 @@ export function CookieSetter() {
                 onChange={(event) => setCookieInput(event.target.value)}
                 placeholder="Type cookie"
             />
-            <button className="btn" onClick={() => clearCookies()} type="button">Clear Document Cookie</button>
-            <button className="btn" onClick={() => setCookies()} type="button">Set Cookie</button>
+            <Button variant="outline" onClick={() => clearCookies()} type="button">Clear Document Cookie</Button>
+            <Button variant="outline" onClick={() => setCookies()} type="button">Set Cookie</Button>
         </div>
     );
 }

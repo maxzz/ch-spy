@@ -7,6 +7,7 @@ import { editableTitlesAtom, itemsAtom } from '../../store/a-local-storage-state
 import { allTogetherTextAtom, batchRenameFileAtom } from '../../store/a-derived';
 import { saveFilesAtom } from '../../store/a-actions';
 import { IconLock } from './2-2-icon-lock';
+import { Button } from '@/ui/shadcn/button';
 import { classNames } from '@/utils/classnames';
 
 //---------------------------------------------------------------------------
@@ -20,9 +21,9 @@ export function BatchRenameSection() {
         <AccordionItem value="batch-rename">
             <AccordionTrigger>Batch rename file</AccordionTrigger>
             <AccordionContent>
-                <button onClick={() => saveFiles()} type="button">
+                <Button onClick={() => saveFiles()} type="button">
                     Download rename.cmd
-                </button>
+                </Button>
                 <span className="text-[0.7em]"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
                 <Textarea value={batchRenameFile} readOnly rows={items.length + 2} />
             </AccordionContent>
@@ -67,8 +68,8 @@ export function DownloadRenameButton({ className, ...rest }: ComponentProps<"but
     const saveFiles = useSetAtom(saveFilesAtom);
 
     return (
-        <button className={classNames("btn py-0 h-6 text-sm", className)} onClick={() => saveFiles()} type="button" {...rest}>
+        <Button variant="outline" className={classNames("py-0 h-6 text-sm", className)} onClick={() => saveFiles()} type="button" {...rest}>
             Download rename.cmd
-        </button>
+        </Button>
     );
 }

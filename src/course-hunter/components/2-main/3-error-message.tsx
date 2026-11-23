@@ -1,5 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { errorMsgAtom, setErrorAtom } from '../../store/a-local-storage-state';
+import { Button } from '@/ui/shadcn/button';
 
 export function ErrorMessage() {
     const errorMsg = useAtomValue(errorMsgAtom);
@@ -12,9 +13,9 @@ export function ErrorMessage() {
     return (
         <div className="mt-4 p-2.5 bg-[red] flex items-center">
             <span className="grow text-[.8rem] text-white">Error: {errorMsg}</span>
-            <button className="ml-4 w-[1.6rem] outline-none flex justify-center" onClick={() => setError('')} tabIndex={-1} type="button">
+            <Button variant="ghost" className="ml-4 w-[1.6rem] outline-none flex justify-center" onClick={() => setError('')} tabIndex={-1} type="button">
                 &times;
-            </button>
+            </Button>
         </div>
     );
 }
