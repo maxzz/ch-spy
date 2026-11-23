@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage, createJSONStorage } from 'jotai/utils';
-import { setCookieValue, splitCookie } from '../../../../utils/lib/cookies';
+import { setCookieValue, splitCookie } from '../../../utils/lib/cookies';
 
 // Dev-only helpers from the previous app. They are not shown in production builds.
 
