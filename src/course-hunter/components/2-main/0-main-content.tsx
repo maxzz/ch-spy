@@ -45,7 +45,7 @@ function GeneratedList() {
     }
 
     return (
-        <div className="ch-generated relative">
+        <div className="relative">
             <div className="relative pb-2 min-h-16 font-bold text-[#5d0083] bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] flex items-end justify-center">
                 <div title={desc}>{title}</div>
 

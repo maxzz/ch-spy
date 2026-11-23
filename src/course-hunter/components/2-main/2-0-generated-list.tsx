@@ -23,7 +23,7 @@ export function BatchRenameSection() {
                 <button onClick={() => saveFiles()} type="button">
                     Download rename.cmd
                 </button>
-                <span className="ch-rename-node"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
+                <span className="text-[0.7em]"> * convert in notepad++ utf8 saved file to ansi for russian names</span>
                 <Textarea value={batchRenameFile} readOnly rows={items.length + 2} />
             </AccordionContent>
         </AccordionItem>

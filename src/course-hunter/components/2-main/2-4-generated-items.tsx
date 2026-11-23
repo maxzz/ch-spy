@@ -11,7 +11,7 @@ export function GeneratedItems() {
     const names = useAtomValue(itemNamesAtom);
 
     return (
-        <div className="ch-list bg-[#f1f1f1]">
+        <div className="bg-[#f1f1f1]">
             <ul>
                 {items.map(
                     (item, index) => (
@@ -29,16 +29,19 @@ function GeneratedListItem({ item, index }: { item: OurItem; index: number; }) {
     const name = names[index];
 
     return (
-        <li>
+        <li className="list-none hover:bg-[#90ff74] grid grid-cols-[1fr_min-content_min-content] gap-x-[0.6rem] items-center">
             {editable
-                ? <input className="text-sm" defaultValue={name} />
+                ? <input className="p-[0.4rem] text-[0.9rem] leading-[1rem] bg-[hsl(0_0%_100%/0.5)] focus:bg-[#90ff74] border border-[#fcfcfc] focus:outline-none rounded-[2px] cursor-default focus:cursor-text" defaultValue={name} />
                 : <div className="pl-2 py-2 text-sm leading-tight hover:bg-[#ffffff80]">{name}</div>
             }
 
             <DownloadButton selectable={!editable} url={item.url} />
 
             <a
-                className={`select-none ${item.url ? '' : 'ch-nolink'}`}
+                className={classNames(
+                    'select-none pr-[0.6rem] text-[0.7em] font-normal no-underline',
+                    item.url ? 'text-[#1985ff] visited:text-[green]' : 'text-[red]',
+                )}
                 href={item.url || undefined}
                 title={`video ${index + 1}`}
                 tabIndex={-1}
@@ -66,11 +69,18 @@ export function DownloadButton({ url, selectable }: { url: string; selectable: b
                 Get
             </button>
 
-            {progress !== 0 && <div className="ch-progress">{progress}</div>}
+            {progress !== 0 && <div className="absolute top-0 right-0 w-[1.7em] p-[0.3em_0.5em] text-[0.7em] text-right text-[green] bg-[#ddd]">{progress}</div>}
 
             {tried && (
-                <div className="ch-meter">
-                    <span className={classNames(failed && 'ch-failed')} style={{ width: succeeded ? '100%' : `${progress}%` }} />
+                <div className="relative h-[0.2em] bg-[rgb(209,255,198)] rounded-[0.2em] shadow-[inset_0_-1px_1px_rgba(255,255,255,0.3)]">
+                    <span
+                        className={classNames(
+                            'relative h-full block',
+                            failed ? 'bg-[red]' : 'bg-[rgb(43,194,83)]',
+                            'rounded-l-[20px] rounded-r-[8px] shadow-[inset_0_2px_9px_rgba(255,255,255,0.3),inset_0_-2px_6px_rgba(0,0,0,0.4)] overflow-hidden',
+                        )}
+                        style={{ width: succeeded ? '100%' : `${progress}%` }}
+                    />
                 </div>
             )}
         </div>
