@@ -1,6 +1,7 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { Button } from '@/ui/shadcn/button';
 import { Input } from '@/ui/shadcn/input';
+import { AccordionContent, AccordionItem, AccordionTrigger } from '../../../ui/shadcn/accordion';
 import { cookieInputAtom, clearCookiesAtom, setCookiesAtom, storageTextAtom } from './a-cookies-atoms';
 
 /** Developer panels (cookies, localStorage test). Rendered in the dev server only. */
@@ -10,11 +11,13 @@ export function Part_DevPanels() {
     }
 
     return (
-        <section className="mt-4 p-2.5 bg-gray-100 border border-dashed border-gray-600">
-            <h2 className="text-sm font-bold">Dev tools</h2>
-            <CookieSetter />
-            <StorageText />
-        </section>
+        <AccordionItem value="dev-panels">
+            <AccordionTrigger>Dev tools</AccordionTrigger>
+            <AccordionContent>
+                <CookieSetter />
+                <StorageText />
+            </AccordionContent>
+        </AccordionItem>
     );
 }
 
