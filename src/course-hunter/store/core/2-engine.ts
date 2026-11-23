@@ -77,39 +77,6 @@ const reAxiosItemsQuery = /\/course\/\d{3,10}?\/lessons/; // Lesson list URL the
 
 //---------------------------------------------------------------------------
 
-export type PersistentContent = {
-    all: string;            // batch rename list
-    source: string;         // source html or URL
-    playerItems: string;    // player items JSON
-};
-
-export function generatePersistentFileContent({ all, source, playerItems }: PersistentContent): string {
-    return `--------------------------------- 1 - player list ---------------------------------
-${(all || '').trim()}
---------------------------------- 2 - source html ---------------------------------
-${(source || '').trim()}
---------------------------------- 3 - source player items -------------------------
-${(playerItems || '').trim()}
---------------------------------- 4 - end -----------------------------------------
-`;
-}
-
-//---------------------------------------------------------------------------
-
-export function parsePersistentFileContent(fileCnt: string): PersistentContent | undefined {
-    // Section separators: -{33} \d - [^-]* -{10,}
-    const re = /-{33} \d - [^-]* -{10,}\r?\n/g;
-    const m = fileCnt.split(re);
-    if (m.length >= 5) { // 0 and 4 elements are empty because we use split
-        return {
-            all: m[1],
-            source: m[2],
-            playerItems: m[3],
-        };
-    }
-    return undefined;
-}
-
 //---------------------------------------------------------------------------
 // Internals
 

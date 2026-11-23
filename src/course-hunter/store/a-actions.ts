@@ -2,7 +2,6 @@ import { atom, type Setter } from 'jotai';
 import { downloadBlob } from '../../utils/lib/download';
 
 import { type SessionPatch, isSourceUrl, parseStateFromCtxScript, patchStateFromCtxScript, patchFromHtml, patchFromPlayerItems } from './core/1-session';
-import { generatePersistentFileContent, parsePersistentFileContent } from './core/2-engine';
 import { allTogetherTextAtom, batchRenameFileAtom } from './a-derived';
 import { playerItemsJsonAtom, sourceInputAtom } from './a-local-storage-atoms';
 import { courseInfoAtom, itemsAtom, playerItemsUrlAtom, setErrorAtom } from './a-local-storage-state';
@@ -92,6 +91,8 @@ export const clearPlayItemsAtom = atom(
     }
 );
 
+//---------------------------------------------------------------------------
+
 /** Saves the rename script and the page source as two files. */
 export const saveFilesAtom = atom(
     null,
@@ -106,6 +107,27 @@ export const saveFilesAtom = atom(
         await downloadBlob(new Blob([persistent], { type: 'text/plain' }), 'page-source.txt');
     }
 );
+
+/*test-only*/export function generatePersistentFileContent({ all, source, playerItems }: PersistentContent): string {
+    return `--------------------------------- 1 - player list ---------------------------------
+${(all || '').trim()}
+--------------------------------- 2 - source html ---------------------------------
+${(source || '').trim()}
+--------------------------------- 3 - source player items -------------------------
+${(playerItems || '').trim()}
+--------------------------------- 4 - end -----------------------------------------
+`;
+}
+
+//---------------------------------------------------------------------------
+
+type PersistentContent = {
+    all: string;            // batch rename list
+    source: string;         // source html or URL
+    playerItems: string;    // player items JSON
+};
+
+//---------------------------------------------------------------------------
 
 /** Loads a file dropped on the page: a saved "page-source" file or a plain text file. */
 export const dropFileAtom = atom(
@@ -137,3 +159,19 @@ export const dropFileAtom = atom(
         }
     }
 );
+
+/*for-test-only*/export function parsePersistentFileContent(fileCnt: string): PersistentContent | undefined {
+    // Section separators: -{33} \d - [^-]* -{10,}
+    const re = /-{33} \d - [^-]* -{10,}\r?\n/g;
+    const m = fileCnt.split(re);
+    if (m.length >= 5) { // 0 and 4 elements are empty because we use split
+        return {
+            all: m[1],
+            source: m[2],
+            playerItems: m[3],
+        };
+    }
+    return undefined;
+}
+
+//---------------------------------------------------------------------------

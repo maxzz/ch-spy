@@ -11,6 +11,7 @@ export function SourceRow() {
     const items = useAtomValue(itemsAtom);
     const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
     const fetchButtonName = useAtomValue(fetchButtonNameAtom);
+    
     const clearSource = useSetAtom(clearSourceAtom);
     const parseOrFetch = useSetAtom(parseOrFetchAtom);
 
@@ -26,7 +27,7 @@ export function SourceRow() {
                 Clear
             </button>
 
-            <div className="focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded-sm overflow-hidden flex flex-1">
+            <div className="focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded overflow-hidden flex flex-1">
                 <input
                     className={cx('flex-1 input text-xs outline-none border-gray-600', sourceInput ? 'border-r-0' : 'border')}
                     value={sourceInput}

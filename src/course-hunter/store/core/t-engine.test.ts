@@ -1,11 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { generatePersistentFileContent, parsePersistentFileContent } from '../a-actions';
 import {
-    generatePersistentFileContent,
     getPlayerItemsUrl,
     parseHtmlToItems,
-    parsePersistentFileContent,
 } from './2-engine';
 import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './3-build-names';
 import { isSourceUrl, parsePlayerItems, parseStateFromCtxScript, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './1-session';
