@@ -1,8 +1,8 @@
-import { useAtom, useSetAtom } from 'jotai';
-import { Button } from '@/ui/shadcn/button';
-import { Input } from '@/ui/shadcn/input';
-import { AccordionContent, AccordionItem, AccordionTrigger } from '../../../ui/shadcn/accordion';
-import { cookieInputAtom, clearCookiesAtom, setCookiesAtom, storageTextAtom } from './a-dev-tools-atoms';
+import { useAtom, useSetAtom } from "jotai";
+import { Button } from "@/ui/shadcn/button";
+import { Input } from "@/ui/shadcn/input";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "../../../ui/shadcn/accordion";
+import { cookieInputAtom, clearCookiesAtom, setCookiesAtom, storageTextAtom } from "./a-dev-tools-atoms";
 
 /** Developer panels (cookies, localStorage test). Rendered in the dev server only. */
 export function Part_DevPanels() {

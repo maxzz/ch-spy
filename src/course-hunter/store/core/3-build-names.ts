@@ -1,6 +1,6 @@
-import path from 'path-browserify';
+import path from "path-browserify";
 
-import type { OurItem } from './2-html-parse';
+import { type OurItem } from "./2-html-parse";
 
 //---------------------------------------------------------------------------
 

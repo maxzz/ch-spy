@@ -1,5 +1,5 @@
-import { type CheerioAPI, load } from 'cheerio';
-import { type CourseDescription, reFileItem } from './9-content-match-regexes';
+import { type CheerioAPI, load } from "cheerio";
+import { type CourseDescription, reFileItem } from "./9-content-match-regexes";
 
 //---------------------------------------------------------------------------
 

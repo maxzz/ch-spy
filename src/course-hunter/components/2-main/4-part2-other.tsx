@@ -1,13 +1,13 @@
-import { type ComponentProps } from 'react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { classNames } from '@/utils/classnames';
-import { Button } from '@/ui/shadcn/button';
-import { Textarea } from '../../../ui/shadcn/textarea';
-import { AccordionContent, AccordionItem, AccordionTrigger } from '../../../ui/shadcn/accordion';
+import { type ComponentProps } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { classNames } from "@/utils/classnames";
+import { Button } from "@/ui/shadcn/button";
+import { Textarea } from "../../../ui/shadcn/textarea";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "../../../ui/shadcn/accordion";
 
-import { editableTitlesAtom, itemsAtom } from '../../store/a-local-storage-state';
-import { allTogetherTextAtom, batchRenameFileAtom } from '../../store/a-derived';
-import { saveFilesAtom } from '../../store/a-actions';
+import { editableTitlesAtom, itemsAtom } from "../../store/a-local-storage-state";
+import { allTogetherTextAtom, batchRenameFileAtom } from "../../store/a-derived";
+import { saveFilesAtom } from "../../store/a-actions";
 
 //---------------------------------------------------------------------------
 

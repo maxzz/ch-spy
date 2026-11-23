@@ -1,4 +1,4 @@
-import JsFileDownloader from 'js-file-downloader';
+import JsFileDownloader from "js-file-downloader";
 
 export const DOWNLOAD_TIMEOUT_MS = 2 * 60 * 1000;
 

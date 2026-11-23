@@ -1,10 +1,10 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { describe, it, expect } from 'vitest';
-import path_browserify from 'path-browserify';
-import * as OLD from './old/core/engine';
-import * as NEW from '../src/course-hunter/store/core/engine';
-import { buildBatchRenameFile, buildItemNames } from '../src/course-hunter/store/core/rename';
+import fs from "node:fs";
+import path from "node:path";
+import { describe, it, expect } from "vitest";
+import path_browserify from "path-browserify";
+import * as OLD from "./old/core/engine";
+import * as NEW from "../src/course-hunter/store/core/engine";
+import { buildBatchRenameFile, buildItemNames } from "../src/course-hunter/store/core/rename";
 
 const fixtureDir = path.resolve(__dirname, '../src/course-hunter/core/fixtures');
 const pageOld = fs.readFileSync(path.join(fixtureDir, 'page-old-lessons.html'), 'utf8');

@@ -1,9 +1,9 @@
-import { atom } from 'jotai';
+import { atom } from "jotai";
 
-import { isSourceUrl } from './core/1-session';
-import { buildBatchRenameFile, buildItemNames } from './core/3-build-names';
-import { sourceInputAtom } from './a-local-storage-atoms';
-import { itemsAtom } from './a-local-storage-state';
+import { isSourceUrl } from "./core/1-session";
+import { buildBatchRenameFile, buildItemNames } from "./core/3-build-names";
+import { sourceInputAtom } from "./a-local-storage-atoms";
+import { itemsAtom } from "./a-local-storage-state";
 
 /** The input holds a URL (fetch) rather than HTML (parse). */
 export const isSourceUrlAtom = atom(

@@ -1,10 +1,10 @@
-import { atom, type Setter } from 'jotai';
-import { downloadBlob } from '../../utils/lib/download';
+import { atom, type Setter } from "jotai";
+import { downloadBlob } from "../../utils/lib/download";
 
-import { type SessionPatch, isSourceUrl, parseStateFromCtxScript, patchStateFromCtxScript, patchFromHtml, patchFromPlayerItems } from './core/1-session';
-import { allTogetherTextAtom, batchRenameFileAtom } from './a-derived';
-import { playerItemsJsonAtom, sourceInputAtom } from './a-local-storage-atoms';
-import { courseInfoAtom, itemsAtom, playerItemsUrlAtom, setErrorAtom } from './a-local-storage-state';
+import { type SessionPatch, isSourceUrl, parseStateFromCtxScript, patchStateFromCtxScript, patchFromHtml, patchFromPlayerItems } from "./core/1-session";
+import { allTogetherTextAtom, batchRenameFileAtom } from "./a-derived";
+import { playerItemsJsonAtom, sourceInputAtom } from "./a-local-storage-atoms";
+import { courseInfoAtom, itemsAtom, playerItemsUrlAtom, setErrorAtom } from "./a-local-storage-state";
 
 //---------------------------------------------------------------------------
 

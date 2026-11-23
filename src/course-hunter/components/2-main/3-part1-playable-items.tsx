@@ -1,12 +1,12 @@
-import { useAtomValue, useSetAtom } from 'jotai';
-import { classNames } from '@/utils/classnames';
-import { Button } from '@/ui/shadcn/button';
-import { Input } from '@/ui/shadcn/input';
+import { useAtomValue, useSetAtom } from "jotai";
+import { classNames } from "@/utils/classnames";
+import { Button } from "@/ui/shadcn/button";
+import { Input } from "@/ui/shadcn/input";
 
-import { editableTitlesAtom, itemsAtom } from '../../store/a-local-storage-state';
-import { itemNamesAtom } from '../../store/a-derived';
-import { type OurItem } from '../../store/core/2-html-parse';
-import { downloadStateFamily, startDownloadAtom } from '../../store/a-downloads';
+import { editableTitlesAtom, itemsAtom } from "../../store/a-local-storage-state";
+import { itemNamesAtom } from "../../store/a-derived";
+import { type OurItem } from "../../store/core/2-html-parse";
+import { downloadStateFamily, startDownloadAtom } from "../../store/a-downloads";
 
 export function Part_GeneratedItems() {
     const items = useAtomValue(itemsAtom);
@@ -17,7 +17,7 @@ export function Part_GeneratedItems() {
             <ul>
                 {items.map(
                     (item, index) => (
-                        <GeneratedListItem key={`${index}:${names[index]}`} item={item} index={index} />
+                        <Row key={`${index}:${names[index]}`} item={item} index={index} />
                     )
                 )}
             </ul>
@@ -25,7 +25,7 @@ export function Part_GeneratedItems() {
     );
 }
 
-function GeneratedListItem({ item, index }: { item: OurItem; index: number; }) {
+function Row({ item, index }: { item: OurItem; index: number; }) {
     const names = useAtomValue(itemNamesAtom);
     const editable = useAtomValue(editableTitlesAtom);
     const name = names[index];
@@ -62,8 +62,8 @@ function DownloadButton({ url, selectable }: { url: string; selectable: boolean;
     return (
         <div className="relative">
             <Button
-                variant="outline"
                 className="py-0 h-6 text-sm"
+                variant="outline"
                 disabled={busy || !url}
                 onClick={() => startDownload(url)}
                 tabIndex={selectable ? undefined : -1}

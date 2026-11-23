@@ -1,11 +1,11 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { describe, expect, it } from 'vitest';
+import fs from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
 
-import { isSourceUrl, parsePlayerItems, parseStateFromCtxScript, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from './1-session';
-import { getPlayerItemsUrl, parseHtmlToItems } from './2-html-parse';
-import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from './3-build-names';
-import { generatePersistentFileContent, parsePersistentFileContent } from '../a-actions';
+import { isSourceUrl, parsePlayerItems, parseStateFromCtxScript, patchFromHtml, patchFromStorage, NOTHING_DETECTED } from "./1-session";
+import { getPlayerItemsUrl, parseHtmlToItems } from "./2-html-parse";
+import { buildBatchRenameFile, buildItemNames, itemInputName, validateFname } from "./3-build-names";
+import { generatePersistentFileContent, parsePersistentFileContent } from "../a-actions";
 
 //---------------------------------------------------------------------------
 

@@ -1,8 +1,8 @@
-import { atom } from 'jotai';
-import { atomFamily } from 'jotai-family';
-import path from 'path-browserify';
+import { atom } from "jotai";
+import { atomFamily } from "jotai-family";
+import path from "path-browserify";
 
-import { downloadWithProgress } from '../../utils/lib/download';
+import { downloadWithProgress } from "../../utils/lib/download";
 
 //---------------------------------------------------------------------------
 

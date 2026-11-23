@@ -2,32 +2,7 @@
  * Pure functions that turn pasted or stored input into state changes.
  * Store actions apply the returned patches; startup uses the same functions to restore the last session.
  */
-import { type CourseInfo, type OurItem, getPlayerItemsUrl, parseHtmlToItems } from './2-html-parse';
-
-//---------------------------------------------------------------------------
-
-/** Text copied from the "Copy" action of the Clear/Parse row (JSON with the page and its player items). */
-type StateFromCtxScript = {
-    a: 'tm';                      // magic string to identify the result
-    docurl: string;               // document url
-    itemsurl: string | undefined; // player items url; if undefined then cannot get url from document
-    doc: string;                  // document html
-    items: string | undefined;    // player items json; if undefined then cannot fetch items from url
-};
-
-export function parseStateFromCtxScript(text: string): StateFromCtxScript | undefined {
-    const isOurFormat = /^\{"a":"tm","docurl":"/.test(text);
-    if (!isOurFormat) {
-        return undefined;
-    }
-
-    try {
-        return JSON.parse(text) as StateFromCtxScript;
-    } catch {
-        console.error('Cannot parse pasted input.');
-        return undefined;
-    }
-}
+import { type CourseInfo, type OurItem, getPlayerItemsUrl, parseHtmlToItems } from "./2-html-parse";
 
 //---------------------------------------------------------------------------
 
@@ -42,6 +17,7 @@ export type SessionPatch = {
 
 /** Page HTML: course info and lesson items from the page, or the player-items URL when the page has no items. */
 export function patchFromHtml(html: string): SessionPatch {
+
     const parsed = parseHtmlToItems(html);
     if (parsed.items.length) {
         return { info: parsed.info, items: parsed.items, playerItemsUrl: '' };
@@ -80,6 +56,31 @@ export function patchFromStorage(htmlText: string, playerItemsJson: string): Ses
 
 export function isSourceUrl(text: string): boolean {
     return /^https?:\/\//.test(text);
+}
+
+//---------------------------------------------------------------------------
+
+/** Text copied from the "Copy" action of the Clear/Parse row (JSON with the page and its player items). */
+type StateFromCtxScript = {
+    a: 'tm';                      // magic string to identify the result
+    docurl: string;               // document url
+    itemsurl: string | undefined; // player items url; if undefined then cannot get url from document
+    doc: string;                  // document html
+    items: string | undefined;    // player items json; if undefined then cannot fetch items from url
+};
+
+export function parseStateFromCtxScript(text: string): StateFromCtxScript | undefined {
+    const isOurFormat = /^\{"a":"tm","docurl":"/.test(text);
+    if (!isOurFormat) {
+        return undefined;
+    }
+
+    try {
+        return JSON.parse(text) as StateFromCtxScript;
+    } catch {
+        console.error('Cannot parse pasted input.');
+        return undefined;
+    }
 }
 
 //---------------------------------------------------------------------------

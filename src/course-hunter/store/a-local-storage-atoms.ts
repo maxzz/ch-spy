@@ -1,5 +1,5 @@
-import { atomWithStorage } from 'jotai/utils';
-import { plainLocalStorage } from '../../utils/lib/local-storage';
+import { atomWithStorage } from "jotai/utils";
+import { plainLocalStorage } from "../../utils/lib/local-storage";
 
 // Same keys as the previous Vue app, so a saved session carries over.
 export const STORAGE_KEY_HTML = 'ch-spy-26-html';

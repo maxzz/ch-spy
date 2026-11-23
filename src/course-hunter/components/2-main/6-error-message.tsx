@@ -1,6 +1,6 @@
-import { useAtomValue, useSetAtom } from 'jotai';
-import { errorMsgAtom, setErrorAtom } from '../../store/a-local-storage-state';
-import { Button } from '@/ui/shadcn/button';
+import { useAtomValue, useSetAtom } from "jotai";
+import { errorMsgAtom, setErrorAtom } from "../../store/a-local-storage-state";
+import { Button } from "@/ui/shadcn/button";
 
 export function ErrorMessage() {
     const errorMsg = useAtomValue(errorMsgAtom);

@@ -1,16 +1,16 @@
-import { useAtomValue } from 'jotai';
-import { cx } from '../../../utils/lib/classnames';
-import { ScrollArea } from '../../../ui/shadcn/scroll-area';
-import { Accordion } from '../../../ui/shadcn/accordion';
+import { useAtomValue } from "jotai";
+import { cx } from "../../../utils/lib/classnames";
+import { ScrollArea } from "../../../ui/shadcn/scroll-area";
+import { Accordion } from "../../../ui/shadcn/accordion";
 
-import { courseInfoAtom, itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
+import { courseInfoAtom, itemsAtom, playerItemsUrlAtom } from "../../store/a-local-storage-state";
 
-import { ErrorMessage } from './6-error-message';
-import { Row1_SourceInput } from './1-row1-source-input';
-import { Row2_PlayerItemsActions } from './2-row2-player-items-actions';
-import { Part_AllTogether, Part_BatchRename, DownloadRenameButton, EditableLockToggle } from './4-part2-other';
-import { Part_GeneratedItems } from './3-part1-playable-items';
-import { Part_DevPanels } from './5-part3-dev-panels';
+import { ErrorMessage } from "./6-error-message";
+import { Row1_SourceInput } from "./1-row1-source-input";
+import { Row2_PlayerItemsActions } from "./2-row2-player-items-actions";
+import { Part_AllTogether, Part_BatchRename, DownloadRenameButton, EditableLockToggle } from "./4-part2-other";
+import { Part_GeneratedItems } from "./3-part1-playable-items";
+import { Part_DevPanels } from "./5-part3-dev-panels";
 
 export function MainContent() {
     const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
