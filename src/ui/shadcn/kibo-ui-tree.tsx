@@ -1,23 +1,11 @@
-"use client";
-
-import {
-    type ComponentProps,
-    createContext,
-    type HTMLAttributes,
-    type ReactNode,
-    type RefObject,
-    useCallback,
-    useContext,
-    useEffect,
-    useId,
-    useMemo,
-    useRef,
-    useState,
-    useSyncExternalStore,
-} from "react";
-import { cn } from "@/utils/classnames";
-import { ChevronRight, File, Folder, FolderOpen } from "lucide-react"; //source https://www.kibo-ui.com/components/tree //demo https://www.shadcnblocks.com/component/tree/tree-expanded-1
+"use client"; // 08.20.26, 08.25.26
+import { type ComponentProps, type HTMLAttributes, type ReactNode, type RefObject, createContext, useCallback, useContext, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, } from "react";
+import { classNames, cn } from "@/utils/classnames";
 import { AnimatePresence, motion } from "motion/react";
+import { ChevronRight, File, Folder, FolderOpen } from "lucide-react"; //source https://www.kibo-ui.com/components/tree //demo https://www.shadcnblocks.com/component/tree/tree-expanded-1
+
+//---------------------------------------------------------------------------
+// TreeContext
 
 type TreeContextType = {
     toggleExpanded: (nodeId: string) => void;
@@ -31,6 +19,39 @@ type TreeContextType = {
 };
 
 const TreeContext = createContext<TreeContextType | undefined>(undefined);
+
+const useTree = () => {
+    const context = useContext(TreeContext);
+    if (!context) {
+        throw new Error("Tree components must be used within a TreeProvider");
+    }
+    return context;
+};
+
+//---------------------------------------------------------------------------
+// TreeNodeContext
+
+type TreeNodeContextType = {
+    nodeId: string;
+    level: number;
+    isLast: boolean;
+    parentPath: boolean[];
+};
+
+const TreeNodeContext = createContext<TreeNodeContextType | undefined>(
+    undefined
+);
+
+const useTreeNode = () => {
+    const context = useContext(TreeNodeContext);
+    if (!context) {
+        throw new Error("TreeNode components must be used within a TreeNode");
+    }
+    return context;
+};
+
+//---------------------------------------------------------------------------
+//
 
 type TreeNodeSubscriptionStore = {
     listeners: Map<string, Set<() => void>>;
@@ -78,24 +99,24 @@ function notifyNodeListeners(store: TreeNodeSubscriptionStore, nodeIds: Iterable
 
 function createNodeSubscriptionContext(storeRef: RefObject<TreeNodeSubscriptionStore | null>, getSnapshot: (nodeId: string) => boolean): TreeNodeSubscriptionContextType {
     return {
-        subscribe: (nodeId, listener) => {
-            const store = storeRef.current;
-            if (!store) {
-                return () => undefined;
-            }
-
-            const nodeListeners =
-                store.listeners.get(nodeId) ?? new Set<() => void>();
-            nodeListeners.add(listener);
-            store.listeners.set(nodeId, nodeListeners);
-
-            return () => {
-                nodeListeners.delete(listener);
-                if (nodeListeners.size === 0) {
-                    store.listeners.delete(nodeId);
+        subscribe:
+            (nodeId, listener) => {
+                const store = storeRef.current;
+                if (!store) {
+                    return () => undefined;
                 }
-            };
-        },
+
+                const nodeListeners = store.listeners.get(nodeId) ?? new Set<() => void>();
+                nodeListeners.add(listener);
+                store.listeners.set(nodeId, nodeListeners);
+
+                return () => {
+                    nodeListeners.delete(listener);
+                    if (nodeListeners.size === 0) {
+                        store.listeners.delete(nodeId);
+                    }
+                };
+            },
         getSnapshot,
     };
 }
@@ -124,32 +145,7 @@ function useTreeNodeExpanded(nodeId: string) {
     );
 }
 
-const useTree = () => {
-    const context = useContext(TreeContext);
-    if (!context) {
-        throw new Error("Tree components must be used within a TreeProvider");
-    }
-    return context;
-};
-
-type TreeNodeContextType = {
-    nodeId: string;
-    level: number;
-    isLast: boolean;
-    parentPath: boolean[];
-};
-
-const TreeNodeContext = createContext<TreeNodeContextType | undefined>(
-    undefined
-);
-
-const useTreeNode = () => {
-    const context = useContext(TreeNodeContext);
-    if (!context) {
-        throw new Error("TreeNode components must be used within a TreeNode");
-    }
-    return context;
-};
+//
 
 export type TreeProviderProps = {
     children: ReactNode;
@@ -157,15 +153,21 @@ export type TreeProviderProps = {
     showLines?: boolean;
     showIcons?: boolean;
     selectable?: boolean;
-    multiSelect?: boolean;
-    selectedIds?: string[];
+    multiSelect?: boolean;                 // Allow multiple selection.
+    deselectOnReselect?: boolean;          // When false (default), clicking an already-selected row does nothing.
+    selectedIds?: string[];                // Controlled selection.
     onSelectionChange?: (selectedIds: string[]) => void;
-    indent?: number;
-    animateExpand?: boolean;
+    onReselect?: (nodeId: string) => void; // Fired when a selected row is clicked again and deselectOnReselect is false.
+    indent?: number;                       // Indentation width.
+    animateExpand?: boolean;               // Expand/collapse height animation. Off unless the prop is passed as true.
+    animateAppear?: boolean;               // Mount slide (opacity + y). Off unless the prop is passed as true.
     className?: string;
 };
 
-export function TreeProvider({ children, defaultExpandedIds = [], showLines = true, showIcons = true, selectable = true, multiSelect = false, selectedIds, onSelectionChange, indent = 20, animateExpand = true, className, }: TreeProviderProps) {
+export function TreeProvider({
+    children, defaultExpandedIds = [], showLines = true, showIcons = true, selectable = true, multiSelect = false, deselectOnReselect = false,
+    selectedIds, onSelectionChange, onReselect, indent = 20, animateExpand, animateAppear, className,
+}: TreeProviderProps) {
     const [internalSelectedIds, setInternalSelectedIds] = useState<string[]>(selectedIds ?? []);
     const selectionStoreRef = useRef<TreeSelectionStore>({
         selectedIds: selectedIds ?? [],
@@ -178,7 +180,9 @@ export function TreeProvider({ children, defaultExpandedIds = [], showLines = tr
     const selectedIdsRef = useRef(currentSelectedIds);
     selectedIdsRef.current = currentSelectedIds;
 
-    useEffect(
+    // Sync before paint so controlled selection does not flash the previous
+    // highlight for a frame (noticeable during process back/forward nav).
+    useLayoutEffect(
         () => {
             if (selectedIds === undefined) {
                 return;
@@ -229,8 +233,14 @@ export function TreeProvider({ children, defaultExpandedIds = [], showLines = tr
                 newSelection = current.includes(nodeId)
                     ? current.filter((id) => id !== nodeId)
                     : [...current, nodeId];
+            } else if (current.includes(nodeId)) {
+                if (!deselectOnReselect) {
+                    onReselect?.(nodeId);
+                    return;
+                }
+                newSelection = [];
             } else {
-                newSelection = current.includes(nodeId) ? [] : [nodeId];
+                newSelection = [nodeId];
             }
 
             selectedIdsRef.current = newSelection;
@@ -242,7 +252,7 @@ export function TreeProvider({ children, defaultExpandedIds = [], showLines = tr
                 setInternalSelectedIds(newSelection);
             }
         },
-        [selectable, multiSelect, isControlled, onSelectionChange]);
+        [selectable, multiSelect, deselectOnReselect, isControlled, onSelectionChange, onReselect]);
 
     const treeContextValue = useMemo(
         () => ({
@@ -255,30 +265,29 @@ export function TreeProvider({ children, defaultExpandedIds = [], showLines = tr
             indent,
             animateExpand,
         }),
-        [
-            toggleExpanded,
-            handleSelection,
-            showLines,
-            showIcons,
-            selectable,
-            multiSelect,
-            indent,
-            animateExpand,
-        ]
-    );
+        [toggleExpanded, handleSelection, showLines, showIcons, selectable, multiSelect, indent, animateExpand]);
 
     return (
         <TreeExpandedContext.Provider value={expandedContextValue}>
             <TreeSelectionContext.Provider value={selectionContextValue}>
                 <TreeContext.Provider value={treeContextValue}>
-                    <motion.div
-                        animate={{ opacity: 1, y: 0 }}
-                        className={cn("w-full", className)}
-                        initial={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                    >
-                        {children}
-                    </motion.div>
+                    {animateAppear
+                        ? (
+                            <motion.div
+                                className={classNames("w-full", className)}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                            >
+                                {children}
+                            </motion.div>
+                        )
+                        : (
+                            <div className={classNames("w-full", className)}>
+                                {children}
+                            </div>
+                        )
+                    }
                 </TreeContext.Provider>
             </TreeSelectionContext.Provider>
         </TreeExpandedContext.Provider>
@@ -287,9 +296,9 @@ export function TreeProvider({ children, defaultExpandedIds = [], showLines = tr
 
 export type TreeViewProps = HTMLAttributes<HTMLDivElement>;
 
-export function TreeView({ className, children, ...props }: TreeViewProps) {
+export function TreeView({ className, children, ...rest }: TreeViewProps) {
     return (
-        <div className={cn("p-2", className)} {...props}>
+        <div className={cn("group/tree p-2 outline-none", className)} data-slot="tree-view" tabIndex={0} {...rest}>
             {children}
         </div>
     );
@@ -303,20 +312,16 @@ export type TreeNodeProps = HTMLAttributes<HTMLDivElement> & {
     children?: ReactNode;
 };
 
-export function TreeNode({ nodeId: providedNodeId, level = 0, isLast = false, parentPath = [], children, className, onClick, ...props }: TreeNodeProps) {
+export function TreeNode({ nodeId: providedNodeId, level = 0, isLast = false, parentPath = [], children, className, onClick, ...rest }: TreeNodeProps) {
     const generatedId = useId();
     const nodeId = providedNodeId ?? generatedId;
 
-    // Build the parent path - mark positions where the parent was the last child
-    const currentPath = level === 0 ? [] : [...parentPath];
-    if (level > 0 && parentPath.length < level - 1) {
-        // Fill in missing levels with false (not last)
-        while (currentPath.length < level - 1) {
-            currentPath.push(false);
+    // Ancestor path: parentPath[i] is true when the ancestor at level i was the last child.
+    const ancestorPath = level === 0 ? [] : [...parentPath];
+    if (level > 0 && ancestorPath.length < level) {
+        while (ancestorPath.length < level) {
+            ancestorPath.push(false);
         }
-    }
-    if (level > 0) {
-        currentPath[level - 1] = isLast;
     }
 
     return (
@@ -325,10 +330,10 @@ export function TreeNode({ nodeId: providedNodeId, level = 0, isLast = false, pa
                 nodeId,
                 level,
                 isLast,
-                parentPath: currentPath,
+                parentPath: ancestorPath,
             }}
         >
-            <div className={cn("select-none", className)} {...props}>
+            <div className={classNames("select-none", className)} {...rest}>
                 {children}
             </div>
         </TreeNodeContext.Provider>
@@ -340,187 +345,138 @@ export type TreeNodeTriggerProps = ComponentProps<typeof motion.div> & {
     hasChildren?: boolean;
 };
 
-export function TreeNodeTrigger({ isSelected: isSelectedProp, ...props }: TreeNodeTriggerProps) {
+export function TreeNodeTrigger({ isSelected: isSelectedProp, ...rest }: TreeNodeTriggerProps) {
     if (isSelectedProp !== undefined) {
-        return <TreeNodeTriggerContent isSelected={isSelectedProp} {...props} />;
+        return <RowContent isSelected={isSelectedProp} {...rest} />;
     }
 
-    return <TreeNodeTriggerWithInternalSelection {...props} />;
+    return <TreeNodeTriggerWithInternalSelection {...rest} />;
 }
 
 function TreeNodeTriggerWithInternalSelection(props: TreeNodeTriggerProps) {
     const { nodeId } = useTreeNode();
     const isSelected = useTreeNodeSelected(nodeId);
 
-    return <TreeNodeTriggerContent isSelected={isSelected} {...props} />;
+    return <RowContent isSelected={isSelected} {...props} />;
 }
 
-function TreeNodeTriggerContent({
-    children,
-    className,
-    hasChildren = false,
-    isSelected,
-    onClick,
-    ...props
-}: TreeNodeTriggerProps & { isSelected: boolean; }) {
-    const { toggleExpanded, handleSelection, indent } = useTree();
+function RowContent({ children, className, hasChildren = false, isSelected, onClick, ...rest }: TreeNodeTriggerProps & { isSelected: boolean; }) {
+    const { handleSelection, indent } = useTree();
     const { nodeId, level } = useTreeNode();
 
     return (
         <motion.div
-            className={cn(
-                "relative group mx-1 px-3 py-2 transition-all duration-200 rounded-md flex items-center cursor-pointer",
-                "hover:bg-accent/50",
-                isSelected && "bg-accent/80",
-                className
-            )}
+            className={cn("relative group mx-1 px-3 py-0.5 transition-all duration-200 rounded-none flex items-center cursor-pointer", isSelected ? TREE_SELECTED_ITEM_STYLES : "hover:bg-accent/70", className)}
+            style={{ paddingLeft: (level + 1) * (indent ?? 0) + ITEM_PADDING_LEFT }}
+            data-selected={isSelected ? "" : undefined}
             onClick={(e) => {
-                if (hasChildren) {
-                    toggleExpanded(nodeId);
-                }
+                (e.currentTarget.closest("[data-slot=tree-view]") as HTMLElement | null)?.focus();
                 handleSelection(nodeId, e.ctrlKey || e.metaKey);
                 onClick?.(e);
             }}
-            style={{ paddingLeft: level * (indent ?? 0) + 8 }}
-            whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
-            {...props}
+            //whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
+            {...rest}
         >
-            <TreeLines />
+            <RowLines hasChildren={hasChildren} />
             {children as ReactNode}
         </motion.div>
     );
 }
 
-export function TreeLines() {
-    const { showLines, indent } = useTree();
+const TREE_SELECTED_ITEM_STYLES = "\
+text-tree-select-foreground bg-tree-select \
+group-focus-within/tree:text-tree-select-focused-foreground \
+group-focus-within/tree:font-medium \
+group-focus-within/tree:bg-tree-select-focused \
+group-focus-within/tree:ring-1 \
+group-focus-within/tree:ring-inset \
+group-focus-within/tree:ring-tree-select-border";
+
+//---------------------------------------------------------------------------
+
+export function RowLines({ hasChildren = false }: { hasChildren?: boolean; }) {
+    const { showLines, indent: indentfromTree } = useTree();
     const { level, isLast, parentPath } = useTreeNode();
 
     if (!showLines || level === 0) {
         return null;
     }
 
+    const indent = indentfromTree ?? 0;
+    const x = getGuideX(level, indent);
+    const tickWidth = getTickWidth(indent, hasChildren);
+
     return (
-        <div className="absolute top-0 bottom-0 left-0 pointer-events-none">
-            {/* Render vertical lines for all parent levels */}
-            {Array.from({ length: level }, (_, index) => {
-                const shouldHideLine = parentPath[index] === true;
-                if (shouldHideLine && index === level - 1) {
-                    return null;
-                }
-
-                return (
-                    <div
-                        className="absolute top-0 bottom-0 border-border/40 border-l"
-                        key={index.toString()}
-                        style={{
-                            left: index * (indent ?? 0) + 12,
-                            display: shouldHideLine ? "none" : "block",
-                        }} />
-                );
-            })}
-
-            {/* Horizontal connector line */}
-            <div
-                className="absolute top-1/2 border-border/40 border-t"
-                style={{
-                    left: (level - 1) * (indent ?? 0) + 12,
-                    width: (indent ?? 0) - 4,
-                    transform: "translateY(-1px)",
-                }} />
-
-            {/* Vertical line to midpoint for last items */}
-            {isLast && (
-                <div
-                    className="absolute top-0 border-border/40 border-l"
-                    style={{
-                        left: (level - 1) * (indent ?? 0) + 12,
-                        height: "50%",
-                    }} />
+        <div className="absolute inset-y-0 left-0 pointer-events-none">
+            {/* Ancestor continuation at columns 0..level-1. Rows abut, so bottom:0 meets the next row's top:0 with no gap/overlap. */}
+            {parentPath.map(
+                (ancestorIsLast, index) => (
+                    ancestorIsLast ? null : <div className="absolute inset-y-0 border-foreground/40 border-l" style={{ left: getGuideX(index, indent) }} key={index} />
+                )
             )}
+
+            {/* Current level: full-height when a sibling follows; otherwise stop at the midpoint. */}
+            <div className="absolute top-0 border-foreground/40 border-l" style={isLast ? { left: x, height: "50%" } : { left: x, bottom: 0 }} />
+
+            {/* Horizontal tick reaching toward the row content. */}
+            <div className="absolute top-1/2 border-foreground/40 border-t" style={{ left: x, width: tickWidth, transform: "translateY(-1px)", }} />
         </div>
     );
 }
 
-export type TreeNodeContentProps = ComponentProps<typeof motion.div> & {
-    hasChildren?: boolean;
-};
+export const TREE_ITEMS_INDENT = 20; // Indentation of leaves from parents
 
-export function TreeNodeContent({ children, hasChildren = false, className, ...props }: TreeNodeContentProps) {
-    const { animateExpand } = useTree();
-    const { nodeId } = useTreeNode();
-    const isExpanded = useTreeNodeExpanded(nodeId);
+const ITEM_PADDING_LEFT = 8;
 
-    return (
-        <AnimatePresence>
-            {hasChildren && isExpanded && (
-                <motion.div
-                    animate={{ height: "auto", opacity: 1 }}
-                    className="overflow-hidden"
-                    exit={{ height: 0, opacity: 0 }}
-                    initial={{ height: 0, opacity: 0 }}
-                    transition={{
-                        duration: animateExpand ? 0.3 : 0,
-                        ease: "easeInOut",
-                    }}
-                >
-                    <motion.div
-                        animate={{ y: 0 }}
-                        className={className}
-                        exit={{ y: -10 }}
-                        initial={{ y: -10 }}
-                        transition={{
-                            duration: animateExpand ? 0.2 : 0,
-                            delay: animateExpand ? 0.1 : 0,
-                        }}
-                        {...props}
-                    >
-                        {children}
-                    </motion.div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
+const LINES_TICK_OFFSET = 4; // Offset of horizontal tick to align tick from parent expander icon
+const LINES_TICK_TO_NEXT_PARENT = 4; // Gap between the horizontal tick and the expander (parents) or icon (leaves).
+const LINES_TICK_TO_NEXT_CHILD = 8; // TreeExpander is w-4 + mr-1; leaves keep that spacer so the tick can reach the icon.
+
+const LINES_VLINE_OFFSET = 14; // Offset of vertical line to align v-line from parent dropdown icon
+
+function getTickWidth(indent: number, hasChildren: boolean): number {
+    const toContent = indent - LINES_TICK_OFFSET; // Distance from the vertical guide to the row content (paddingLeft).
+    const width = hasChildren // Parents: stop ~4px before the chevron. Leaves: extend through the empty expander to ~4px before the icon.
+        ? toContent - LINES_TICK_TO_NEXT_PARENT
+        : toContent + LINES_TICK_TO_NEXT_CHILD;
+    return Math.max(0, width);
 }
 
-export type TreeExpanderProps = ComponentProps<typeof motion.div> & {
-    hasChildren?: boolean;
-};
+function getGuideX(depth: number, indent: number): number {
+    return depth * indent + LINES_VLINE_OFFSET;
+}
 
-export function TreeExpander({ hasChildren = false, className, onClick, ...props }: TreeExpanderProps) {
-    const { toggleExpanded } = useTree();
+//---------------------------------------------------------------------------
+
+const EXPANDER_ICON_WIDTH_CHILD = 10;
+const EXPANDER_ICON_WIDTH_PARENT = 12;
+const EXPANDER_ICON_RIGHT_MARGIN = 2;
+
+export function RowExpanderIcon({ hasChildren = false, className, onClick, ...rest }: ComponentProps<typeof motion.div> & { hasChildren?: boolean; }) {
+    const { toggleExpanded, animateExpand } = useTree();
     const { nodeId } = useTreeNode();
     const isExpanded = useTreeNodeExpanded(nodeId);
 
     if (!hasChildren) {
-        return <div className="mr-1 h-4 w-4" />;
+        return <div style={{ width: EXPANDER_ICON_WIDTH_CHILD, marginRight: EXPANDER_ICON_RIGHT_MARGIN }} />;
     }
 
     return (
         <motion.div
+            className={classNames("border rounded border-border/80 flex items-center justify-center cursor-pointer", className)}
+            style={{ width: EXPANDER_ICON_WIDTH_PARENT, height: EXPANDER_ICON_WIDTH_PARENT, marginRight: EXPANDER_ICON_RIGHT_MARGIN }}
             animate={{ rotate: isExpanded ? 90 : 0 }}
-            className={cn(
-                "mr-1 h-4 w-4 flex items-center justify-center cursor-pointer",
-                className
-            )}
-            onClick={(e) => {
-                e.stopPropagation();
-                toggleExpanded(nodeId);
-                onClick?.(e);
-            } }
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            {...props}
+            initial={false}
+            transition={{ duration: animateExpand ? 0.2 : 0, ease: "easeInOut" }}
+            onClick={(e) => { e.stopPropagation(); toggleExpanded(nodeId); onClick?.(e); }}
+            {...rest}
         >
             <ChevronRight className="h-3 w-3 text-muted-foreground" />
         </motion.div>
     );
 }
 
-export type TreeIconProps = ComponentProps<typeof motion.div> & {
-    icon?: ReactNode;
-    hasChildren?: boolean;
-};
-
-export function TreeIcon({ icon, hasChildren = false, className, ...props }: TreeIconProps) {
+export function RowIcon({ icon, hasChildren = false, className, ...rest }: ComponentProps<typeof motion.div> & { icon?: ReactNode; hasChildren?: boolean; }) {
     const { showIcons } = useTree();
     const { nodeId } = useTreeNode();
     const isExpanded = useTreeNodeExpanded(nodeId);
@@ -529,35 +485,76 @@ export function TreeIcon({ icon, hasChildren = false, className, ...props }: Tre
         return null;
     }
 
-    const getDefaultIcon = () => hasChildren ? (
-        isExpanded ? (
-            <FolderOpen className="h-4 w-4" />
-        ) : (
-            <Folder className="h-4 w-4" />
-        )
-    ) : (
-        <File className="h-4 w-4" />
-    );
+    function getDefaultIcon() {
+        const rv =
+            hasChildren
+                ? isExpanded
+                    ? <FolderOpen className="size-3.5" />
+                    : <Folder className="size-3.5" />
+                : <File className="size-3.5" />;
+        return rv;
+    }
 
     return (
         <motion.div
-            className={cn(
-                "mr-2 h-4 w-4 text-muted-foreground flex items-center justify-center",
-                className
-            )}
+            className={cn("mr-1 size-4 text-muted-foreground flex items-center justify-center", className)}
             transition={{ duration: 0.15 }}
             whileHover={{ scale: 1.1 }}
-            {...props}
+            {...rest}
         >
             {icon || getDefaultIcon()}
         </motion.div>
     );
 }
 
-export type TreeLabelProps = HTMLAttributes<HTMLSpanElement>;
-
-export function TreeLabel({ className, ...props }: TreeLabelProps) {
+export function RowLabel({ className, ...rest }: HTMLAttributes<HTMLSpanElement>) {
     return (
-        <span className={cn("text-sm truncate flex-1 font", className)} {...props} />
+        <span className={classNames("text-sm truncate flex-1 font", className)} {...rest} />
+    );
+}
+
+//---------------------------------------------------------------------------
+
+export function RowAnimationContent({ children, hasChildren = false, className, ...rest }: ComponentProps<typeof motion.div> & { hasChildren?: boolean; }) {
+    const { animateExpand } = useTree();
+    const { nodeId } = useTreeNode();
+    const isExpanded = useTreeNodeExpanded(nodeId);
+
+    // Instant expand/collapse: skip Motion so remounts (refresh, filter) do not
+    // play height/y enter animations that make the tree slide or grow.
+    if (!animateExpand) {
+        if (!hasChildren || !isExpanded) {
+            return null;
+        }
+        return (
+            <div className={className}>
+                {children as ReactNode}
+            </div>
+        );
+    }
+
+    return (
+        <AnimatePresence initial={false}>
+            {hasChildren && isExpanded && (
+                <motion.div
+                    className="overflow-hidden"
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    initial={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                    <motion.div
+                        className={className}
+                        animate={{ y: 0 }}
+                        exit={{ y: -10 }}
+                        initial={{ y: -10 }}
+                        transition={{ duration: 0.2, delay: 0.1 }}
+                        {...rest}
+                    >
+                        {children}
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 }

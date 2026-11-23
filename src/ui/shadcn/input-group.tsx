@@ -11,7 +11,7 @@ export function InputGroup({ className, ...props }: ComponentProps<"div">) {
 }
 
 const inputGroupClasses = "\
-group/input-group relative w-full min-w-0 h-8 \
+group/input-group relative w-full min-w-0 h-7 \
 \
 border-input \
 transition-colors \
@@ -25,6 +25,7 @@ has-disabled:opacity-50 \
 has-[[data-slot=input-group-control]:focus-visible]:border-ring \
 has-[[data-slot=input-group-control]:focus-visible]:ring-1 \
 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 \
+\
 has-[[data-slot][aria-invalid=true]]:border-destructive \
 has-[[data-slot][aria-invalid=true]]:ring-1 \
 has-[[data-slot][aria-invalid=true]]:ring-destructive/20 \
@@ -44,7 +45,7 @@ has-[>[data-align=inline-end]]:[&>input]:pr-1.5 \
 has-[>[data-align=inline-start]]:[&>input]:pl-1.5 \
 \
 border \
-rounded-lg \
+rounded \
 outline-none \
 flex items-center";
 
@@ -109,6 +110,7 @@ const inputGroupButtonVariantsClasses = cva("text-sm shadow-none flex items-cent
 });
 
 export function InputGroupButton({ className, type = "button", variant = "ghost", size = "xs", ...props }: Omit<ComponentProps<typeof Button>, "size"> & VariantProps<typeof inputGroupButtonVariantsClasses>) {
+    //console.log("InputGroupButton", inputGroupButtonVariantsClasses({ size })); -> "InputGroupButton text-sm shadow-none flex items-center gap-2 p-0 size-6 rounded-[calc(var(--radius)-3px)] has-[>svg]:p-0"
     return (
         <Button
             type={type}
