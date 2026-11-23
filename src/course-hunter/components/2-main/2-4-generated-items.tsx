@@ -1,6 +1,7 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { classNames } from '@/utils/classnames';
 import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 
 import { editableTitlesAtom, itemsAtom } from '../../store/a-local-storage-state';
 import { itemNamesAtom } from '../../store/a-derived';
@@ -32,7 +33,7 @@ function GeneratedListItem({ item, index }: { item: OurItem; index: number; }) {
     return (
         <li className="list-none hover:bg-[#90ff74] grid grid-cols-[1fr_min-content_min-content] gap-x-[0.6rem] items-center">
             {editable
-                ? <input className="p-[0.4rem] text-[0.9rem] leading-4 bg-[hsl(0_0%_100%/0.5)] focus:bg-[#90ff74] border border-[#fcfcfc] focus:outline-none rounded-xs cursor-default focus:cursor-text" defaultValue={name} />
+                ? <Input className="p-[0.4rem] text-[0.9rem] leading-4 bg-[hsl(0_0%_100%/0.5)] focus:bg-[#90ff74] border border-[#fcfcfc] focus:outline-none rounded-xs cursor-default focus:cursor-text" defaultValue={name} />
                 : <div className="pl-2 py-2 text-sm leading-tight hover:bg-[#ffffff80]">{name}</div>
             }
 

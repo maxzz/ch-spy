@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { cx } from '../../../utils/lib/classnames';
 import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 import { CLEAR_BUTTON_ID, clearSourceAtom, parseOrFetchAtom } from '../../store/a-actions';
 import { fetchButtonNameAtom } from '../../store/a-derived';
 import { sourceInputAtom } from '../../store/a-local-storage-atoms';
@@ -30,8 +31,8 @@ export function SourceRow() {
             </Button>
 
             <div className="focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded overflow-hidden flex flex-1">
-                <input
-                    className={cx('flex-1 input text-xs outline-none border-gray-600', sourceInput ? 'border-r-0' : 'border')}
+                <Input
+                    className={cx('flex-1 text-xs outline-none border-gray-600', sourceInput ? 'border-r-0' : 'border')}
                     value={sourceInput}
                     onChange={(event) => setSourceInput(event.target.value)}
                     onKeyDown={(event) => {

@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai';
 import { storageTextAtom } from './store';
 import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 
 export function StorageText() {
     const [stored, setStored] = useAtom(storageTextAtom);
@@ -14,8 +15,8 @@ export function StorageText() {
                 reset count
             </Button>
 
-            <input
-                className="px-2 py-1 text-gray-100 bg-purple-600"
+            <Input
+                className="text-gray-100 bg-purple-600"
                 value={stored.text}
                 onChange={(event) => setStored((prev) => ({ ...prev, text: event.target.value }))}
             />

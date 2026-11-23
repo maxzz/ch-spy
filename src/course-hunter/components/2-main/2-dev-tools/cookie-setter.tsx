@@ -1,6 +1,7 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { cookieInputAtom, clearCookiesAtom, setCookiesAtom } from './store';
 import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 
 export function CookieSetter() {
     const [cookieInput, setCookieInput] = useAtom(cookieInputAtom);
@@ -9,7 +10,7 @@ export function CookieSetter() {
 
     return (
         <div className="m-4 grid grid-cols-[1fr_auto_auto] gap-x-[.2em]">
-            <input
+            <Input
                 className="leading-[1.2em] text-xs"
                 value={cookieInput}
                 onChange={(event) => setCookieInput(event.target.value)}

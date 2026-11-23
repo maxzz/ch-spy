@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { classNames } from '@/utils/classnames';
 import { Button } from '@/ui/shadcn/button';
+import { Input } from '@/ui/shadcn/input';
 
 import { itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
 import { clearPlayItemsAtom, parsePlayerItemsAtom } from '../../store/a-actions';
@@ -22,7 +23,7 @@ export function PlayerItemsRow() {
         <div className={classNames('transition-transform duration-1000', items.length > 0 && '-translate-x-28 -translate-y-6 scale-50')}>
 
             <div className="mt-4 mb-2 text-sm flex">
-                <a className="btn mr-1 text-xs" href={playerItemsUrl} target="_blank" rel="noreferrer">
+                <a className={classNames(btnClasses, "mr-1 text-xs")} href={playerItemsUrl} target="_blank" rel="noreferrer">
                     Get items from:
                 </a>
 
@@ -36,8 +37,8 @@ export function PlayerItemsRow() {
             </div>
 
             <div className="flex">
-                <input
-                    className="text-xs focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 focus:ring-offset-gray-200 outline-none flex-1 input"
+                <Input
+                    className="text-xs focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 focus:ring-offset-gray-200 outline-none flex-1"
                     value={playerItemsJson}
                     onChange={(event) => setPlayerItemsJson(event.target.value)}
                     onKeyDown={(event) => { if (event.key === 'Enter') { parsePlayerItems(); } }}
@@ -55,3 +56,20 @@ export function PlayerItemsRow() {
         </div>
     );
 }
+
+const btnClasses = "\
+px-2 py-1 text-sm leading-normal \
+border \
+rounded-sm \
+bg-gray-200 \
+text-gray-900 \
+border-gray-500 \
+hover:bg-gray-300 \
+active:scale-105 \
+focus:outline-none \
+focus:ring-offset-1 \
+focus:ring-2 \
+select-none \
+ring-purple-600 \
+ring-offset-gray-200 \
+";
