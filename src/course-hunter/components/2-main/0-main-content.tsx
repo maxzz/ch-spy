@@ -29,8 +29,6 @@ export function MainContent() {
                     </div>
 
                     <ErrorMessage />
-
-                    <Part_DevPanels />
                 </div>
             </ScrollArea>
         </div>
@@ -62,6 +60,7 @@ function GeneratedList() {
             <Accordion type="multiple">
                 <Part_BatchRename />
                 <Part_AllTogether />
+                <Part_DevPanels />
             </Accordion>
         </div>
     );
