@@ -1,4 +1,4 @@
-import { type ComponentProps } from "react"; // 05.09.26
+import { type ComponentProps, type ReactNode } from "react"; // 05.09.26, 11.23.26
 import { cn } from "@/utils/classnames";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
@@ -15,9 +15,10 @@ export function AccordionItem({ className, ...rest }: ComponentProps<typeof Acco
     );
 }
 
-export function AccordionTrigger({ className, children, showIcon = true, ...rest }: ComponentProps<typeof AccordionPrimitive.Trigger> & { showIcon?: boolean; }) {
+/** `actions` are rendered on the right of the trigger row, beside (not inside) the trigger button. */
+export function AccordionTrigger({ className, children, showIcon = true, actions, ...rest }: ComponentProps<typeof AccordionPrimitive.Trigger> & { showIcon?: boolean; actions?: ReactNode; }) {
     return (
-        <AccordionPrimitive.Header className="flex">
+        <AccordionPrimitive.Header className="flex items-center">
             <AccordionPrimitive.Trigger data-slot="accordion-trigger" className={cn(triggerClasses, className)} {...rest}>
 
                 {children}
@@ -28,6 +29,8 @@ export function AccordionTrigger({ className, children, showIcon = true, ...rest
                 </>)}
 
             </AccordionPrimitive.Trigger>
+
+            {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
         </AccordionPrimitive.Header>
     );
 }
@@ -65,14 +68,13 @@ focus-visible:after:border-ring \
 disabled:pointer-events-none \
 disabled:opacity-50 \
 \
-**:data-[slot=accordion-trigger-icon]:ml-auto \
 **:data-[slot=accordion-trigger-icon]:size-4 \
 **:data-[slot=accordion-trigger-icon]:text-muted-foreground \
 \
 rounded-lg \
 outline-none \
 border border-transparent \
-flex items-start justify-between";
+flex items-center justify-start gap-1.5";
 
 const contentClasses = "\
 pt-0 pb-2.5 h-(--radix-accordion-content-height) \
