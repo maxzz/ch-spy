@@ -11,7 +11,7 @@ export const isSourceUrlAtom = atom(
 );
 
 /** Label of the button next to the input. */
-export const fetchButtonNameAtom = atom(
+export const buttonName_FetchOrParse_Atom = atom(
     (get) => {
         if (!get(sourceInputAtom)) {
             return '';

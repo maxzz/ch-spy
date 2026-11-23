@@ -5,12 +5,12 @@ import { Accordion } from '../../../ui/shadcn/accordion';
 
 import { courseInfoAtom, itemsAtom, playerItemsUrlAtom } from '../../store/a-local-storage-state';
 
-import { SourceRow } from './1-source-row';
+import { ErrorMessage } from './4-error-message';
+import { Row1_SourceInput } from './1-row1-source-input';
+import { Row2_PlayerItemsActions } from './2-row2-player-items-actions';
+import { Part_AllTogether, Part_BatchRename, DownloadRenameButton, EditableLockToggle } from './3-2-part2-other';
+import { Part_GeneratedItems } from './3-1-part1-playable-items';
 import { DevPanels } from './2-dev-tools/dev-panels';
-import { AllTogetherSection, BatchRenameSection, DownloadRenameButton, EditableLockToggle } from './2-0-generated-list';
-import { GeneratedItems } from './2-4-generated-items';
-import { PlayerItemsRow } from './2-3-player-items-row';
-import { ErrorMessage } from './3-error-message';
 
 export function MainContent() {
     const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
@@ -20,9 +20,9 @@ export function MainContent() {
         <div className="flex-1 min-h-0 w-full mx-auto max-w-3xl bg-gray-300">
             <ScrollArea fullHeight fixedWidth className="h-full">
                 <div className="px-2 py-4">
-                    <SourceRow />
+                    <Row1_SourceInput />
 
-                    <PlayerItemsRow />
+                    <Row2_PlayerItemsActions />
 
                     <div className={cx(playerItemsUrl && items.length > 0 && '-mt-8')}>
                         <GeneratedList />
@@ -38,8 +38,9 @@ export function MainContent() {
 }
 
 function GeneratedList() {
-    const items = useAtomValue(itemsAtom);
     const { title, desc } = useAtomValue(courseInfoAtom);
+
+    const items = useAtomValue(itemsAtom);
     if (!items.length) {
         return null;
     }
@@ -56,11 +57,11 @@ function GeneratedList() {
                 <DownloadRenameButton />
             </div>
 
-            <GeneratedItems />
+            <Part_GeneratedItems />
 
             <Accordion type="multiple">
-                <BatchRenameSection />
-                <AllTogetherSection />
+                <Part_BatchRename />
+                <Part_AllTogether />
             </Accordion>
         </div>
     );

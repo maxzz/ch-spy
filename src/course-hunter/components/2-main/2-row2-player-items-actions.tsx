@@ -8,7 +8,7 @@ import { clearPlayItemsAtom, parsePlayerItemsAtom } from '../../store/a-actions'
 import { playerItemsJsonAtom } from '../../store/a-local-storage-atoms';
 
 /** Row 2: the player items URL to open, and the input for the JSON copied from it. Hidden when there is no URL. */
-export function PlayerItemsRow() {
+export function Row2_PlayerItemsActions() {
     const [playerItemsJson, setPlayerItemsJson] = useAtom(playerItemsJsonAtom);
     const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
     const items = useAtomValue(itemsAtom);

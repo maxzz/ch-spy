@@ -8,7 +8,7 @@ import { itemNamesAtom } from '../../store/a-derived';
 import { type OurItem } from '../../store/core/2-html-parse';
 import { downloadStateFamily, startDownloadAtom } from '../../store/a-downloads';
 
-export function GeneratedItems() {
+export function Part_GeneratedItems() {
     const items = useAtomValue(itemsAtom);
     const names = useAtomValue(itemNamesAtom);
 
@@ -55,7 +55,7 @@ function GeneratedListItem({ item, index }: { item: OurItem; index: number; }) {
     );
 }
 
-export function DownloadButton({ url, selectable }: { url: string; selectable: boolean; }) {
+function DownloadButton({ url, selectable }: { url: string; selectable: boolean; }) {
     const { tried, busy, progress, succeeded, failed } = useAtomValue(downloadStateFamily(url));
     const startDownload = useSetAtom(startDownloadAtom);
 

@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { storageTextAtom } from './store';
+import { storageTextAtom } from './a-cookies-atoms';
 import { Button } from '@/ui/shadcn/button';
 import { Input } from '@/ui/shadcn/input';
 

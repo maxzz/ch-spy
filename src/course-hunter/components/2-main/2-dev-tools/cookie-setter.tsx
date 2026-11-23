@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from 'jotai';
-import { cookieInputAtom, clearCookiesAtom, setCookiesAtom } from './store';
+import { cookieInputAtom, clearCookiesAtom, setCookiesAtom } from './a-cookies-atoms';
 import { Button } from '@/ui/shadcn/button';
 import { Input } from '@/ui/shadcn/input';
 
