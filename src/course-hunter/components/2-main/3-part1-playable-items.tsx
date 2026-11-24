@@ -4,7 +4,7 @@ import { Button } from "@/ui/shadcn/button";
 import { Input } from "@/ui/shadcn/input";
 
 import { editableTitlesAtom, itemsAtom } from "../../store/a-local-storage-state";
-import { itemNamesAtom } from "../../store/a-derived";
+import { durationBarsAtom, itemNamesAtom } from "../../store/a-derived";
 import { type OurItem } from "../../store/core/2-html-parse";
 import { downloadStateFamily, startDownloadAtom } from "../../store/a-downloads";
 
@@ -28,7 +28,9 @@ export function Part_GeneratedItems() {
 function Row({ item, index }: { item: OurItem; index: number; }) {
     const names = useAtomValue(itemNamesAtom);
     const editable = useAtomValue(editableTitlesAtom);
+    const bars = useAtomValue(durationBarsAtom);
     const name = names[index];
+    const bar = bars[index] ?? { left: 0, width: 0 };
 
     return (
         <li className="list-none hover:bg-[#90ff74] grid grid-cols-[1fr_min-content_min-content] gap-x-[0.6rem] items-center">
@@ -40,7 +42,7 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
             <DownloadButton selectable={!editable} url={item.url} />
 
             <a
-                className={classNames("select-none pr-2 text-[0.65rem] font-normal no-underline", item.url ? "text-[#1985ff] visited:text-[green]" : "text-[red]")}
+                className={classNames("flex flex-col select-none pr-2 text-[0.65rem] font-normal no-underline", item.url ? "text-[#1985ff] visited:text-[green]" : "text-[red]")}
                 href={item.url || undefined}
                 title={`video ${index + 1}`}
                 tabIndex={-1}
@@ -49,6 +51,12 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
                 <span>
                     {item.duration}
                 </span>
+                <div className="relative mt-[0.15rem] h-[0.2em] bg-[rgb(209,229,255)] rounded-[0.2em]">
+                    <span
+                        className="absolute top-0 h-full bg-[#1985ff] rounded-[0.2em]"
+                        style={{ left: `${bar.left}%`, width: `${bar.width}%` }}
+                    />
+                </div>
                 {/* <span className="text-[0.5rem]">
                     {' '}mp4
                 </span> */}
