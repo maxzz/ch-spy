@@ -1,9 +1,9 @@
 import { useAtomValue } from "jotai";
-import { cx } from "../../../utils/lib/classnames";
 import { ScrollArea } from "../../../ui/shadcn/scroll-area";
-import { Accordion } from "../../../ui/shadcn/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../../ui/shadcn/accordion";
 
 import { courseInfoAtom, itemsAtom, playerItemsUrlAtom } from "../../store/a-local-storage-state";
+import { useAccordionOpenState } from "../../store/a-local-storage-atoms";
 
 import { ErrorMessage } from "./6-error-message";
 import { Row1_SourceInput } from "./1-row1-source-input";
@@ -14,18 +14,26 @@ import { Part_DevPanels } from "./5-part3-dev-panels";
 
 export function MainContent() {
     const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
-    const items = useAtomValue(itemsAtom);
+    const playerItemsAccordion = useAccordionOpenState('player-items');
 
     return (
         <div className="flex-1 mx-auto min-h-0 w-full max-w-3xl rounded bg-gray-300">
             <ScrollArea fullHeight fixedWidth className="h-full">
                 <div className="px-4 py-4">
                     <Row1_SourceInput />
-                    <Row2_PlayerItemsActions />
 
-                    <div className={cx(playerItemsUrl && items.length > 0 && '-mt-8')}>
-                        <GeneratedList />
-                    </div>
+                    {playerItemsUrl && (
+                        <Accordion type="multiple" {...playerItemsAccordion}>
+                            <AccordionItem value="player-items">
+                                <AccordionTrigger>Player items</AccordionTrigger>
+                                <AccordionContent>
+                                    <Row2_PlayerItemsActions />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    )}
+
+                    <GeneratedList />
 
                     <ErrorMessage />
                 </div>
@@ -36,8 +44,9 @@ export function MainContent() {
 
 function GeneratedList() {
     const { title, desc } = useAtomValue(courseInfoAtom);
-
     const items = useAtomValue(itemsAtom);
+    const generatedAccordion = useAccordionOpenState('generated-list');
+
     if (!items.length) {
         return null;
     }
@@ -56,7 +65,7 @@ function GeneratedList() {
 
             <Part_GeneratedItems />
 
-            <Accordion type="multiple">
+            <Accordion type="multiple" {...generatedAccordion}>
                 <Part_BatchRename />
                 <Part_AllTogether />
                 <Part_DevPanels />

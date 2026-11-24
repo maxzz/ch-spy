@@ -3,7 +3,7 @@ import { classNames } from "@/utils/classnames";
 import { Button } from "@/ui/shadcn/button";
 import { Input } from "@/ui/shadcn/input";
 
-import { itemsAtom, playerItemsUrlAtom } from "../../store/a-local-storage-state";
+import { playerItemsUrlAtom } from "../../store/a-local-storage-state";
 import { clearPlayItemsAtom, parsePlayerItemsAtom } from "../../store/a-actions";
 import { playerItemsJsonAtom } from "../../store/a-local-storage-atoms";
 
@@ -11,7 +11,6 @@ import { playerItemsJsonAtom } from "../../store/a-local-storage-atoms";
 export function Row2_PlayerItemsActions() {
     const [playerItemsJson, setPlayerItemsJson] = useAtom(playerItemsJsonAtom);
     const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
-    const items = useAtomValue(itemsAtom);
     const parsePlayerItems = useSetAtom(parsePlayerItemsAtom);
     const clearPlayItems = useSetAtom(clearPlayItemsAtom);
 
@@ -20,9 +19,8 @@ export function Row2_PlayerItemsActions() {
     }
 
     return (
-        <div className={classNames('transition-transform duration-1000', items.length > 0 && '-translate-x-28 -translate-y-6 scale-65')}>
-
-            <div className="mt-4 mb-2 text-sm flex">
+        <div>
+            <div className="mb-2 text-sm flex">
                 <a className={classNames(btnClasses, "mr-1 text-xs")} href={playerItemsUrl} target="_blank" rel="noreferrer">
                     Get items from:
                 </a>
