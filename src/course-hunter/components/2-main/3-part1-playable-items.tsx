@@ -40,16 +40,15 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
             <DownloadButton selectable={!editable} url={item.url} />
 
             <a
-                className={classNames(
-                    'select-none pr-[0.6rem] text-[0.7em] font-normal no-underline',
-                    item.url ? 'text-[#1985ff] visited:text-[green]' : 'text-[red]',
-                )}
+                className={classNames("select-none pr-[0.6rem] text-[0.7em] font-normal no-underline", item.url ? "text-[#1985ff] visited:text-[green]" : "text-[red]")}
                 href={item.url || undefined}
                 title={`video ${index + 1}`}
                 tabIndex={-1}
                 target="blank"
             >
-                <span>{item.duration}</span> mp4
+                <span>
+                    {item.duration}
+                </span> mp4
             </a>
         </li>
     );
