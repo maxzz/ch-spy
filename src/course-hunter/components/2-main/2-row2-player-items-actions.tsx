@@ -1,5 +1,4 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { classNames } from "@/utils/classnames";
 import { Button } from "@/ui/shadcn/button";
 import { Input } from "@/ui/shadcn/input";
 
@@ -21,17 +20,19 @@ export function Row2_PlayerItemsActions() {
     return (
         <div>
             <div className="mb-2 text-sm flex">
-                <a className={classNames(btnClasses, "mr-1 text-xs")} href={playerItemsUrl} target="_blank" rel="noreferrer">
-                    Get items from:
-                </a>
-
-                <Button variant="outline" className="ml-0.5 mr-1.5 text-xs" onClick={() => clearPlayItems()} type="button">
-                    Clear
+                <Button variant="outline" asChild className="mr-1 text-xs">
+                    <a href={playerItemsUrl} target="_blank" rel="noreferrer">
+                        Get items from:
+                    </a>
                 </Button>
 
                 <a className="text-xs flex items-center underline" href={playerItemsUrl} target="_blank" rel="noreferrer">
                     {playerItemsUrl}
                 </a>
+
+                <Button variant="outline" className="ml-0.5 mr-1.5 text-xs" onClick={() => clearPlayItems()} type="button">
+                    Clear
+                </Button>
             </div>
 
             <div className="flex">
@@ -54,20 +55,3 @@ export function Row2_PlayerItemsActions() {
         </div>
     );
 }
-
-const btnClasses = "\
-px-2 py-1 text-sm leading-normal \
-border \
-rounded-sm \
-bg-gray-200 \
-text-gray-900 \
-border-gray-500 \
-hover:bg-gray-300 \
-active:scale-105 \
-focus:outline-none \
-focus:ring-offset-1 \
-focus:ring-2 \
-select-none \
-ring-purple-600 \
-ring-offset-gray-200 \
-";

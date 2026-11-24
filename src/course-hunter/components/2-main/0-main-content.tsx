@@ -28,7 +28,6 @@ export function MainContent() {
 }
 
 function Part_AllSections() {
-    const { title, desc } = useAtomValue(courseInfoAtom);
     const items = useAtomValue(itemsAtom);
     const generatedAccordion = useAccordionOpenState('generated-list');
 
@@ -38,15 +37,7 @@ function Part_AllSections() {
 
     return (
         <div className="relative">
-            <div className="relative pb-2 min-h-16 font-bold text-[#5d0083] bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] flex items-end justify-center">
-                <div title={desc}>{title}</div>
-
-                <EditableLockToggle className="absolute bottom-1 right-1 w-5 h-5 text-purple-500 stroke-1" />
-            </div>
-
-            <div className="absolute top-1 right-0 flex justify-end">
-                <DownloadRenameButton />
-            </div>
+            <Part_ListHeader />
 
             <Part_GeneratedItems />
 
@@ -57,4 +48,26 @@ function Part_AllSections() {
             </Accordion>
         </div>
     );
+}
+
+/** Title bar of the generated list, with the lock toggle and the download button. Positioned within `Part_AllSections`. */
+function Part_ListHeader() {
+    const { title, desc } = useAtomValue(courseInfoAtom);
+
+    return (<>
+        <div className="my-2 p-2 relative min-h-16 text-sm bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] border border-foreground/30 rounded flex flex-col gap-2">
+            <div className="truncate" title={desc}>
+                {title}
+                {/* this is long title that should be truncated with ellipsis even if it is longer than the container even though it is not a tooltip */}
+            </div>
+
+            <div className="flex items-center justify-end gap-2">
+                <EditableLockToggle className="w-5 h-5 text-purple-500 stroke-1" />
+
+                <div className="justify-end">
+                    <DownloadRenameButton className="h-8 text-sm" />
+                </div>
+            </div>
+        </div>
+    </>);
 }
