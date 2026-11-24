@@ -21,9 +21,9 @@ export function Row1_SourceInput() {
     return (
         <div className={cn('flex', !playerItemsUrl && items.length > 0 && 'mb-1')}>
             <Button
-                className={cn('mr-2 transition-transform', !sourceInput && !items.length && 'scale-x-0')}
-                onClick={(event) => clearSource(event.ctrlKey)}
+                className={cn("mr-2 transition-transform border border-foreground/30 rounded", !sourceInput && !items.length && "scale-x-0")}
                 variant="outline"
+                onClick={(event) => clearSource(event.ctrlKey)}
                 title="Clear fetched data. Ctrl+Click clear player items as well"
                 id={CLEAR_BUTTON_ID}
                 type="button"
@@ -31,9 +31,9 @@ export function Row1_SourceInput() {
                 Clear
             </Button>
 
-            <div className="flex-1 focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded overflow-hidden flex">
+            <div className="flex-1 flex overflow-hidden rounded bg-background border border-foreground/30 focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200">
                 <Input
-                    className={cn('flex-1 text-xs outline-none border-gray-600', sourceInput ? 'border-r-0' : 'border')}
+                    className="flex-1 text-xs border-0 rounded-none focus-visible:ring-0"
                     value={sourceInput}
                     onChange={(event) => setSourceInput(event.target.value)}
                     onKeyDown={(event) => {
@@ -46,10 +46,10 @@ export function Row1_SourceInput() {
                 />
 
                 <Button
-                    variant="outline"
+                    variant="ghost"
                     className={cn(
-                        'active:rounded-sm active:border focus:ring-0 focus:shadow-none transition-transform rounded-l-none',
-                        sourceInput ? '-ml-4' : 'px-0 w-0 border-none -translate-x-6',
+                        "self-stretch h-auto rounded-none border-0 focus:ring-0 focus:shadow-none transition-all",
+                        sourceInput ? "px-3 border-l border-foreground/30" : "w-0 px-0 overflow-hidden",
                     )}
                     onClick={() => parseOrFetch()}
                     tabIndex={-1}

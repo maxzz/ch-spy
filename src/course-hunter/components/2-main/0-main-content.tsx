@@ -19,9 +19,8 @@ export function MainContent() {
     return (
         <div className="flex-1 mx-auto min-h-0 w-full max-w-3xl bg-gray-300">
             <ScrollArea fullHeight fixedWidth className="h-full">
-                <div className="px-2 py-4">
+                <div className="px-4 py-4">
                     <Row1_SourceInput />
-
                     <Row2_PlayerItemsActions />
 
                     <div className={cx(playerItemsUrl && items.length > 0 && '-mt-8')}>
