@@ -22,7 +22,6 @@ export const parseOrFetchAtom = atom(
             const stateFromCtxScript = parseStateFromCtxScript(text);
             if (stateFromCtxScript) {
                 applyPatch(set, patchStateFromCtxScript(stateFromCtxScript));
-                document.getElementById(CLEAR_BUTTON_ID)?.focus();
                 return;
             }
 
@@ -34,7 +33,7 @@ export const parseOrFetchAtom = atom(
     }
 );
 
-/** Id of the Clear button; it gets focus after a copied state is pasted. */
+/** Id of the Clear button. */
 export const CLEAR_BUTTON_ID = 'ch-clear-button';
 
 /** Parses the player items JSON into the item list. */

@@ -26,6 +26,7 @@ export function Row1_SourceInput() {
                 onClick={(event) => clearSource(event.ctrlKey)}
                 title="Clear fetched data. Ctrl+Click clear player items as well"
                 id={CLEAR_BUTTON_ID}
+                tabIndex={-1}
                 type="button"
             >
                 Clear
