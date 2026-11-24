@@ -13,7 +13,7 @@ export function Part_GeneratedItems() {
     const names = useAtomValue(itemNamesAtom);
 
     return (
-        <div className="bg-[#f1f1f1]">
+        <div className="bg-background">
             <ul>
                 {items.map(
                     (item, index) => (
@@ -33,13 +33,23 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
     const bar = bars[index] ?? { left: 0, width: 0 };
 
     return (
-        <li className="list-none hover:bg-[#90ff74] grid grid-cols-[1fr_min-content_min-content] gap-x-[0.6rem] items-center">
+        <li className="list-none hover:bg-[#90ff74] grid grid-cols-[1fr_min-content_min-content] gap-x-2 items-center">
+            {/* Title */}
             {editable
-                ? <Input className="p-[0.4rem] text-[0.9rem] leading-4 bg-[hsl(0_0%_100%/0.5)] focus:bg-[#90ff74] border border-[#fcfcfc] focus:outline-none rounded-xs cursor-default focus:cursor-text" defaultValue={name} />
-                : <div className="pl-2 py-2 text-sm leading-tight hover:bg-[#ffffff80]">{name}</div>
+                ? (
+                    <Input
+                        className="h-7 px-2 py-0.5 text-xs leading-4 focus:bg-[#90ff74] border border-foreground/10 focus:outline-none rounded-none cursor-default focus:cursor-text"
+                        defaultValue={name}
+                    />
+                )
+                : (
+                    <div className="h-7 pl-2 py-1.5 text-xs leading-tight hover:bg-[#ffffff80]">
+                        {name}
+                    </div>
+                )
             }
 
-            <DownloadButton selectable={!editable} url={item.url} />
+            <ButtonGetAsDownload selectable={!editable} url={item.url} />
 
             <a
                 className={classNames("flex flex-col select-none pr-2 text-[0.65rem] font-normal no-underline", item.url ? "text-[#1985ff] visited:text-[green]" : "text-[red]")}
@@ -65,7 +75,7 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
     );
 }
 
-function DownloadButton({ url, selectable }: { url: string; selectable: boolean; }) {
+function ButtonGetAsDownload({ url, selectable }: { url: string; selectable: boolean; }) {
     const { tried, busy, progress, succeeded, failed } = useAtomValue(downloadStateFamily(url));
     const startDownload = useSetAtom(startDownloadAtom);
 
