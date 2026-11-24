@@ -31,7 +31,7 @@ export function Row1_SourceInput() {
                 Clear
             </Button>
 
-            <div className="focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded overflow-hidden flex flex-1">
+            <div className="flex-1 focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded overflow-hidden flex">
                 <Input
                     className={cn('flex-1 text-xs outline-none border-gray-600', sourceInput ? 'border-r-0' : 'border')}
                     value={sourceInput}
@@ -48,7 +48,7 @@ export function Row1_SourceInput() {
                 <Button
                     variant="outline"
                     className={cn(
-                        'rounded-l-none transition-transform active:rounded-sm active:border focus:ring-0 focus:shadow-none',
+                        'active:rounded-sm active:border focus:ring-0 focus:shadow-none transition-transform rounded-l-none',
                         sourceInput ? '-ml-4' : 'px-0 w-0 border-none -translate-x-6',
                     )}
                     onClick={() => parseOrFetch()}

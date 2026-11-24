@@ -11,7 +11,7 @@ export function CourseHunterApp() {
 
     return (
         <div
-            className="h-screen flex flex-col overflow-hidden bg-[#201c2b]"
+            className="h-screen bg-[#201c2b] overflow-hidden flex flex-col"
             onDragEnter={() => setDragActive(true)}
             onDragLeave={() => setDragActive(false)}
             onDragOver={(event) => {

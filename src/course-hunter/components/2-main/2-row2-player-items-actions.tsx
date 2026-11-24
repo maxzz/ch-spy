@@ -38,7 +38,7 @@ export function Row2_PlayerItemsActions() {
 
             <div className="flex">
                 <Input
-                    className="text-xs focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 focus:ring-offset-gray-200 outline-none flex-1"
+                    className="flex-1 text-xs focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 focus:ring-offset-gray-200 outline-none"
                     value={playerItemsJson}
                     onChange={(event) => setPlayerItemsJson(event.target.value)}
                     onKeyDown={(event) => { if (event.key === 'Enter') { parsePlayerItems(); } }}
