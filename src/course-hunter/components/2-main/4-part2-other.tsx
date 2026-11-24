@@ -1,11 +1,11 @@
 import { type ComponentProps } from "react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { classNames } from "@/utils/classnames";
 import { Button } from "@/ui/shadcn/button";
 import { Textarea } from "../../../ui/shadcn/textarea";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "../../../ui/shadcn/accordion";
 
-import { editableTitlesAtom, itemsAtom } from "../../store/a-local-storage-state";
+import { itemsAtom } from "../../store/a-local-storage-state";
 import { allTogetherTextAtom, batchRenameFileAtom } from "../../store/a-derived";
 import { saveFilesAtom } from "../../store/a-actions";
 
@@ -47,36 +47,6 @@ export function Part_AllTogether() {
 }
 
 //---------------------------------------------------------------------------
-
-export function EditableLockToggle({ className, ...rest }: ComponentProps<"div">) {
-    const [editable, setEditable] = useAtom(editableTitlesAtom);
-
-    return (
-        <div
-            className={classNames("cursor-pointer", className)}
-            onClick={() => setEditable((v) => !v)}
-            title="List items editable/non-editable"
-            {...rest}
-        >
-            <IconLock locked={!editable} />
-        </div>
-    );
-}
-
-function IconLock({ locked }: { locked: boolean; }) { //https://icones.js.org/collection/tabler
-    return (
-        <svg viewBox="0 0 24 24">
-            <g fill="none" stroke="currentColor">
-                <rect x="5" y="11" width="14" height="10" rx="2" />
-                <circle cx="12" cy="16" r="1" />
-                {locked
-                    ? <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-                    : <path d="M8 11V6a4 4 0 0 1 8 0" />
-                }
-            </g>
-        </svg>
-    );
-}
 
 //---------------------------------------------------------------------------
 
