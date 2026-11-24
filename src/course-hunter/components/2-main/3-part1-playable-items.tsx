@@ -40,7 +40,7 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
             <DownloadButton selectable={!editable} url={item.url} />
 
             <a
-                className={classNames("select-none pr-[0.6rem] text-[0.7em] font-normal no-underline", item.url ? "text-[#1985ff] visited:text-[green]" : "text-[red]")}
+                className={classNames("select-none pr-2 text-[0.65rem] font-normal no-underline", item.url ? "text-[#1985ff] visited:text-[green]" : "text-[red]")}
                 href={item.url || undefined}
                 title={`video ${index + 1}`}
                 tabIndex={-1}
@@ -48,7 +48,10 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
             >
                 <span>
                     {item.duration}
-                </span> mp4
+                </span>
+                {/* <span className="text-[0.5rem]">
+                    {' '}mp4
+                </span> */}
             </a>
         </li>
     );
@@ -61,7 +64,7 @@ function DownloadButton({ url, selectable }: { url: string; selectable: boolean;
     return (
         <div className="relative">
             <Button
-                className="py-0 h-6 text-sm"
+                className="h-5 px-1 text-[0.65rem] font-normal bg-muted border border-foreground/10 rounded"
                 variant="outline"
                 disabled={busy || !url}
                 onClick={() => startDownload(url)}

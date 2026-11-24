@@ -32,9 +32,9 @@ export function Row1_SourceInput() {
                 Clear
             </Button>
 
-            <div className="flex-1 flex overflow-hidden rounded bg-background border border-foreground/30 focus-within:ring-2 ring-offset-2 ring-purple-600 ring-offset-gray-200">
+            <div className="flex-1 bg-background focus-within:ring-2 border border-foreground/30 ring-offset-2 ring-purple-600 ring-offset-gray-200 rounded overflow-hidden flex">
                 <Input
-                    className="flex-1 text-xs border-0 rounded-none focus-visible:ring-0"
+                    className="flex-1 text-xs focus-visible:ring-0 border-0 rounded-none"
                     value={sourceInput}
                     onChange={(event) => setSourceInput(event.target.value)}
                     onKeyDown={(event) => {
@@ -49,7 +49,7 @@ export function Row1_SourceInput() {
                 <Button
                     variant="ghost"
                     className={cn(
-                        "self-stretch h-auto rounded-none border-0 focus:ring-0 focus:shadow-none transition-all",
+                        "self-stretch h-auto focus:ring-0 focus:shadow-none transition-all border-0 rounded-none",
                         sourceInput ? "px-3 border-l border-foreground/30" : "w-0 px-0 overflow-hidden",
                     )}
                     onClick={() => parseOrFetch()}

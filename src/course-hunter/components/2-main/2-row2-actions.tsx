@@ -10,7 +10,7 @@ export function Row2_Actions() {
     const { title, desc } = useAtomValue(courseInfoAtom);
 
     return (<>
-        <div className="my-2 p-2 relative min-h-16 text-sm bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] border border-foreground/30 rounded flex flex-col gap-2">
+        <div className="relative my-2 p-2 min-h-16 text-sm bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] border border-foreground/30 rounded flex flex-col gap-2">
             <div className="truncate" title={desc}>
                 {title}
                 {/* this is long title that should be truncated with ellipsis even if it is longer than the container even though it is not a tooltip */}
