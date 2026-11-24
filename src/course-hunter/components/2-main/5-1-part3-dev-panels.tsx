@@ -4,7 +4,7 @@ import { Input } from "@/ui/shadcn/input";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "../../../ui/shadcn/accordion";
 
 import { cookieInputAtom, clearCookiesAtom, setCookiesAtom, storageTextAtom } from "./a-dev-tools-atoms";
-import { Row2_PlayerItemsActions } from "./2-row2-player-items-actions";
+import { PlayerItemsActions } from "./5-2-part3-dev-actions";
 
 /** Developer panels (cookies, localStorage test). Rendered in the dev server only. */
 export function Part_DevPanels() {
@@ -19,7 +19,7 @@ export function Part_DevPanels() {
                 <div className="p-3 bg-background border border-foreground/30 rounded flex flex-col gap-2 divide-y divide-foreground/30">
                     <CookieSetter />
                     <StorageText />
-                    <Row2_PlayerItemsActions />
+                    <PlayerItemsActions />
                 </div>
             </AccordionContent>
         </AccordionItem>
