@@ -41,6 +41,7 @@ export function Part_DevPanels() {
                 <div className="p-3 bg-gray-100 border border-border rounded">
                     <CookieSetter />
                     <StorageText />
+                    <Part_PlayerItems />
                 </div>
             </AccordionContent>
         </AccordionItem>

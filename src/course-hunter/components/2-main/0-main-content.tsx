@@ -9,7 +9,7 @@ import { ErrorMessage } from "./6-error-message";
 import { Row1_SourceInput } from "./1-row1-source-input";
 import { Part_AllTogether, Part_BatchRename, DownloadRenameButton, EditableLockToggle } from "./4-part2-other";
 import { Part_GeneratedItems } from "./3-part1-playable-items";
-import { Part_DevPanels, Part_PlayerItems } from "./5-part3-dev-panels";
+import { Part_DevPanels } from "./5-part3-dev-panels";
 
 export function MainContent() {
     return (
@@ -17,8 +17,6 @@ export function MainContent() {
             <ScrollArea fullHeight fixedWidth className="h-full">
                 <div className="px-4 py-4">
                     <Row1_SourceInput />
-
-                    <Part_PlayerItems />
 
                     <Part_AllSections />
 
