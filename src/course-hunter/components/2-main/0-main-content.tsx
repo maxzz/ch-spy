@@ -17,7 +17,7 @@ export function MainContent() {
     const items = useAtomValue(itemsAtom);
 
     return (
-        <div className="flex-1 mx-auto min-h-0 w-full max-w-3xl bg-gray-300">
+        <div className="flex-1 mx-auto min-h-0 w-full max-w-3xl rounded bg-gray-300">
             <ScrollArea fullHeight fixedWidth className="h-full">
                 <div className="px-4 py-4">
                     <Row1_SourceInput />

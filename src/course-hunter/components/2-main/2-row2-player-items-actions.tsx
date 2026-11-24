@@ -20,7 +20,7 @@ export function Row2_PlayerItemsActions() {
     }
 
     return (
-        <div className={classNames('transition-transform duration-1000', items.length > 0 && '-translate-x-28 -translate-y-6 scale-50')}>
+        <div className={classNames('transition-transform duration-1000', items.length > 0 && '-translate-x-28 -translate-y-6 scale-65')}>
 
             <div className="mt-4 mb-2 text-sm flex">
                 <a className={classNames(btnClasses, "mr-1 text-xs")} href={playerItemsUrl} target="_blank" rel="noreferrer">
