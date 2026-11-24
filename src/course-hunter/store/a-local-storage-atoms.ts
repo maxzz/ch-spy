@@ -18,7 +18,11 @@ export const playerItemsJsonAtom = atomWithStorage(STORAGE_KEY_PLAYER_ITEMS, '',
 export const accordionsOpenAtom = atomWithStorage<Record<string, string[]>>(
     STORAGE_KEY_ACCORDIONS,
     {},
-    createJSONStorage(() => plainLocalStorage),
+    createJSONStorage(() => ({
+        getItem: (key) => localStorage.getItem(key),
+        setItem: (key, value) => localStorage.setItem(key, value),
+        removeItem: (key) => localStorage.removeItem(key),
+    })),
     { getOnInit: true },
 );
 
