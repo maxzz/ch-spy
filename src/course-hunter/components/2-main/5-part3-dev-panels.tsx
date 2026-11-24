@@ -1,8 +1,32 @@
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Button } from "@/ui/shadcn/button";
 import { Input } from "@/ui/shadcn/input";
-import { AccordionContent, AccordionItem, AccordionTrigger } from "../../../ui/shadcn/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../../ui/shadcn/accordion";
 import { cookieInputAtom, clearCookiesAtom, setCookiesAtom, storageTextAtom } from "./a-dev-tools-atoms";
+import { playerItemsUrlAtom } from "../../store/a-local-storage-state";
+import { useAccordionOpenState } from "../../store/a-local-storage-atoms";
+import { Row2_PlayerItemsActions } from "./2-row2-player-items-actions";
+
+/** Player items section: the items URL and JSON input in a persisted accordion. Hidden when there is no URL. */
+export function Part_PlayerItems() {
+    const playerItemsUrl = useAtomValue(playerItemsUrlAtom);
+    const playerItemsAccordion = useAccordionOpenState('player-items');
+
+    if (!playerItemsUrl) {
+        return null;
+    }
+
+    return (
+        <Accordion type="multiple" {...playerItemsAccordion}>
+            <AccordionItem value="player-items">
+                <AccordionTrigger>Player items</AccordionTrigger>
+                <AccordionContent>
+                    <Row2_PlayerItemsActions />
+                </AccordionContent>
+            </AccordionItem>
+        </Accordion>
+    );
+}
 
 /** Developer panels (cookies, localStorage test). Rendered in the dev server only. */
 export function Part_DevPanels() {
