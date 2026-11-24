@@ -1,4 +1,5 @@
 import { useAtomValue, useSetAtom } from "jotai";
+import { Download } from "lucide-react";
 import { classNames } from "@/utils/classnames";
 import { Button } from "@/ui/shadcn/button";
 import { Input } from "@/ui/shadcn/input";
@@ -58,18 +59,16 @@ function Row({ item, index }: { item: OurItem; index: number; }) {
                 tabIndex={-1}
                 target="blank"
             >
-                <span>
+                <span className="mt-px">
                     {item.duration}
                 </span>
-                <div className="relative mt-[0.15rem] h-[0.2em] bg-[rgb(209,229,255)] rounded-[0.2em]">
+
+                <div className="relative mt-[0.5px] h-0.5 bg-[rgb(209,229,255)] rounded">
                     <span
-                        className="absolute top-0 h-full bg-[#1985ff] rounded-[0.2em]"
+                        className="absolute top-0 h-full bg-[#1985ff] rounded"
                         style={{ left: `${bar.left}%`, width: `${bar.width}%` }}
                     />
                 </div>
-                {/* <span className="text-[0.5rem]">
-                    {' '}mp4
-                </span> */}
             </a>
         </li>
     );
@@ -87,9 +86,10 @@ function ButtonGetAsDownload({ url, selectable }: { url: string; selectable: boo
                 disabled={busy || !url}
                 onClick={() => startDownload(url)}
                 tabIndex={selectable ? undefined : -1}
+                title="Download"
                 type="button"
             >
-                Get
+                <Download className="size-2.5" />
             </Button>
 
             {progress !== 0 && <div className="absolute top-0 right-0 w-[1.7em] p-[0.3em_0.5em] text-[0.7em] text-right text-[green] bg-[#ddd]">{progress}</div>}
