@@ -8,7 +8,8 @@ import { useAccordionOpenState } from "../../store/a-local-storage-atoms";
 import { ErrorMessage } from "./6-error-message";
 import { Row1_SourceInput } from "./1-row1-source-input";
 import { Row2_Actions } from "./2-row2-actions";
-import { Part_AllTogether, Part_BatchRename } from "./4-part2-other";
+import { Part_BatchRename } from "./4-part2-batch-rename";
+import { Part_AllTogether } from "./4-part3-all-together";
 import { Part_GeneratedItems } from "./3-part1-playable-items";
 import { Part_DevPanels } from "./5-1-part3-dev-panels";
 

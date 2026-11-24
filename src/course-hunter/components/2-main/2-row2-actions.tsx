@@ -3,7 +3,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { classNames } from "@/utils/classnames";
 
 import { courseInfoAtom, editableTitlesAtom } from "../../store/a-local-storage-state";
-import { DownloadRenameButton } from "./4-part2-other";
+import { DownloadRenameButton } from "./4-part3-all-together";
 
 /** Row 2: title bar of the generated list, with the lock toggle and the download button. */
 export function Row2_Actions() {
