@@ -3,7 +3,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { courseInfoAtom, dragActiveAtom, showRawInfoAtom } from "../../store/a-local-storage-state";
 
 export function Header() {
-    const { raw, duration, preview, site } = useAtomValue(courseInfoAtom);
+    const { title, raw, duration, preview, site } = useAtomValue(courseInfoAtom);
     const dragActive = useAtomValue(dragActiveAtom);
     const [showRawInfo, setShowRawInfo] = useAtom(showRawInfoAtom);
 
@@ -14,6 +14,10 @@ export function Header() {
                     <span className={dragActive ? 'text-green-400' : 'text-gray-100'}>course</span>
                     <span className={dragActive ? 'text-green-400' : 'text-blue-400'}>hunter</span>
                 </a>
+            </div>
+
+            <div className="flex-1 min-w-0 px-4 text-lg font-bold text-center text-gray-100 truncate" title={title}>
+                {title}
             </div>
 
             <div className="flex">

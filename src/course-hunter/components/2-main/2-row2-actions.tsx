@@ -8,15 +8,8 @@ import { saveFilesAtom } from "../../store/a-actions";
 
 /** Row 2: title bar of the generated list, with the lock toggle and the download button. */
 export function Row2_Actions() {
-    const { title, desc } = useAtomValue(courseInfoAtom);
-
     return (<>
         <div className="relative my-2 px-2 pt-1 pb-2 text-xs bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] border border-foreground/30 rounded flex flex-col gap-1">
-            <div className="mx-auto truncate" title={desc}>
-                {title}
-                {/* this is long title that should be truncated with ellipsis even if it is longer than the container even though it is not a tooltip */}
-            </div>
-
             <div className="flex items-center justify-end gap-2">
                 <EditableLockToggle className="w-5 h-5 text-purple-500 stroke-1" />
 
