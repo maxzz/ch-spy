@@ -16,7 +16,7 @@ export function Header() {
                 </a>
             </div>
 
-            <div className="flex-1 min-w-0 px-4 text-lg font-bold text-center text-gray-100 truncate" title={title}>
+            <div className="flex-1 min-w-0 px-4 text-md font-bold text-center text-background/70 truncate" title={title}>
                 {title}
             </div>
 
