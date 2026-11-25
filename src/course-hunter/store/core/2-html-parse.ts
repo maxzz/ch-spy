@@ -31,19 +31,27 @@ type ParseHtmlToItemsResult = {
 export function parseHtmlToItems(html: string): ParseHtmlToItemsResult {
     const $ = load(html);
 
+    const courseInfo = getDescriptionJson($) ?? {};
+    
     const rv: ParseHtmlToItemsResult = {
         items: [],
         info: {
             title: $('.hero-title').text(),
             desc: $('.hero-description').text(),
             producerUrl: $('.hero-source').children('a').attr('href'),  // if not found: undefined
-            producerName: $('.hero-source').children('a').text(),       // if not found: empty string
+            producerName: $('.hero-source').children('a').text(),       // if not found: empty string 
             preview: $('meta[property="og:image"]').attr('content'),
             site: $('meta[property="og:url"]').attr('content'),
             duration: $('.course-box-value').first().text(),
-            raw: getDescriptionJson($) ?? {},
+            raw: courseInfo,
         },
     };
+
+    if (courseInfo) {
+        if (!rv.info.title) {
+            rv.info.title = (courseInfo as any).name;
+        }
+    }
 
     rv.info.raw.datePublished = convertTimeRuToLocal(rv.info.raw.datePublished);
     rv.info.raw.dateModified = convertTimeRuToLocal(rv.info.raw.dateModified);
@@ -84,7 +92,8 @@ function getDescriptionJson($: CheerioAPI): CourseDescription | undefined {
     for (const script of $('script[type="application/ld+json"]').toArray()) {
         let raw: CourseDescription | undefined;
         try {
-            raw = JSON.parse($(script).text())?.[0];
+            console.log("getDescriptionJson: \n", $(script).text());
+            raw = JSON.parse($(script).text());
         } catch {
             // Invalid JSON-LD block: try the next one.
         }
