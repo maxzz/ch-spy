@@ -92,10 +92,12 @@ function getDescriptionJson($: CheerioAPI): CourseDescription | undefined {
     for (const script of $('script[type="application/ld+json"]').toArray()) {
         let raw: CourseDescription | undefined;
         try {
-            // console.log("getDescriptionJson: \n", $(script).text());
-            raw = JSON.parse($(script).text());
-        } catch {
+            const text = $(script).text();
+            // console.log("getDescriptionJson: \n", text);
+            raw = JSON.parse(text);
+        } catch(error) {
             // Invalid JSON-LD block: try the next one.
+            console.error("Invalid JSON-LD block: \n", $(script).text(), "\n", error);
         }
         if (raw) {
             return raw;
