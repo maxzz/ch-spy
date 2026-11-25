@@ -1,0 +1,39 @@
+{
+	"files": [
+		{
+			"path": "src/course-hunter/store/core/fixtures/2-page-player-url.html",
+			"bookmarks": [
+				{
+					"line": 541,
+					"column": 0,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "src/course-hunter/assets/tests/2-page-player-url.html",
+			"bookmarks": [
+				{
+					"line": 460,
+					"column": 39,
+					"label": ""
+				},
+				{
+					"line": 575,
+					"column": 80,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "src/course-hunter/assets/tests/3-page-player-url.html",
+			"bookmarks": [
+				{
+					"line": 626,
+					"column": 35,
+					"label": ""
+				}
+			]
+		}
+	]
+}
