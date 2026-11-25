@@ -1,4 +1,4 @@
-import { forwardRef, type ElementRef, type ComponentPropsWithoutRef, type ComponentProps } from "react"; //01.17.26, 11.25.26
+import { type ComponentPropsWithoutRef, type ComponentProps } from "react"; //01.17.26, 11.25.26
 import { ScrollArea as Prim } from "radix-ui";
 import { cn } from "@/utils";
 
@@ -92,7 +92,7 @@ export function ScrollBar({ className, orientation = "vertical", ...rest }: Comp
             )}
             {...rest}
         >
-            <Prim.ScrollAreaThumb className={cn("relative bg-muted-foreground/40 rounded-full", orientation === "vertical" && "flex-1")} />
+            <Prim.ScrollAreaThumb className={cn("relative bg-muted-foreground/50 rounded-full", orientation === "vertical" && "flex-1")} />
 
         </Prim.ScrollAreaScrollbar>
     );

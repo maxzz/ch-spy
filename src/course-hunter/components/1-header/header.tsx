@@ -17,7 +17,9 @@ export function Header() {
             </div>
 
             <div className="flex-1 min-w-0 px-4 text-md font-bold text-center text-background/70 truncate" title={title}>
-                {title}
+                <a href={site} target="_blank" rel="noreferrer">
+                    {title}
+                </a>
             </div>
 
             <div className="flex">
@@ -31,14 +33,16 @@ export function Header() {
                     {showRawInfo && (
                         <div className="absolute -right-20 top-8 px-2 py-1.5 text-[0.65rem] font-mono text-foreground bg-background border rounded-sm z-20 cursor-default">
                             <div className="max-w-xs max-h-96 overflow-auto ch-smallscroll">
-                                <pre>{JSON.stringify(raw, null, 2)}</pre>
+                                <pre>
+                                    {JSON.stringify(raw, null, 2)}
+                                </pre>
                             </div>
                         </div>
                     )}
                 </div>
 
                 <div className="flex items-center">
-                    <div className="px-1 text-[0.65rem] font-normal text-background/70 grid grid-flow-row grid-cols-2 gap-x-1">
+                    <div className="px-1 text-[0.6rem] font-normal text-background/70 grid grid-flow-row grid-cols-2 gap-x-1">
                         <div className="text-right">Published:</div>{/*  */}<div>{raw.datePublished}</div>
                         <div className="text-right">Modified:</div>{/*   */}<div>{raw.dateModified}</div>
                         <div className="text-right">Duration:</div>{/*   */}<div>{duration}</div>
