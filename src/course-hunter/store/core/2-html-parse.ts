@@ -92,7 +92,7 @@ function getDescriptionJson($: CheerioAPI): CourseDescription | undefined {
     for (const script of $('script[type="application/ld+json"]').toArray()) {
         let raw: CourseDescription | undefined;
         try {
-            console.log("getDescriptionJson: \n", $(script).text());
+            // console.log("getDescriptionJson: \n", $(script).text());
             raw = JSON.parse($(script).text());
         } catch {
             // Invalid JSON-LD block: try the next one.
