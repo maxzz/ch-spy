@@ -70,7 +70,7 @@ type StateFromCtxScript = {
 };
 
 export function parseStateFromCtxScript(text: string): StateFromCtxScript | undefined {
-    const isOurFormat = /^\{"a":"tm","docurl":"/.test(text);
+    const isOurFormat = /^\s*\{\s*"a"\s*:\s*"tm"\s*,\s*"docurl"\s*:/.test(text);
     if (!isOurFormat) {
         return undefined;
     }
