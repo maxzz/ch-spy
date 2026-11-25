@@ -60,8 +60,8 @@ export function Row1_SourceInput() {
                         "self-stretch mr-4 h-auto px-2 focus:ring-0 focus:shadow-none transition-all border-0 rounded-none",
                         sourceInput ? "" : "w-0 px-0 overflow-hidden",
                     )}
-                    onClick={() => navigator.clipboard.writeText(sourceInput)}
-                    title="Copy to clipboard"
+                    onClick={(event) => navigator.clipboard.writeText(textForCopy(sourceInput, event))}
+                    title="Copy to clipboard. Ctrl+Click copies as formatted JSON (if the text is valid JSON). Alt+Click copies only the HTML from the 'doc' member (if present)"
                     tabIndex={-1}
                     type="button"
                 >
@@ -85,4 +85,43 @@ export function Row1_SourceInput() {
             </div>
         </div>
     );
+}
+
+//---------------------------------------------------------------------------
+
+/** Text to copy for the Copy button: Alt+Click copies the `doc` member, Ctrl+Click copies formatted JSON, otherwise the text as is. */
+function textForCopy(text: string, event: { altKey: boolean; ctrlKey: boolean; }): string {
+    if (event.altKey) {
+        return extractDocMemberForCopy(text);
+    }
+    return formatForCopy(text, event.ctrlKey);
+}
+
+/** Returns the `doc` member (the original HTML source) of a copied-state JSON object; otherwise returns the text unchanged. */
+function extractDocMemberForCopy(text: string): string {
+    try {
+        const parsed: unknown = JSON.parse(text);
+        if (parsed && typeof parsed === 'object' && 'doc' in parsed && typeof parsed.doc === 'string') {
+            return parsed.doc;
+        }
+    } catch {
+        console.log('text is not a valid JSON object or array: copy as is.');
+    }
+    return text;
+}
+
+/** Returns the text formatted as indented JSON when `pretty` is set and the text is a JSON object or array; otherwise returns it unchanged. */
+function formatForCopy(text: string, pretty: boolean): string {
+    if (!pretty) {
+        return text;
+    }
+    try {
+        const parsed: unknown = JSON.parse(text);
+        if (parsed && typeof parsed === 'object') {
+            return JSON.stringify(parsed, null, 4);
+        }
+    } catch {
+        console.log('text is not a valid JSON object or array: copy as is.');
+    }
+    return text;
 }
