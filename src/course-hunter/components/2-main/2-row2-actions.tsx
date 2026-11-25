@@ -9,14 +9,14 @@ import { saveFilesAtom } from "../../store/a-actions";
 /** Row 2: title bar of the generated list, with the lock toggle and the download button. */
 export function Row2_Actions() {
     return (<>
-        <div className="relative my-2 px-2 pt-1 pb-2 text-xs bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] border border-foreground/30 rounded flex flex-col gap-1">
-            <div className="flex items-center justify-end gap-2">
-                <EditableLockToggle className="w-5 h-5 text-purple-500 stroke-1" />
+        <div className="relative my-2 px-1 py-1 text-xs bg-linear-to-r from-[#88b0ff] to-[#bc94fe82] border border-foreground/30 rounded flex items-center justify-end gap-2">
 
-                <div className="justify-end">
-                    <DownloadRenameButton className="h-8 text-sm" />
-                </div>
+            <EditableLockToggle className="w-5 h-5 text-purple-500 stroke-1" />
+
+            <div className="justify-end">
+                <DownloadRenameButton className="h-8 text-sm" />
             </div>
+
         </div>
     </>);
 }
@@ -59,7 +59,13 @@ function DownloadRenameButton({ className, ...rest }: ComponentProps<"button">) 
     const saveFiles = useSetAtom(saveFilesAtom);
 
     return (
-        <Button variant="outline" className={classNames("py-0 h-6 text-sm", className)} onClick={() => saveFiles()} type="button" {...rest} title="Download source, logo, and rename.cmd">
+        <Button
+            className={classNames("py-0 h-6 text-sm rounded", className)}
+            variant="outline"
+            onClick={() => saveFiles()} type="button"
+            title="Download source, logo, and rename.cmd"
+            {...rest}
+        >
             Download All Info
         </Button>
     );
