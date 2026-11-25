@@ -1,9 +1,10 @@
 import { type ComponentProps } from "react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { classNames } from "@/utils/classnames";
+import { Button } from "@/ui/shadcn/button";
 
 import { courseInfoAtom, editableTitlesAtom } from "../../store/a-local-storage-state";
-import { DownloadRenameButton } from "./4-part3-all-together";
+import { saveFilesAtom } from "../../store/a-actions";
 
 /** Row 2: title bar of the generated list, with the lock toggle and the download button. */
 export function Row2_Actions() {
@@ -29,7 +30,7 @@ export function Row2_Actions() {
 
 //---------------------------------------------------------------------------
 
-export function EditableLockToggle({ className, ...rest }: ComponentProps<"div">) {
+function EditableLockToggle({ className, ...rest }: ComponentProps<"div">) {
     const [editable, setEditable] = useAtom(editableTitlesAtom);
 
     return (
@@ -56,5 +57,17 @@ function IconLock({ locked }: { locked: boolean; }) { //https://icones.js.org/co
                 }
             </g>
         </svg>
+    );
+}
+
+//---------------------------------------------------------------------------
+
+function DownloadRenameButton({ className, ...rest }: ComponentProps<"button">) {
+    const saveFiles = useSetAtom(saveFilesAtom);
+
+    return (
+        <Button variant="outline" className={classNames("py-0 h-6 text-sm", className)} onClick={() => saveFiles()} type="button" {...rest}>
+            Download All
+        </Button>
     );
 }
