@@ -89,39 +89,30 @@ export function Row1_SourceInput() {
 
 //---------------------------------------------------------------------------
 
-/** Text to copy for the Copy button: Alt+Click copies the `doc` member, Ctrl+Click copies formatted JSON, otherwise the text as is. */
+/**
+ * Text to copy for the Copy button, based on the modifier keys:
+ * - Alt: the `doc` member (original HTML source) of a copied-state JSON object.
+ * - Ctrl: the text as indented JSON.
+ * - Otherwise, or if the text is not a JSON object/array: the text as is.
+ */
 function textForCopy(text: string, event: { altKey: boolean; ctrlKey: boolean; }): string {
-    if (event.altKey) {
-        return extractDocMemberForCopy(text);
-    }
-    return formatForCopy(text, event.ctrlKey);
-}
-
-/** Returns the `doc` member (the original HTML source) of a copied-state JSON object; otherwise returns the text unchanged. */
-function extractDocMemberForCopy(text: string): string {
-    try {
-        const parsed: unknown = JSON.parse(text);
-        if (parsed && typeof parsed === 'object' && 'doc' in parsed && typeof parsed.doc === 'string') {
-            return parsed.doc;
-        }
-    } catch {
-        console.log('text is not a valid JSON object or array: copy as is.');
-    }
-    return text;
-}
-
-/** Returns the text formatted as indented JSON when `pretty` is set and the text is a JSON object or array; otherwise returns it unchanged. */
-function formatForCopy(text: string, pretty: boolean): string {
-    if (!pretty) {
+    if (!event.altKey && !event.ctrlKey) {
         return text;
     }
+
+    let parsed: unknown;
     try {
-        const parsed: unknown = JSON.parse(text);
-        if (parsed && typeof parsed === 'object') {
-            return JSON.stringify(parsed, null, 4);
-        }
+        parsed = JSON.parse(text);
     } catch {
-        console.log('text is not a valid JSON object or array: copy as is.');
+        return text;
     }
-    return text;
+    if (!parsed || typeof parsed !== 'object') {
+        return text;
+    }
+
+    if (event.altKey) {
+        return 'doc' in parsed && typeof parsed.doc === 'string' ? parsed.doc : text;
+    }
+    
+    return JSON.stringify(parsed, null, 4);
 }
