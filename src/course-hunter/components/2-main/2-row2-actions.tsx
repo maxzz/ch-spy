@@ -66,8 +66,8 @@ function DownloadRenameButton({ className, ...rest }: ComponentProps<"button">) 
     const saveFiles = useSetAtom(saveFilesAtom);
 
     return (
-        <Button variant="outline" className={classNames("py-0 h-6 text-sm", className)} onClick={() => saveFiles()} type="button" {...rest}>
-            Download All
+        <Button variant="outline" className={classNames("py-0 h-6 text-sm", className)} onClick={() => saveFiles()} type="button" {...rest} title="Download source, logo, and rename.cmd">
+            Download All Info
         </Button>
     );
 }

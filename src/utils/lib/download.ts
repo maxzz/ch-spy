@@ -22,6 +22,15 @@ export async function downloadWithProgress({ url, filename, onProgress }: {
     });
 }
 
+/** Downloads a remote file under the given name. Errors are logged, not thrown. */
+export async function downloadUrl(url: string, filename: string): Promise<void> {
+    try {
+        await new JsFileDownloader({ url, filename, timeout: DOWNLOAD_TIMEOUT_MS });
+    } catch (error) {
+        console.error('Cannot save file', filename, error);
+    }
+}
+
 /** Saves a generated text as a file. Errors are logged, not thrown. */
 export async function downloadBlob(blob: Blob, filename: string): Promise<void> {
     const url = URL.createObjectURL(blob);

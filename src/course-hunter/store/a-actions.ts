@@ -1,5 +1,5 @@
 import { atom, type Setter } from "jotai";
-import { downloadBlob } from "../../utils/lib/download";
+import { downloadBlob, downloadUrl } from "../../utils/lib/download";
 
 import { type SessionPatch, isSourceUrl, parseStateFromCtxScript, patchStateFromCtxScript, patchFromHtml, patchFromPlayerItems } from "./core/1-session";
 import { allTogetherTextAtom, batchRenameFileAtom } from "./a-derived";
@@ -104,8 +104,21 @@ export const saveFilesAtom = atom(
 
         await downloadBlob(new Blob([get(batchRenameFileAtom)], { type: 'application/json' }), 'rename.cmd.txt');
         await downloadBlob(new Blob([persistent], { type: 'text/plain' }), 'page-source.txt');
+
+        const preview = get(courseInfoAtom).preview;
+        if (preview) {
+            await downloadUrl(preview, `course-logo${imageExtension(preview)}`);
+        }
     }
 );
+
+/** File extension of the image URL (e.g. '.jpg'), or '.jpg' if it cannot be read. */
+function imageExtension(url: string): string {
+    const m = /\.(jpe?g|png|webp|gif|svg)$/i.exec(new URL(url, 'https://coursehunter.net').pathname);
+    return m ? m[0].toLowerCase() : '.jpg';
+}
+
+//---------------------------------------------------------------------------
 
 /*for-test-only*/export function generatePersistentFileContent({ all, source, playerItems }: PersistentContent): string {
     return `--------------------------------- 1 - player list ---------------------------------
